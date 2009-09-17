@@ -22,6 +22,8 @@ class GEXPORTED GVolumeInformations
 		bool		DeleteLabel(void) const;
 		long long	TotalSpace(void) const;
 
+
+
 	private:
 		GString		_path;
 };

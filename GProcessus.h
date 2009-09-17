@@ -17,12 +17,11 @@ public:
 		GProcessus(unsigned int PID, const GString &Path);
 		~GProcessus(void);
 
-		GString			GetPath(void) const;
-		unsigned int	GetPID(void) const;
-
-		static void			Run(const GString &Process, const GString &Params = "");
+		GString				GetPath(void) const;
+		unsigned int		GetPID(void) const;
+		void				Kill(void) const;
+		static void			Run(const GString &Process);
 		static void			Kill(const GString &Process);
-		static GStringList	List(void);
 
 	private:
 		GString			_path;

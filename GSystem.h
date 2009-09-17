@@ -10,6 +10,7 @@
 #if defined (GWIN)
 #		include <windows.h>
 #		include <tlhelp32.h>
+#pragma comment(lib, "winmm.lib")
 #else
 #		include <stdlib.h>
 #		include <pwd.h>

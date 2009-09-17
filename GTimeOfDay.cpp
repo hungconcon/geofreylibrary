@@ -14,3 +14,19 @@ struct timeval	GTimeOfDay(void)
 #endif
 	return (tv);
 }
+
+#ifdef _TIME64_T
+struct timeval64	GTimeOfDay64(void)
+{
+	struct timeval64 tv;
+#if defined(GWIN)
+	struct __timeb64 timebuffer;
+	_ftime64_s(&timebuffer);
+	tv.tv_sec = timebuffer.time;
+	tv.tv_usec = timebuffer.millitm * 1000;
+#else
+	gettimeofday64(&tv, NULL);
+#endif
+	return (tv);
+}
+#endif

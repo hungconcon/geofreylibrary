@@ -13,5 +13,8 @@
 
 
 struct timeval	GEXPORTED GTimeOfDay(void);
+#ifdef _TIME64_T
+struct timeval	GEXPORTED GTimeOfDay64(void);
+#endif
 
 #endif

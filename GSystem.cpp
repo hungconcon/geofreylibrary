@@ -110,7 +110,58 @@ void		GSystem::Open(const GString &Drive)
 #endif
 }
 
-void		GSystem::Close(const GString &)
+void		GSystem::Close(const GString &Drive)
 {
+#if defined (GWIN)
+	GString cmd = "open " + Drive + " shareable type cdaudio";
+	char *c = cmd.ToChar();
+	mciSendString(c, NULL, 0, NULL);
+	delete c;
+	cmd = "set " + Drive + " door closed";
+	c = cmd.ToChar();
+	mciSendString(c, NULL, 0, NULL);
+	delete c;
+#else
+#endif
+}
 
+GVector<GVolumeInformations>	GSystem::GetVolumes(void)
+{
+	GVector<GVolumeInformations> list;
+#if defined (GWIN)
+	char buffer[1024];
+	HANDLE hEnt;
+	if ((hEnt = FindFirstVolume(buffer, 1024)) != INVALID_HANDLE_VALUE)
+    {
+        do
+		{
+			GVolumeInformations t(buffer);
+			list.PushBack(t);
+		}
+        while (FindNextVolume(hEnt, buffer, 1024));   
+        FindVolumeClose(hEnt);
+    }
+#endif
+	return (list);
+}
+
+GVector<GProcessus>	GSystem::GetProcessus(void)
+{
+	GVector<GProcessus> list;
+#if defined (GWIN)
+    HANDLE hSnapShot;
+    PROCESSENTRY32 pe;
+    hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (Process32First(hSnapShot, &pe))
+    {
+        do
+		{
+			GProcessus t(pe.th32ProcessID, pe.szExeFile);
+			list.PushBack(t);
+		}
+        while (Process32Next(hSnapShot, &pe));
+    }
+    CloseHandle(hSnapShot);
+	return list;
+#endif
 }

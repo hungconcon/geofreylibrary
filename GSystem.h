@@ -4,10 +4,12 @@
 
 #include "GString.h"
 #include "GVector.hpp"
+#include "GProcessus.h"
 #include "GVolumeInformations.h"
 
 #if defined (GWIN)
 #		include <windows.h>
+#		include <tlhelp32.h>
 #else
 #		include <stdlib.h>
 #		include <pwd.h>
@@ -28,7 +30,7 @@ class GSystem
 						static	void						Open(const GString &);
 						static	void						Close(const GString &);
 						static GVector<GVolumeInformations>	GetVolumes(void);	
-						
+						static GVector<GProcessus>			GetProcessus(void);	
 };
 
 

@@ -9,7 +9,7 @@
 struct GBitmapHeaderFile
 {
 	char	file_type[2];
-	int		file_size : 32;
+	int		file_size;
 	int		reserved;
 	int		bitmap_offset;
 };
@@ -19,8 +19,8 @@ struct	GBitmapHeaderBitmap
 	int		header_size;
 	int		width;
 	int		height;
-	int		planes : 2;
-	int		bits_per_pixe : 2;
+	int		planes : 16;
+	int		bits_per_pixe : 16;
 	int		compression;
 	int		size_bitmap;
 	int		horiz_resolution;

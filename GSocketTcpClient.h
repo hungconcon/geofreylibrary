@@ -57,6 +57,7 @@ class GEXPORTED GSocketTcpClient : public GStream
 		};
 		
 	private:
+		bool			_init;
 		GString			_ip;
 		unsigned int	_port;
 		GSocket			_socket;

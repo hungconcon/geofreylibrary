@@ -1,10 +1,6 @@
 
 #include "GFile.h"
 
-#include <iostream>
-using std::cerr;
-using std::endl;
-
 GFile::GFile(const GString &f) : _file(f), _pFile(NULL), _open(false)
 {
 }
@@ -33,15 +29,15 @@ GString	GFile::GetName(void)
 bool	GFile::Rm(const GString &f)
 {
 	bool	ok(true);
+	char	*tmp = f.ToChar();
 #if defined (GWIN)
-	if (DeleteFile(f.ToLPCSTR()) == 0)
+	if (DeleteFile(tmp) == 0)
 		ok = false;
 #else
-	char	*tmp = f.ToChar();
 	if (unlink(tmp) == -1)
 		ok = false;
-	delete[] tmp;
 #endif
+	delete[] tmp;
 	return (ok);
 }
 
@@ -51,15 +47,15 @@ bool	GFile::Rm(void)
 	if (this->_open || this->_pFile == NULL)
 		this->Close();
 	bool	ok(true);
+	char	*tmp = this->_file.ToChar();
 #if defined (GWIN)
-	if (DeleteFile(this->_file.ToLPCSTR()) == 0)
+	if (DeleteFile(tmp) == 0)
 		ok = false;
 #else
-	char	*tmp = this->_file.ToChar();
 	if (unlink(tmp) == -1)
 		ok = false;
-	delete[] tmp;
 #endif
+	delete[] tmp;
 	return (ok);
 }
 
@@ -258,7 +254,8 @@ long	GFile::CurrentIndex(void)
 
 bool	GFile::EndOfFile(void)
 {
-	if (feof(this->_pFile))
-		return (true);
+	if (this->_open && this->_pFile)
+		if (feof(this->_pFile))
+			return (true);
 	return (false);
 }

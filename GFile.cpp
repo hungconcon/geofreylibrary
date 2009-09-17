@@ -182,6 +182,23 @@ GString	GFile::Read(unsigned int Size)
 	return ("");
 }
 
+void	GFile::Read(void *Pointeur, unsigned int Size)
+{
+	if (this->_open && this->_pFile)
+	{
+		char		*buffer;
+		size_t		result;
+		buffer = new char[Size + 1];
+		result = fread(Pointeur, 1, Size, this->_pFile);
+		if (result == 0)
+		{
+			this->_open = false;
+			delete[] buffer;
+			throw GException("GFile", "Reading error ! Read : " + GString(result) + " Size Asked : " + GString(Size));
+		}
+	}
+}
+
 void	GFile::Write(const GString &ToWrite)
 {
 	if (this->_open && this->_pFile)

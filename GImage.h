@@ -39,8 +39,16 @@ struct GColorRVB
 class GEXPORTED GImage
 {
 	public:
+		GImage(const GString &);
+		GImage(void);
+		~GImage(void);
+
+		void	ConvertToJpeg(void);
+
+	private:
+		GString		_file;
+		GColorRVB	**_imageRVB;
 		
-	static void	BitmapToRVBMatrix(const GString &);
 };
 
 

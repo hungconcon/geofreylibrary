@@ -182,7 +182,7 @@ void	GFile::Read(void *Pointeur, unsigned int Size)
 {
 	if (this->_open && this->_pFile)
 	{
-		size_t result = fread(Pointeur, Size, 1, this->_pFile);
+		size_t result = fread(Pointeur, 1, Size, this->_pFile);
 		if (result == 0)
 		{
 			this->_open = false;
@@ -199,6 +199,12 @@ void	GFile::Write(const GString &ToWrite)
 		fwrite(tmp, 1, ToWrite.Size(), this->_pFile);
 		delete[] tmp;
 	}
+}
+
+void	GFile::Write(void *Pointeur, unsigned int Size)
+{
+	if (this->_open && this->_pFile)
+		fwrite(Pointeur, 1, Size, this->_pFile);
 }
 
 bool	GFile::IsOpen(void) const

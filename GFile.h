@@ -23,6 +23,7 @@ class GEXPORTED GFile : public GStream
 		void			Open(bool Binary = false);
 		void			Close(void);
 		void			Write(const GString &);
+		void			Write(void *, unsigned int);
 		GString			Read(void);
 		GString			Read(unsigned int);
 		void			Read(void *, unsigned int Size);

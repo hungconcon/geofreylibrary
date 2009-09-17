@@ -5,6 +5,7 @@
 #include "GExport.h"
 #include "GString.h"
 #include "GFile.h"
+#include "GStr.h"
 
 struct GBitmapHeaderFile
 {
@@ -20,7 +21,7 @@ struct	GBitmapHeaderBitmap
 	int		width;
 	int		height;
 	int		planes : 16;
-	int		bits_per_pixe : 16;
+	int		bits_per_pixel : 16;
 	int		compression;
 	int		size_bitmap;
 	int		horiz_resolution;
@@ -43,11 +44,18 @@ class GEXPORTED GImage
 		GImage(void);
 		~GImage(void);
 
-		void	ConvertToJpeg(void);
-
+		unsigned int	Width(void) const;
+		unsigned int	Height(void) const;
+		GString			GetFormat(void) const;
+		void			ConvertToJpeg(void);
+		void			ConvertToBmp(const GString &FileName);
+		
 	private:
-		GString		_file;
-		GColorRVB	**_imageRVB;
+		GString			_file;
+		unsigned int	_width;
+		unsigned int	_height;
+		GString			_format;
+		GColorRVB		**_imageRVB;
 		
 };
 

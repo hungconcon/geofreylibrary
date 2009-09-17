@@ -709,8 +709,7 @@ int					GString::Find(const GString &f, unsigned int pos, CaseOption c) const
 		}
 		else
 		{
-			k = -1;
-			j = 0;
+			return (this->Find(f, pos + 1, c));
 		}
 	}
 	return (-1);

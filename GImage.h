@@ -4,11 +4,12 @@
 
 #include "GExport.h"
 #include "GString.h"
+#include "GFile.h"
 
 struct GBitmapHeaderFile
 {
 	char	file_type[2];
-	int		file_size;
+	int		file_size : 32;
 	int		reserved;
 	int		bitmap_offset;
 };
@@ -39,7 +40,7 @@ class GEXPORTED GImage
 {
 	public:
 		
-	void	BitmapToRVBMatrix(const GString &);
+	static void	BitmapToRVBMatrix(const GString &);
 };
 
 

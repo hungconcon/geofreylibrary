@@ -2,7 +2,7 @@
 # define __GTHREAD_H__
 
 #include <iostream>
-#include "GEXport.h"
+#include "GExport.h"
 #if defined (GWIN)
 #		include <windows.h>
 #		include "Winbase.h"

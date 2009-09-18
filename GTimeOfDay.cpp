@@ -24,7 +24,7 @@ struct timeval64	GTimeOfDay64(void)
 	tv.tv_sec = timebuffer.time;
 	tv.tv_usec = timebuffer.millitm * 1000;
 #else
-	gettimeofday64(&tv, NULL);
+	//gettimeofday(&tv, NULL);
 #endif
 	return (tv);
 }

@@ -26,12 +26,12 @@ GString		FrenchMonth::GetMonth(unsigned int i)
 {
 	if (i < this->_vec.Size())
 		return (this->_vec[i]);
-	return (*(new GString("")));
+	return (GString(""));
 }
 
 GString		FrenchMonth::GetTruncateMonth(unsigned int i)
 {
 	if (i < this->_vec.Size())
 		return (this->_vec[i].Substr(0, 3));
-	return (*(new GString("")));
+	return (GString(""));
 }

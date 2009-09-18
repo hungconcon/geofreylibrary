@@ -15,7 +15,6 @@ struct timeval	GTimeOfDay(void)
 	return (tv);
 }
 
-#ifdef _TIME64_T
 struct timeval64	GTimeOfDay64(void)
 {
 	struct timeval64 tv;
@@ -29,4 +28,3 @@ struct timeval64	GTimeOfDay64(void)
 #endif
 	return (tv);
 }
-#endif

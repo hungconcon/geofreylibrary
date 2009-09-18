@@ -8,11 +8,13 @@
 #include "GDeclaration.h"
 #include "GString.h"
 #include "GExport.h"
+#include "GPrecisionTime.h"
 
 class GEXPORTED GTime
 {
 	public:
 		GTime(void);
+		GTime(const GPrecisionTime &);
 		GTime(const GTime &Time);
 		GTime(int Hours, int Minutes, int Scondes);
 		~GTime(void);
@@ -24,7 +26,7 @@ class GEXPORTED GTime
 		void		AddMins(int Minutes);
 		void		AddSecs(int Seconds);
 		void		SetTime(int Hours, int Minutes, int Seconds);
-		GString		&GetTime(const GString &Time);
+		GString		GetTime(const GString &Time);
 		bool		operator!=(const GTime &Time) const;
 		bool		operator<(const GTime &Time) const;
 		bool		operator<=(const GTime &Time) const;

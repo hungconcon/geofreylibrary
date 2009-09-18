@@ -21,12 +21,12 @@ GString		EnglishDay::GetDay(unsigned int i)
 {
 	if (i < this->_vec.Size())
 		return (this->_vec[i]);
-	return (new GString(""));
+	return (GString(""));
 }
 
 GString		EnglishDay::GetTruncateDay(unsigned int i)
 {
 	if (i < this->_vec.Size())
 		return (this->_vec[i].Substr(0, 3));
-	return (new GString(""));
+	return (GString(""));
 }

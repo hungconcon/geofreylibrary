@@ -142,23 +142,23 @@ bool		GDate::IsBisextile(int y)
 }
 GString		GDate::GetDate(const GString &format, G::LanguageOption op)
 {
-	GString *g = new GString(format);
+	GString g(format);
 	GString test(this->_tm->tm_mday);
 	DayInterface *d = GDayInstance::GetInstance(op);
-	*g = g->Replace("%dddd", d->GetDay(this->_tm->tm_wday));
-	*g = g->Replace("%ddd", d->GetTruncateDay(this->_tm->tm_wday));
-	*g = g->Replace("%dd", test.RightJustified(2, '0'));
-	*g = g->Replace("%d", test);
+	g = g.Replace("%dddd", d->GetDay(this->_tm->tm_wday));
+	g = g.Replace("%ddd", d->GetTruncateDay(this->_tm->tm_wday));
+	g = g.Replace("%dd", test.RightJustified(2, '0'));
+	g = g.Replace("%d", test);
 	MonthInterface *m = GMonthInstance::GetInstance(op);
 	test = (this->_tm->tm_mon + 1);
-	*g = g->Replace("%MMMM", m->GetMonth(this->_tm->tm_mon));
-	*g = g->Replace("%MMM", m->GetTruncateMonth(this->_tm->tm_mon));
-	*g = g->Replace("%MM", test.RightJustified(2, '0'));
-	*g = g->Replace("%M", this->_tm->tm_mon + 1);
+	g = g.Replace("%MMMM", m->GetMonth(this->_tm->tm_mon));
+	g = g.Replace("%MMM", m->GetTruncateMonth(this->_tm->tm_mon));
+	g = g.Replace("%MM", test.RightJustified(2, '0'));
+	g = g.Replace("%M", this->_tm->tm_mon + 1);
 	test = this->_tm->tm_year + 1900;
-	*g = g->Replace("%yyyy", test);
-	*g = g->Replace("%yy", test.Substr(2, 4));
-	return (*g);
+	g = g.Replace("%yyyy", test);
+	g = g.Replace("%yy", test.Substr(2, 4));
+	return (g);
 }
 bool		GDate::operator!=(const GDate &d) const
 {

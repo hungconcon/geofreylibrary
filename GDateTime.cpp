@@ -13,6 +13,18 @@ GDateTime::GDateTime(void)
 #endif
 }
 
+GDateTime::GDateTime(const GPrecisionTime &p)
+{
+#if defined (GWIN)
+	this->_tm = new tm;
+	struct timeval64	tv = p.GetTimeval64();
+	localtime_s(this->_tm, &tv.tv_sec);
+#else
+	struct timeval	tv = p.GetTimeval();
+	this->_tm = localtime(&tv.tv_sec);
+#endif
+}
+
 GDateTime::GDateTime(const GDate &d)
 {
 	this->_tm = new tm;

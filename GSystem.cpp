@@ -57,7 +57,7 @@ GString		GSystem::GetUserName(void)
 	uid = geteuid();
 	pw = getpwuid(uid);
 	if (pw)
-		return (*(new GString(pw->pw_name)));
+		return (GString(pw->pw_name));
 	char *p = getenv("USER");
     if (p != NULL)
 		return (GString(p));
@@ -76,8 +76,8 @@ GString		GSystem::GetComputerName(void)
 #else
 	char *p = getenv("COMPUTERNAME");
     if (p != NULL)
-		return (*(new GString(p)));
-	return (*(new GString("")));
+		return (GString(p));
+	return (GString(""));
 #endif
 }
 

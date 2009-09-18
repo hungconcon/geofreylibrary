@@ -11,7 +11,18 @@ GTime::GTime(void)
 #else
 	this->_tm = localtime(&tt);
 #endif
-	
+}
+
+GTime::GTime(const GPrecisionTime &p)
+{
+#if defined (GWIN)
+	this->_tm = new tm;
+	struct timeval64	tv = p.GetTimeval64();
+	localtime_s(this->_tm, &tv.tv_sec);
+#else
+	struct timeval	tv = p.GetTimeval();
+	this->_tm = localtime(&tv.tv_sec);
+#endif
 }
 
 GTime::GTime(const GTime &d)
@@ -69,21 +80,25 @@ int			GTime::Sec(void) const
 {
 	return (this->_tm->tm_sec);
 }
+
 void		GTime::AddHours(int h)
 {
 	this->_tm->tm_hour += h;
 	mktime(this->_tm);
 }
+
 void		GTime::AddMins(int m)
 {
 	this->_tm->tm_min += m;
 	mktime(this->_tm);
 }
+
 void		GTime::AddSecs(int s)
 {
 	this->_tm->tm_sec += s;
 	mktime(this->_tm);
 }
+
 void		GTime::SetTime(int h, int m, int s)
 {
 	if (h < 0 || h > 23)
@@ -98,20 +113,21 @@ void		GTime::SetTime(int h, int m, int s)
 	mktime(this->_tm);
 }
 
-GString		&GTime::GetTime(const GString &format)
+GString		GTime::GetTime(const GString &format)
 {
-	GString *g = new GString(format);
+	GString g(format);
 	GString test(this->_tm->tm_hour);
-	*g = g->Replace("%hh", test.RightJustified(2, '0'));
-	*g = g->Replace("%h", test);
+	g = g.Replace("%hh", test.RightJustified(2, '0'));
+	g = g.Replace("%h", test);
 	test = this->_tm->tm_min;
-	*g = g->Replace("%mm", test.RightJustified(2, '0'));
-	*g = g->Replace("%m", test);
+	g = g.Replace("%mm", test.RightJustified(2, '0'));
+	g = g.Replace("%m", test);
 	test = this->_tm->tm_sec;
-	*g = g->Replace("%ss", test.RightJustified(2, '0'));
-	*g = g->Replace("%s", test);
-	return (*g);
+	g = g.Replace("%ss", test.RightJustified(2, '0'));
+	g = g.Replace("%s", test);
+	return (g);
 }
+
 bool		GTime::operator!=(const GTime &d) const
 {
 	if (this->_tm->tm_hour != d._tm->tm_hour)
@@ -122,6 +138,7 @@ bool		GTime::operator!=(const GTime &d) const
 		return (true);
 	return (false);
 }
+
 bool		GTime::operator<(const GTime &d) const
 {
 	if (this->_tm->tm_hour < d._tm->tm_hour)
@@ -138,6 +155,7 @@ bool		GTime::operator<(const GTime &d) const
 		return (false);
 	return (false);
 }
+
 bool		GTime::operator<=(const GTime &d) const
 {
 	if (this->_tm->tm_hour < d._tm->tm_hour)
@@ -154,6 +172,7 @@ bool		GTime::operator<=(const GTime &d) const
 		return (false);
 	return (true);
 }
+
 bool		GTime::operator==(const GTime &d) const
 {
 	if (this->_tm->tm_mday != d._tm->tm_mday)
@@ -164,6 +183,7 @@ bool		GTime::operator==(const GTime &d) const
 		return (false);
 	return (true);
 }
+
 bool		GTime::operator>(const GTime &d) const
 {
 	if (this->_tm->tm_hour < d._tm->tm_hour)
@@ -180,6 +200,7 @@ bool		GTime::operator>(const GTime &d) const
 		return (true);
 	return (false);
 }
+
 bool		GTime::operator>=(const GTime &d) const
 {
 	if (this->_tm->tm_hour < d._tm->tm_hour)

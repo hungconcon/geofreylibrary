@@ -2,11 +2,7 @@
 
 GPrecisionTime::GPrecisionTime(void)
 {
-#ifdef _TIME64_T
 	this->_now = GTimeOfDay64();
-#else
-	this->_now = GTimeOfDay();
-#endif
 }
 
 GPrecisionTime::GPrecisionTime(const GPrecisionTime &p)
@@ -20,12 +16,10 @@ GPrecisionTime::GPrecisionTime(struct timeval tv)
 	this->_now.tv_usec = tv.tv_usec;
 }
 
-#ifdef _TIME64_T
 GPrecisionTime::GPrecisionTime(struct timeval64 tv)
 {
 	this->_now = tv;
 }
-#endif
 
 GPrecisionTime::~GPrecisionTime(void)
 {
@@ -85,11 +79,7 @@ GPrecisionTime	GPrecisionTime::operator+(const GPrecisionTime &p) const
 
 GPrecisionTime	GPrecisionTime::Now(void)
 {
-#ifdef _TIME64_T
 	this->_now = GTimeOfDay64();
-#else
-	this->_now = GTimeOfDay();
-#endif
 	return (*this);
 }
 
@@ -99,7 +89,7 @@ GPrecisionTime	GPrecisionTime::SetTime(const GPrecisionTime &p)
 	return (p);
 }
 
-struct timeval	GPrecisionTime::GetTimeval(void)
+struct timeval	GPrecisionTime::GetTimeval(void) const
 {
 	struct timeval	tv;
 	tv.tv_sec = (long)this->_now.tv_sec;
@@ -107,20 +97,14 @@ struct timeval	GPrecisionTime::GetTimeval(void)
 	return (tv);
 }
 
-#ifdef _TIME64_T
-struct timeval	GPrecisionTime::GetTimeval64(void)
+struct timeval64	GPrecisionTime::GetTimeval64(void) const
 {
 	return (this->_now);
 }
-#endif
 
 GPrecisionTime	GPrecisionTime::Null(void)
 {
-#ifdef _TIME64_T
 	struct timeval64	tv;
-#else
-	struct timeval		tv;
-#endif
 	tv.tv_sec = 0;
 	tv.tv_usec = 0;
 	return (GPrecisionTime(tv));

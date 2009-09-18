@@ -13,6 +13,7 @@ class GEXPORTED GDateTime
 	public:
 		GDateTime(void);
 		GDateTime(const GDate &Date);
+		GDateTime(const GPrecisionTime &);
 		GDateTime(const GTime &Time);
 		GDateTime(const GDate &Date, const GTime &Time);
 		GDateTime(int Year, int Month, int Day, int Hour = 0, int Minutes = 0, int Seconds = 0);

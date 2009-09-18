@@ -144,7 +144,7 @@ GString	GFile::Read(void)
 		{
 			this->_open = false;
 			delete[] buffer;
-			throw GException("GFile", "Reading error ! Read : " + GString(result) + " SizeFile : " + GString(lSize));
+			throw GException("GFile", "Reading error ! Read(void) : " + GString(result) + " SizeFile : " + GString(lSize));
 		}
 		GString	ret(GString::GetBuffer(buffer, lSize));
 		delete[] buffer;
@@ -167,7 +167,7 @@ GString	GFile::Read(unsigned int Size)
 		{
 			this->_open = false;
 			delete[] buffer;
-			throw GException("GFile", "Reading error ! Read : " + GString(result) + " Size Asked : " + GString(Size));
+			throw GException("GFile", "Reading error ! Read(unsigned int) : " + GString(result) + " Size Asked : " + GString(Size));
 		}
 		GString	ret(GString::GetBuffer(buffer, result));
 		delete[] buffer;
@@ -180,13 +180,13 @@ GString	GFile::Read(unsigned int Size)
 
 void	GFile::Read(void *Pointeur, unsigned int Size)
 {
-	if (this->_open && this->_pFile)
+	if (this->_open && this->_pFile && Pointeur && Size > 0)
 	{
 		size_t result = fread(Pointeur, 1, Size, this->_pFile);
 		if (result == 0)
 		{
 			this->_open = false;
-			throw GException("GFile", "Reading error ! Read : " + GString(result) + " Size Asked : " + GString(Size));
+			throw GException("GFile", "Reading error ! Read(void *, unsigned int) : " + GString(result) + " Size Asked : " + GString(Size));
 		}
 	}
 }

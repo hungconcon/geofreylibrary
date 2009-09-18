@@ -7,9 +7,13 @@
 #include "GFile.h"
 #include "GStr.h"
 
-struct GBitmapHeaderFile
+struct GBitmapType
 {
 	char	file_type[2];
+};
+
+struct GBitmapHeaderFile
+{
 	int		file_size;
 	int		reserved;
 	int		bitmap_offset;

@@ -78,7 +78,7 @@ void	GSocketTcpClient::Init(void)
 	}
 	this->_sockaddr.sin_family = AF_INET;
 	this->_sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	this->_sockaddr.sin_port = htons(port);
+	this->_sockaddr.sin_port = htons(this->_port);
 #endif
 	this->_init = true;
 }

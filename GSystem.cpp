@@ -107,6 +107,8 @@ void		GSystem::Open(const GString &Drive)
 	mciSendString(c, NULL, 0, NULL);
 	delete c;
 #else
+	GString test;
+	test = Drive;
 #endif
 }
 
@@ -122,6 +124,8 @@ void		GSystem::Close(const GString &Drive)
 	mciSendString(c, NULL, 0, NULL);
 	delete c;
 #else
+	GString test;
+	test = Drive;
 #endif
 }
 
@@ -162,6 +166,6 @@ GVector<GProcessus>	GSystem::GetProcessus(void)
         while (Process32Next(hSnapShot, &pe));
     }
     CloseHandle(hSnapShot);
-	return list;
 #endif
+	return (list);
 }

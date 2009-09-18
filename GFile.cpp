@@ -140,7 +140,7 @@ GString	GFile::Read(void)
 		this->GoToBegin();
 		buffer = new char[lSize + 1];
 		result = fread(buffer, 1, lSize, this->_pFile);
-		if (result != lSize)
+		if ((int)result != lSize)
 		{
 			this->_open = false;
 			delete[] buffer;

@@ -20,8 +20,8 @@ GTime::GTime(const GPrecisionTime &p)
 	struct timeval64	tv = p.GetTimeval64();
 	localtime_s(this->_tm, &tv.tv_sec);
 #else
-	struct timeval	tv = p.GetTimeval();
-	this->_tm = localtime(&tv.tv_sec);
+	struct timeval64 tv = p.GetTimeval64();
+	this->_tm = localtime((time_t*)&tv.tv_sec);
 #endif
 }
 

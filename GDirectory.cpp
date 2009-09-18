@@ -132,13 +132,16 @@ bool		GDirectory::Mkdir(const GString &s)
 
 bool		GDirectory::Mkpath(const GString &s)
 {
-#if defined (GWIN)
 	GString current = this->Pwd();
 	GStringList list = s.Split("\\");
 	for (unsigned int i = 0; i < list.Size(); ++i)
 	{
 		char	*tmp = list[i].ToChar();
+#if defined (GWIN)
 		if (CreateDirectory(tmp, NULL) == 0)
+#else
+		if (mkdir(tmp, NULL) == -1)
+#endif
 		{
 			delete[] tmp;
 			this->Cd(current);
@@ -149,11 +152,6 @@ bool		GDirectory::Mkpath(const GString &s)
 	}
 	this->Cd(current);
 	return (true);
-#else
-	//if (mkdir(s.ToChar(), NULL) == -1)
-		//return (false);
-	//return (true);
-#endif
 }
 
 bool		GDirectory::Rename(const GString &f1, const GString &f2)

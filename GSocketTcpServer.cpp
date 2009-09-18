@@ -242,12 +242,10 @@ void	GSocketTcpServer::Receive(GSocket Socket, void *Data, unsigned int Size)
 	dwFlags = 0;
 	ret = WSARecv(Socket, &wbuf, 1, &dwBytesRet, &dwFlags, NULL, NULL);
 #else
-	char		buffer[1024];
 	int	li = 0;
-	li = recv(Socket, buffer, sizeof(buffer), 0);
+	li = recv(Socket, Data, Size, 0);
 	if (li <= 0)
-		return (GString(""));
-	return (GString::GetBuffer(buffer, li));
+		throw GException("GSocketTcpServer", "Error recv !");
 #endif
 }
 

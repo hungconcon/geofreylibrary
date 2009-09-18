@@ -8,7 +8,9 @@
 #include <tlhelp32.h>
 #		include "windows.h"
 #else
-
+#		include <sys/types.h>
+#		include <signal.h>
+#		include <dirent.h>
 #endif
 
 class GEXPORTED GProcessus
@@ -19,9 +21,9 @@ public:
 
 		GString				GetPath(void) const;
 		unsigned int		GetPID(void) const;
-		void				Kill(void) const;
-		static void			Run(const GString &Process);
-		static void			Kill(const GString &Process);
+		bool				Kill(void) const;
+		static bool			Run(const GString &Process);
+		static bool			Kill(const GString &Process);
 
 	private:
 		GString			_path;

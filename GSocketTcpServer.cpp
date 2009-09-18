@@ -54,7 +54,7 @@ GSocketTcpServer::GSocketTcpServer(unsigned int port, unsigned int maxConnexion)
 	this->_sockaddr.sin_family = AF_INET;
 	this->_sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	this->_sockaddr.sin_port = htons(this->_port);
-	if (bind(this->_socket,(SOCKADDR *) &(this->_sockaddr), sizeof (this->_sockaddr)) == SOCKET_ERROR)
+	if (bind(this->_socket,(sockaddr *) &(this->_sockaddr), sizeof (this->_sockaddr)) == SOCKET_ERROR)
       throw GException("GSocketTcpServer", "Error bind");
 	if (listen(this->_socket, this->_maxConnexion) == SOCKET_ERROR)
 		throw GException("GSocketTcpServer", "Error listen");

@@ -45,6 +45,8 @@ GImage::GImage(const GString &File) : _file(File)
 			unsigned int i = 0;
 			for (; i < this->_width; ++i)
 				file.Read(&this->_imageRVB[i][j], sizeof(GColorRVB));
+			while ((i * 3) < line)
+				file.Read(line - (i++ * 3));
 		}
 		file.Close();
 
@@ -107,6 +109,14 @@ void			GImage::ConvertToBmp(const GString &FileName)
 		unsigned int i = 0;
 		for (; i < this->_width; ++i)
 			f.Write(&this->_imageRVB[i][j], sizeof(GColorRVB));
+		if (i < line)	
+		{
+			GString	Empty(GString::GetBuffer("\0", 1));
+			GString	str;
+			for (; i * 3 < line; i++)
+				str += Empty;
+			f.Write(str);
+		}
 	}
 	f.Close();
 }

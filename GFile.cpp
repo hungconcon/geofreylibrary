@@ -180,14 +180,19 @@ GString	GFile::Read(unsigned int Size)
 
 void	GFile::Read(void *Pointeur, unsigned int Size)
 {
-	if (this->_open && this->_pFile && Pointeur && Size > 0)
+	if (this->_open && this->_pFile)
 	{
-		size_t result = fread(Pointeur, 1, Size, this->_pFile);
-		if (result == 0)
+		if (Pointeur)
 		{
-			this->_open = false;
-			throw GException("GFile", "Reading error ! Read(void *, unsigned int) : " + GString(result) + " Size Asked : " + GString(Size));
+			size_t result = fread(Pointeur, 1, Size, this->_pFile);
+			if (result == 0)
+			{
+				this->_open = false;
+				throw GException("GFile", "Reading error ! Read(void *, unsigned int) : " + GString(result) + " Size Asked : " + GString(Size));
+			}
 		}
+		else
+			this->GoTo(this->CurrentIndex() + Size);
 	}
 }
 
@@ -264,4 +269,17 @@ bool	GFile::EndOfFile(void)
 		if (feof(this->_pFile))
 			return (true);
 	return (false);
+}
+
+long	GFile::LeftToRead(void)
+{
+	if (this->_open && this->_pFile)
+	{
+		long	now = this->CurrentIndex();
+		this->GoToEnd();
+		long	end = this->CurrentIndex();
+		this->GoTo(now);
+		return (end - now);
+	}
+	return (-1);
 }

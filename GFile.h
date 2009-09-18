@@ -29,6 +29,7 @@ class GEXPORTED GFile : public GStream
 		void			Read(void *, unsigned int Size);
 		static bool		Create(const GString &);
 		long			CurrentIndex(void);
+		long			LeftToRead(void);
 		void			SetFile(const GString &);
 		void			Clear(void);
 		GString			GetName(void);

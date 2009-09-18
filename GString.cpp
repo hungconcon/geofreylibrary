@@ -1314,7 +1314,31 @@ int					GString::ToInt(void) const
 
 double				GString::ToDouble(void) const
 {
-	return (1234.25678);
+	int pos = this->Find(".");
+	if (pos == -1)
+		return (0);
+	int nbr = 0;
+	int mult = 1;
+	for (int i = pos - 1; i >= 0; --i)
+	{
+		if (i == 0 && this->_str[i] == '-')
+		{
+			nbr *= -1;
+			break;
+		}
+		else if (this->_str[i] >= '0' && this->_str[i] <= '9')
+		{
+			nbr += mult * (this->_str[i] - '0');
+			mult *= 10;
+		}
+		else if (this->_str[i] != '+')
+		{
+			GWarning::Warning("Warning - class GString - method ToInt(void) const \t\t=> Allowed char are '0-9', '+' and '-' !");
+			throw GException(G::NOT_AN_INTEGER);
+		}
+	}
+	return (nbr);
+	return (nbr);
 }
 // SURCHARGES OPERATEURS
 

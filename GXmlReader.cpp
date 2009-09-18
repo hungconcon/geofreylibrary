@@ -85,7 +85,7 @@ GVector<GStringMap>	GXmlReader::Parser(const GString &s_content)
 
 bool	GXmlReader::Syntax(GString str)
 {
-	if (str.Find("<?xml") != 0)
+	if (str.StartWith("<?xml") == false)
 		throw GException("GXmlReader", "It's not an XML File");
 	unsigned int	i, j, k, l, e, f;
 	GStringList	temp;

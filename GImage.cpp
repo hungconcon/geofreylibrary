@@ -109,7 +109,7 @@ void			GImage::ConvertToBmp(const GString &FileName)
 		unsigned int i = 0;
 		for (; i < this->_width; ++i)
 			f.Write(&this->_imageRVB[i][j], sizeof(GColorRVB));
-		if (i < line)	
+		if (i * 3 < line)	
 		{
 			GString	Empty(GString::GetBuffer("\0", 1));
 			GString	str;

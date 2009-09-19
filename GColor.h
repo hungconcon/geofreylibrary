@@ -2,7 +2,16 @@
 #ifndef __GCOLOR_H__
 # define __GCOLOR_H__
 
-class GColor
+#include "GExport.h"
+
+struct GColorRVB
+{
+	char	_red;
+	char	_green;
+	char	_blue;
+};
+
+class GEXPORTED GColor
 {
 	public:
 		GColor(int R, int G, int B);

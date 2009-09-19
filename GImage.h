@@ -6,6 +6,7 @@
 #include "GString.h"
 #include "GFile.h"
 #include "GStr.h"
+#include "GColor.h"
 
 struct GBitmapType
 {
@@ -34,13 +35,6 @@ struct	GBitmapHeaderBitmap
 	int		colors_important;
 };
 
-struct GColorRVB
-{
-	char	_red;
-	char	_green;
-	char	_blue;
-};
-
 class GEXPORTED GImage
 {
 	public:
@@ -54,6 +48,7 @@ class GEXPORTED GImage
 		void			ConvertToJpeg(void);
 		void			ConvertToBmp(const GString &FileName);
 		
+
 	private:
 		GString			_file;
 		unsigned int	_width;

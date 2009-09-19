@@ -100,7 +100,6 @@ void			GImage::ConvertToBmp(const GString &FileName)
 		line++;
 	BmpHeader.size_bitmap = line * this->_height;
 	HeaderFile.file_size = BmpHeader.size_bitmap;
-
 	f.Write(&Type, sizeof(Type));
 	f.Write(&HeaderFile, sizeof(HeaderFile));
 	f.Write(&BmpHeader, sizeof(BmpHeader));

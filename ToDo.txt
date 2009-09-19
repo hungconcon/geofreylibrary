@@ -1,0 +1,25 @@
+Pipes
+Files
+Semaphores
+Signaux
+Sql
+Logger
+Injecteur de dll		http://www.cppfrance.com/codes/WIN32-INJECTION-DLL-METHODES-REMOTETHREAD-PROPRE-REGISTRY_49419.aspx
+XmlReader
+cpu info
+disk filler
+musique
+cryptage
+cacher curseur
+raccourcis
+installeur				http://www.cppfrance.com/codes/INSTALL-UNISTALL_48136.aspx
+CRC
+Interprocess			Mutex, data
+iostream
+random
+smartpointer
+swap
+image					resize rotate filter mirror capcha ?
+patterns
+Internationalization
+

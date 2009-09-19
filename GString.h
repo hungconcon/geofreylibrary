@@ -22,8 +22,6 @@
 #define TRUEGSTR "true"
 #define FALSEGSTR "false"
 
-
-
 class GEXPORTED GString
 {
 	public:
@@ -93,7 +91,7 @@ class GEXPORTED GString
 		friend	std::istream	&operator>>(std::istream &flux, GString &m);
 		
 		// --== METHODES ==--
-		static GString		GetString(GString, ...);
+		static GString		GetString(GString Format, ...);
 		unsigned int		Length(void) const;														
 		unsigned int		Size(void) const;
 		unsigned int		Count(const GString &, CaseOption = GString::CaseSensitive) const;

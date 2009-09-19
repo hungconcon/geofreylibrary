@@ -1,7 +1,14 @@
 
 #include "GSocketTcpServer.h"
 
-GSocketTcpServer::GSocketTcpServer(unsigned int port, unsigned int maxConnexion) : _map()
+GSocketTcpServer::GSocketTcpServer(unsigned int port, unsigned int maxConnexion, GSocket Sock)
+{
+	this->_port = port;
+	this->_maxConnexion = maxConnexion;
+	this->_socket = Sock;
+}
+
+GSocketTcpServer::GSocketTcpServer(unsigned int port, unsigned int maxConnexion)
 {
 	this->_port = port;
 	this->_maxConnexion = maxConnexion;
@@ -71,7 +78,7 @@ GSocketTcpServer::~GSocketTcpServer(void)
 #endif
 }
 
-GSocket		GSocketTcpServer::Accept(void)
+ISocket		*GSocketTcpServer::Accept(void)
 {
 #if defined (GWIN)
 	sockaddr_in	addr;
@@ -81,12 +88,11 @@ GSocket		GSocketTcpServer::Accept(void)
 	{
 		closesocket(this->_socket);
 		WSACleanup();
-		throw GException("GSocketTcpServer", "Error in WSAAccept()");
 		this->_lastError = GSocketTcpServer::ERROR_ACCEPT;
+		throw GException("GSocketTcpServer", "Error in WSAAccept()");
 	}
 	this->_lastIp = inet_ntoa(addr.sin_addr);
 	this->_map[s] = inet_ntoa(addr.sin_addr);
-	return s;
 #else
 	sockaddr_in	addr;
 	int len = sizeof(addr);
@@ -94,21 +100,20 @@ GSocket		GSocketTcpServer::Accept(void)
 	if ((int)s == INVALID_SOCKET) 
 	{
 		close(this->_socket);
-		throw GException("GSocketTcpServer", "Error accept() !");
 		this->_lastError = GSocketTcpServer::ERROR_ACCEPT;
+		throw GException("GSocketTcpServer", "Error accept() !");
 	}
 	this->_lastIp = inet_ntoa(addr.sin_addr);
 	this->_map[s] = inet_ntoa(addr.sin_addr);
-	return (s);
 #endif
+	return new GSocketTcpServer(this->_port, this->_maxConnexion, s);
 }
-
-
 
 int			GSocketTcpServer::GetLastError(void) const
 {
 	return (this->_lastError);
 }
+
 int			GSocketTcpServer::Send(const GString &s)
 {
 #if defined (GWIN)
@@ -140,31 +145,7 @@ int			GSocketTcpServer::Send(const GString &s)
 #endif
 }
 
-int			GSocketTcpServer::Send(GSocket Socket, const GString &s)
-{
-#if defined (GWIN)
-	int		rc, err;
-	WSABUF	DataBuf;
-	DWORD	SendBytes = 0;
-	DataBuf.len = s.Size();
-	DataBuf.buf = s.ToChar();
-	rc = WSASend(Socket, &DataBuf, 1, &SendBytes, 0, NULL, NULL);
-	delete[] DataBuf.buf;
-	if ((rc == SOCKET_ERROR) && (WSA_IO_PENDING != (err = WSAGetLastError())))
-		throw GException("GSocketTcpServer", "Error WSASend() !");
-	return (SendBytes);
-#else
-	int	l = 0;
-	char	*tmp = s.ToChar();
-	l = send(Socket, tmp, s.Size(), 0);
-	delete[] tmp;
-	if (l < 0)
-		throw GException("GSocketTcpServer", "Error send() !");
-	return (l);
-#endif
-}
-
-int			GSocketTcpServer::Send(GSocket Socket, void *Data, unsigned int Size)
+int			GSocketTcpServer::Send(void *Data, unsigned int Size)
 {
 #if defined (GWIN)
 	int		rc, err;
@@ -172,13 +153,13 @@ int			GSocketTcpServer::Send(GSocket Socket, void *Data, unsigned int Size)
 	DWORD	SendBytes = 0;
 	DataBuf.len = Size;
 	DataBuf.buf = (char *)Data;
-	rc = WSASend(Socket, &DataBuf, 1, &SendBytes, 0, NULL, NULL);
+	rc = WSASend(this->_socket, &DataBuf, 1, &SendBytes, 0, NULL, NULL);
 	if ((rc == SOCKET_ERROR) && (WSA_IO_PENDING != (err = WSAGetLastError())))
 		throw GException("GSocketTcpServer", "Error WSASend() !");
 	return (SendBytes);
 #else
 	int	l = 0;
-	l = send(Socket, Data, Size, 0);
+	l = send(this->_socket, Data, Size, 0);
 	if (l < 0)
 		throw GException("GSocketTcpServer", "Error send() !");
 	return (l);
@@ -210,32 +191,7 @@ GString	GSocketTcpServer::Receive(void)
 #endif
 }
 
-GString	GSocketTcpServer::Receive(GSocket Socket)
-{
-#if defined (GWIN)
-	int		ret;
-	//int		len = sizeof(this->_sockaddr);
-	DWORD	dwBytesRet, dwFlags;
-	char	buffer[1024];
-	WSABUF	wbuf;
-	wbuf.len = 1024;
-	wbuf.buf = buffer;
-	dwFlags = 0;
-	ret = WSARecv(Socket, &wbuf, 1, &dwBytesRet, &dwFlags, NULL, NULL);
-	if (ret == SOCKET_ERROR)
-		return (GString());
-	return (GString::GetBuffer(wbuf.buf, dwBytesRet));
-#else
-	char		buffer[1024];
-	int	li = 0;
-	li = recv(Socket, buffer, sizeof(buffer), 0);
-	if (li <= 0)
-		return (GString(""));
-	return (GString::GetBuffer(buffer, li));
-#endif
-}
-
-void	GSocketTcpServer::Receive(GSocket Socket, void *Data, unsigned int Size)
+void	GSocketTcpServer::Receive(void *Data, unsigned int Size)
 {
 #if defined (GWIN)
 	int		ret;
@@ -244,15 +200,14 @@ void	GSocketTcpServer::Receive(GSocket Socket, void *Data, unsigned int Size)
 	wbuf.len = Size;
 	wbuf.buf = (char *)Data;
 	dwFlags = 0;
-	ret = WSARecv(Socket, &wbuf, 1, &dwBytesRet, &dwFlags, NULL, NULL);
+	ret = WSARecv(this->_socket, &wbuf, 1, &dwBytesRet, &dwFlags, NULL, NULL);
 #else
 	int	li = 0;
-	li = recv(Socket, Data, Size, 0);
+	li = recv(this->_socket, Data, Size, 0);
 	if (li <= 0)
 		throw GException("GSocketTcpServer", "Error recv !");
 #endif
 }
-
 
 GSocket	GSocketTcpServer::GetSocket(void) const
 {
@@ -264,12 +219,12 @@ GString	GSocketTcpServer::GetLastIp(void) const
 	return (this->_lastIp);
 }
 
-/*GString	GSocketTcpServer::GetIp(const GSocket &Sock) const
+GString	GSocketTcpServer::GetIp(const GSocket &Sock)
 {
 	if (this->_map.ExistKey(Sock))
 		return (this->_map[Sock]);
 	return ("");
-}*/
+}
 
 void	GSocketTcpServer::ClearDisconnectedSocket(void)
 {

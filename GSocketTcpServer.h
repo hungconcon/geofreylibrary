@@ -9,6 +9,7 @@
 #include "GStream.h"
 #include "GExport.h"
 #include "GMap.hpp"
+#include "ISocket.h"
 
 #if defined (GWIN)
 #		include "windows.h"
@@ -27,23 +28,25 @@ typedef SOCKET			GSocket;
 typedef	unsigned int	GSocket;
 #endif
 
-class GEXPORTED GSocketTcpServer : public GStream
+class GEXPORTED GSocketTcpServer : public ISocket, public GStream
 {
 	public:
 		GSocketTcpServer(unsigned int Port = 12345, unsigned int NbConnexion = 100);
+		GSocketTcpServer(unsigned int Port, unsigned int NbConnexion, GSocket Sock);
 		~GSocketTcpServer(void);
 
-		static int			Send(GSocket Socket, const GString &ToSend);
-		static int			Send(GSocket Socket, void *Data, unsigned int Size);
 		int					Send(const GString &ToSend);
+		int					Send(void *Data, unsigned int Size);
+
 		GString				Receive(void);
-		static GString		Receive(GSocket Socket);
-		static void			Receive(GSocket Socket, void *Data, unsigned int Size);
+		void				Receive(void *Data, unsigned int Size);
+
 		GSocket				GetSocket(void) const;
-		GSocket				Accept(void);
-		int					GetLastError(void) const;
+		ISocket				*Accept(void);
+
 		GString				GetLastIp(void) const;
-		GString				GetIp(const GSocket &Socket) const;
+		GString				GetIp(const GSocket &);
+		int					GetLastError(void) const;
 		void				ClearDisconnectedSocket(void);
 
 		enum Error

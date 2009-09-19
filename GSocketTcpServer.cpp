@@ -78,7 +78,7 @@ GSocketTcpServer::~GSocketTcpServer(void)
 #endif
 }
 
-ISocket		*GSocketTcpServer::Accept(void)
+GISocket		*GSocketTcpServer::Accept(void)
 {
 #if defined (GWIN)
 	sockaddr_in	addr;

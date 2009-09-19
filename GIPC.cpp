@@ -2,157 +2,216 @@
 #include "GIPC.h"
 #include "GSleep.h"
 
-GMutex			GIPC::_mutex = GMutex();
-
-#if defined	(GWIN)
-GMap<GString, GVector<HANDLE> >		GIPC::_map = GMap<GString, GVector<HANDLE> >();
-#else
-GMap<GString, GVEctor<int> >			GIPC::_map = GMap<GString, GVector<int> >();
-#endif
-
-GIPC::GIPC(const GString &Name) : _name(Name), _read(true)
+namespace GIPC
 {
-}
+	GMutex			GPipe::_mutex = GMutex();
 
-void			GIPC::SetName(const GString &Name)
-{
-	this->_name = Name;
-}
-
-const GString	&GIPC::GetName(void)
-{
-	return (this->_name);
-}
-
-void			GIPC::SetMode(bool Read)
-{
-	this->_read = Read;
-}
-
-bool			GIPC::Start(void)
-{
-	this->_mutex.Lock();
-	bool	exist(this->_map.ExistKey(this->_name));
-	this->_mutex.Unlock();
-	if (!exist)
-	{
-	#if defined (GWIN)
-		SECURITY_ATTRIBUTES sa;
-		sa.bInheritHandle = TRUE;
-		sa.lpSecurityDescriptor = 0;
-		sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-		HANDLE	pip[2];
-		if (!CreatePipe(&pip[0], &pip[1], &sa, 0))
-			return (false);
+	#if defined	(GWIN)
+	GMap<GString, GVector<HANDLE> >			GPipe::_map = GMap<GString, GVector<HANDLE> >();
 	#else
-		int		pip[2];
-		if (pipe(pip) == -1)
-			return (false);
+	GMap<GString, GVEctor<int> >			GPipe::_map = GMap<GString, GVector<int> >();
 	#endif
-		this->_mutex.Lock();
-		this->_map[this->_name].PushBack(pip[0]);
-		this->_map[this->_name].PushBack(pip[1]);
-		this->_mutex.Unlock();
-		return (true);
-	}
-	return (false);
-}
 
-bool			GIPC::IsReadable(void)
-{
-	if (this->_read)
+	GPipe::GPipe(const GString &Name) : _name(Name), _read(true)
+	{
+	}
+
+	void			GPipe::SetName(const GString &Name)
+	{
+		this->_name = Name;
+	}
+
+	const GString	&GPipe::GetName(void)
+	{
+		return (this->_name);
+	}
+
+	void			GPipe::SetMode(bool Read)
+	{
+		this->_read = Read;
+	}
+
+	bool			GPipe::Start(void)
 	{
 		this->_mutex.Lock();
 		bool	exist(this->_map.ExistKey(this->_name));
 		this->_mutex.Unlock();
 		if (!exist)
-			return (false);
-		bool	ok(true);
-		this->_mutex.Lock();
-		if (!GetFileSize(this->_map[this->_name][0], NULL))
-			ok = false;
-		this->_mutex.Unlock();
-		return (ok);
-	}
-	return (false);
-}
-
-bool			GIPC::Read(void *buffer, unsigned int Size)
-{
-	if (this->_read && Size && buffer)
-	{
-		this->_mutex.Lock();
-		bool	exist(this->_map.ExistKey(this->_name));
-		this->_mutex.Unlock();
-		if (exist)
 		{
-			while (!this->IsReadable())
-				GUSleep(100);
+		#if defined (GWIN)
+			SECURITY_ATTRIBUTES sa;
+			sa.bInheritHandle = TRUE;
+			sa.lpSecurityDescriptor = 0;
+			sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+			HANDLE	pip[2];
+			if (!CreatePipe(&pip[0], &pip[1], &sa, 0))
+				return (false);
+		#else
+			int		pip[2];
+			if (pipe(pip) == -1)
+				return (false);
+		#endif
 			this->_mutex.Lock();
-#if defined (GWIN)
-			DWORD	result;
-			ReadFile(this->_map[this->_name][0], buffer, Size, &result, NULL);
-#else
-			size_t	result = read(buffer, Size, this->_map[this->_name][0]);
-#endif
+			this->_map[this->_name].PushBack(pip[0]);
+			this->_map[this->_name].PushBack(pip[1]);
 			this->_mutex.Unlock();
-			if (result != Size)
-				throw GException("GIPC", "Error Fread asked : " + GString(Size) + " Read : " + GString(result));
 			return (true);
 		}
+		return (false);
 	}
-	return (false);
-}
 
-bool			GIPC::Write(void *buffer, unsigned int Size)
-{
-	if (!this->_read && Size && buffer)
+	bool			GPipe::IsReadable(void)
 	{
-		this->_mutex.Lock();
-		bool	exist(this->_map.ExistKey(this->_name));
-		this->_mutex.Unlock();
-		if (exist)
+		if (this->_read)
 		{
 			this->_mutex.Lock();
-#if defined (GWIN)
-			DWORD	result;
-			WriteFile(this->_map[this->_name][1], buffer, Size, &result, NULL);
-#else
-			size_t	result = fwrite(buffer, Size, 1, this->_map[this->_name][1]);
-#endif
+			bool	exist(this->_map.ExistKey(this->_name));
 			this->_mutex.Unlock();
-			if (result != Size)
-				throw GException("GIPC", "Error FWrite asked : " + GString(Size) + " Write : " + GString(result));
-			return (true);
-		}
-	}
-	return (false);
-}
-
-bool			GIPC::Write(const GString &ToSend)
-{
-	if (!this->_read && !ToSend.IsEmpty())
-	{
-		this->_mutex.Lock();
-		bool	exist(this->_map.ExistKey(this->_name));
-		this->_mutex.Unlock();
-		if (exist)
-		{
-			char	*tmp = ToSend.ToChar();
+			if (!exist)
+				return (false);
+			bool	ok(true);
 			this->_mutex.Lock();
-#if defined (GWIN)
-			DWORD	result;
-			WriteFile(this->_map[this->_name][1], tmp, ToSend.Size(), &result, NULL);
-#else
-			size_t	result = fwrite(tmp, ToSend.Size(), 1, this->_map[this->_name][1]);
-#endif
+			if (!GetFileSize(this->_map[this->_name][0], NULL))
+				ok = false;
 			this->_mutex.Unlock();
-			delete[] tmp;
-			if (result != ToSend.Size())
-				throw GException("GIPC", "Error FWrite asked : " + GString(ToSend.Size()) + " Write : " + GString(result));
-			return (true);
+			return (ok);
 		}
+		return (false);
 	}
-	return (false);
+
+	bool			GPipe::Read(void *buffer, unsigned int Size)
+	{
+		if (this->_read && Size && buffer)
+		{
+			this->_mutex.Lock();
+			bool	exist(this->_map.ExistKey(this->_name));
+			this->_mutex.Unlock();
+			if (exist)
+			{
+				while (!this->IsReadable())
+					GUSleep(100);
+				this->_mutex.Lock();
+	#if defined (GWIN)
+				DWORD	result;
+				ReadFile(this->_map[this->_name][0], buffer, Size, &result, NULL);
+	#else
+				size_t	result = read(buffer, Size, this->_map[this->_name][0]);
+	#endif
+				this->_mutex.Unlock();
+				if (result != Size)
+					throw GException("GIPC", "Error Fread asked : " + GString(Size) + " Read : " + GString(result));
+				return (true);
+			}
+		}
+		return (false);
+	}
+
+	bool			GPipe::Write(void *buffer, unsigned int Size)
+	{
+		if (!this->_read && Size && buffer)
+		{
+			this->_mutex.Lock();
+			bool	exist(this->_map.ExistKey(this->_name));
+			this->_mutex.Unlock();
+			if (exist)
+			{
+				this->_mutex.Lock();
+	#if defined (GWIN)
+				DWORD	result;
+				WriteFile(this->_map[this->_name][1], buffer, Size, &result, NULL);
+	#else
+				size_t	result = fwrite(buffer, Size, 1, this->_map[this->_name][1]);
+	#endif
+				this->_mutex.Unlock();
+				if (result != Size)
+					throw GException("GIPC", "Error FWrite asked : " + GString(Size) + " Write : " + GString(result));
+				return (true);
+			}
+		}
+		return (false);
+	}
+
+	bool			GPipe::Write(const GString &ToSend)
+	{
+		if (!this->_read && !ToSend.IsEmpty())
+		{
+			this->_mutex.Lock();
+			bool	exist(this->_map.ExistKey(this->_name));
+			this->_mutex.Unlock();
+			if (exist)
+			{
+				char	*tmp = ToSend.ToChar();
+				this->_mutex.Lock();
+	#if defined (GWIN)
+				DWORD	result;
+				WriteFile(this->_map[this->_name][1], tmp, ToSend.Size(), &result, NULL);
+	#else
+				size_t	result = fwrite(tmp, ToSend.Size(), 1, this->_map[this->_name][1]);
+	#endif
+				this->_mutex.Unlock();
+				delete[] tmp;
+				if (result != ToSend.Size())
+					throw GException("GIPC", "Error FWrite asked : " + GString(ToSend.Size()) + " Write : " + GString(result));
+				return (true);
+			}
+		}
+		return (false);
+	}
+#if defined (GWIN)
+#else
+	unsigned int	GSemaphore::_sum = 0;
+#endif
+
+	GSemaphore::GSemaphore(unsigned int nb, const GString &Name) : _name(Name), _nb(nb)
+	{
+		char	*tmp = this->_name.ToChar();
+#if defined (GWIN)
+		this->_semid = CreateSemaphore(NULL, 1, this->_nb, tmp);
+		if (this->_semid == NULL)
+			throw GException("GSemaphore", "Error Creation Semaphore");
+#else
+		this->_key = ftok(tmp, 'G');
+		this->_semid = semget(this->_key, 1, IPC_CREAT | IPC_EXCL | 0666);
+		if (this->_semid == -1)
+			throw GException("GSemaphore", "Error Creation Semaphore");
+		semctl(this->_semid, 0, SET_VAL, 1);
+		this->_num = this->_sum;
+		this->_sum++;
+#endif
+		delete[] tmp;
+	}
+
+	bool	GSemaphore::Lock(void)
+	{
+#if defined (GWIN)
+		WaitForSingleObject(this->_semid, INFINITE);
+		return (true);
+#else
+		sembuf op;
+		op.sem_num = this->_num;
+		op.sem_op = -1;
+		op.sem_flg = 0;
+		if (semop(this->_semid, &op, 1) == 0)
+			return (true);
+#endif
+		return (false);
+	}
+
+	bool	GSemaphore::Unlock(void)
+	{
+#if defined (GWIN)
+		if (ReleaseSemaphore(this->_semid, 1, NULL) != 0)
+			return (true);
+#else
+		sembuf op;
+		op.sem_num = this->_num;
+		op.sem_op = 1;
+		op.sem_flg = 0;
+		if (semop(this->_semid, &op, 1) == 0)
+			return (true);
+#endif
+		return (false);
+	}
+
 }
 

@@ -7,38 +7,65 @@
 #include "GMap.hpp"
 #include "GMutex.h"
 
-#include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 #if defined (GWIN)
 #include <windows.h>
 #else
 #include <unistd.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
 #endif
 
-class	GEXPORTED GIPC
+namespace GIPC
 {
-public:
-	GIPC(const GString &);
-	void			SetName(const GString &);
-	const GString	&GetName(void);
-	void			SetMode(bool);
-	bool			Start(void);
-	bool			Read(void *, unsigned int);
-	bool			Write(void *, unsigned int);
-	bool			Write(const GString &);
-	bool			IsReadable(void);
 
-private:
-	bool									_read;
-	GString									_name;
+	class	GEXPORTED GPipe
+	{
+	public:
+		GPipe(const GString &);
+		void			SetName(const GString &);
+		const GString	&GetName(void);
+		void			SetMode(bool);
+		bool			Start(void);
+		bool			Read(void *, unsigned int);
+		bool			Write(void *, unsigned int);
+		bool			Write(const GString &);
+		bool			IsReadable(void);
+
+	private:
+		bool									_read;
+		GString									_name;
+	#if defined	(GWIN)
+		static GMap<GString, GVector<HANDLE> >	_map;
+	#else
+		static GMap<GString, GVector<int> >		_map;
+	#endif
+		static GMutex							_mutex;
+	};
+
+	class	GEXPORTED GSemaphore
+	{
+	public:
+		GSemaphore(unsigned int, const GString & = "");
+		bool	Lock(void);
+		bool	Unlock(void);
+
+	private:
+		GString				_name;
+		unsigned int		_nb;
 #if defined	(GWIN)
-	static GMap<GString, GVector<HANDLE> >	_map;
+		CRITICAL_SECTION	_critical;
+		HANDLE				_semid; 
 #else
-	static GMap<GString, GVector<int> >		_map;
+		key_t				_key;
+		int					_semid;
+		unsigned int		_num;
+		static unsigned int	_sum;
 #endif
-	static GMutex							_mutex;
-};
+	};
 
+}
 #endif

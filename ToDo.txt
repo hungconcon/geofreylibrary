@@ -8,12 +8,12 @@ Injecteur de dll		http://www.cppfrance.com/codes/WIN32-INJECTION-DLL-METHODES-RE
 XmlReader
 cpu info
 disk filler
-musique	STARTED		http://crteknologies.free.fr/programmation/ressources/wav.php
+musique	DONE		http://crteknologies.free.fr/programmation/ressources/wav.php
 cryptage
 cacher curseur
 raccourcis
 installeur			http://www.cppfrance.com/codes/INSTALL-UNISTALL_48136.aspx
-CRC				http://dvsoft.developpez.com/Articles/CRC/
+CRC	DONE???				http://dvsoft.developpez.com/Articles/CRC/
 Interprocess			Mutex, data
 iostream
 random DONE

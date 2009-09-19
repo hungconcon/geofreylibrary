@@ -16,24 +16,27 @@ GSocketTcpServer::GSocketTcpServer(unsigned int port, unsigned int maxConnexion)
 	WSADATA			wsaData;
 	if (WSAStartup(MAKEWORD(2,2), &wsaData) != NO_ERROR)
 	{
-		GWarning::Warning("GSocketTcpClient", "GSocketTcpClient(const GString &IP, unsigned int Port)", "Error WSAStartup()");
-		throw GException(G::SOCKET_INIT_ERROR);
+		GWarning::Warning("GSocketTcpServer", "GSocketTcpServer(unsigned int port, unsigned int max)", "Error WSAStartup()");
+		throw GException("GSocketTcpServer", "Error in WSAStartUp()");
 	}
 	this->_socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
 	if (this->_socket == INVALID_SOCKET)
 	{
-		GWarning::Warning("GSocketTcpClient", "GSocketTcpClient(const GString &IP, unsigned int Port)", "Error WSASocket()");
-		throw GException(G::SOCKET_INIT_ERROR);
+		GWarning::Warning("GSocketTcpServer", "GSocketTcpServer(unsigned int port, unsigned int max)", "Error WSASocket()");
+		throw GException("GSocketTcpServer", "Error in WSASocket()");
 	}
 	this->_sockaddr.sin_family = AF_INET;
 	this->_sockaddr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
 	if (WSAHtons(this->_socket, this->_port, &this->_sockaddr.sin_port) == SOCKET_ERROR)
 	{
-		GWarning::Warning("GSocketTcpClient", "GSocketTcpClient(const GString &IP, unsigned int Port)", "Error WSAHtons()");
-		throw GException(G::SOCKET_INIT_ERROR);
+		GWarning::Warning("GSocketTcpServer", "GSocketTcpServer(unsigned int port, unsigned int max)", "Error WSAHtons()");
+		throw GException("GSocketTcpServer", "Error in WSAHtons()");
 	}
 	if (WSAHtonl(this->_socket, INADDR_ANY, &this->_sockaddr.sin_addr.s_addr) == SOCKET_ERROR)
+	{
+		GWarning::Warning("GSocketTcpServer", "GSocketTcpServer(unsigned int port, unsigned int max)", "Error WSAHtons()");
 		throw GException("GSocketTcpServer", "Error in WSAHtonl()");
+	}
 	sockaddr_in	s_port;
 	socklen_t len = sizeof(s_port);
 	if (bind(this->_socket, reinterpret_cast <sockaddr*> (&this->_sockaddr), sizeof(this->_sockaddr)) == SOCKET_ERROR) 
@@ -62,9 +65,15 @@ GSocketTcpServer::GSocketTcpServer(unsigned int port, unsigned int maxConnexion)
 	this->_sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	this->_sockaddr.sin_port = htons(this->_port);
 	if (bind(this->_socket,(sockaddr *) &(this->_sockaddr), sizeof (this->_sockaddr)) == SOCKET_ERROR)
-      throw GException("GSocketTcpServer", "Error bind");
+	{
+		this->_lastError = GSocketTcpServer::ERROR_SOCKET;
+		throw GException("GSocketTcpServer", "Error bind");
+	}
 	if (listen(this->_socket, this->_maxConnexion) == SOCKET_ERROR)
+	{
+		this->_lastError = GSocketTcpServer::ERROR_SOCKET;
 		throw GException("GSocketTcpServer", "Error listen");
+	}
 #endif
 }
 
@@ -78,7 +87,7 @@ GSocketTcpServer::~GSocketTcpServer(void)
 #endif
 }
 
-GISocket		*GSocketTcpServer::Accept(void)
+GISocket	*GSocketTcpServer::Accept(void)
 {
 #if defined (GWIN)
 	sockaddr_in	addr;
@@ -166,7 +175,7 @@ int			GSocketTcpServer::Send(void *Data, unsigned int Size)
 #endif
 }
 
-GString	GSocketTcpServer::Receive(void)
+GString		GSocketTcpServer::Receive(void)
 {
 #if defined (GWIN)
 	int		ret;
@@ -191,7 +200,7 @@ GString	GSocketTcpServer::Receive(void)
 #endif
 }
 
-void	GSocketTcpServer::Receive(void *Data, unsigned int Size)
+void		GSocketTcpServer::Receive(void *Data, unsigned int Size)
 {
 #if defined (GWIN)
 	int		ret;
@@ -209,24 +218,24 @@ void	GSocketTcpServer::Receive(void *Data, unsigned int Size)
 #endif
 }
 
-GSocket	GSocketTcpServer::GetSocket(void) const
+GSocket		GSocketTcpServer::GetSocket(void) const
 {
 	return (this->_socket);
 }
 
-GString	GSocketTcpServer::GetLastIp(void) const
+GString		GSocketTcpServer::GetLastIp(void) const
 {
 	return (this->_lastIp);
 }
 
-GString	GSocketTcpServer::GetIp(const GSocket &Sock)
+GString		GSocketTcpServer::GetIp(const GSocket &Sock)
 {
 	if (this->_map.ExistKey(Sock))
 		return (this->_map[Sock]);
 	return ("");
 }
 
-void	GSocketTcpServer::ClearDisconnectedSocket(void)
+void		GSocketTcpServer::ClearDisconnectedSocket(void)
 {
 	for (unsigned int i = 0; i < this->_map.Size(); ++i)
 	{

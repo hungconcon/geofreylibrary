@@ -1,11 +1,16 @@
 
 #include "GIPC.h"
+#include "GSleep.h"
 
-GIPC::GIPC(void) : _fd(NULL)
-{
-}
+GMutex			GIPC::_mutex = GMutex();
 
-GIPC::GIPC(const GString &Name) : _fd(NULL), _name(Name)
+#if defined	(GWIN)
+GMap<GString, GVector<HANDLE> >		GIPC::_map = GMap<GString, GVector<HANDLE> >();
+#else
+GMap<GString, GVEctor<int> >			GIPC::_map = GMap<GString, GVector<int> >();
+#endif
+
+GIPC::GIPC(const GString &Name) : _name(Name), _read(true)
 {
 }
 
@@ -19,70 +24,135 @@ const GString	&GIPC::GetName(void)
 	return (this->_name);
 }
 
-bool			GIPC::Open(bool Read)
+void			GIPC::SetMode(bool Read)
 {
-	if (this->_fd == NULL)
-	{
-		this->_read = Read;
-		char	*tmp = this->_name.ToChar();
-		if (this->_read)
-#if defined (GWIN)
-			fopen_s(&this->_fd, tmp, "r");
-#else
-			this->_fd = fopen(tmp, "r");
-#endif
-		else
-#if defined (GWIN)
-			fopen_s(&this->_fd, tmp, "w");
-#else
-			this->_fd = fopen(tmp, "w");
-#endif
-		delete[] tmp;
-		if (this->_fd != NULL)
-			return (true);
-	}
-	return (false);
+	this->_read = Read;
 }
 
-bool			GIPC::Close(void)
+bool			GIPC::Start(void)
 {
-	if (this->_fd != NULL)
+	this->_mutex.Lock();
+	bool	exist(this->_map.ExistKey(this->_name));
+	this->_mutex.Unlock();
+	if (!exist)
 	{
-		fclose(this->_fd);
+	#if defined (GWIN)
+		SECURITY_ATTRIBUTES sa;
+		sa.bInheritHandle = TRUE;
+		sa.lpSecurityDescriptor = 0;
+		sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+		HANDLE	pip[2];
+		if (!CreatePipe(&pip[0], &pip[1], &sa, 0))
+			return (false);
+	#else
+		int		pip[2];
+		if (pipe(pip) == -1)
+			return (false);
+	#endif
+		this->_mutex.Lock();
+		this->_map[this->_name].PushBack(pip[0]);
+		this->_map[this->_name].PushBack(pip[1]);
+		this->_mutex.Unlock();
 		return (true);
 	}
 	return (false);
 }
 
-void			GIPC::Read(void *buffer, unsigned int Size)
+bool			GIPC::IsReadable(void)
 {
-	if (this->_fd && this->_read && Size && buffer)
+	if (this->_read)
 	{
-		size_t	result = fread(buffer, Size, 1, this->_fd);
-		if (result != Size)
-			throw GException("GIPC", "Error Fread asked : " + GString(Size) + " Read : " + GString(result));
+		this->_mutex.Lock();
+		bool	exist(this->_map.ExistKey(this->_name));
+		this->_mutex.Unlock();
+		if (!exist)
+			return (false);
+		bool	ok(true);
+		this->_mutex.Lock();
+		if (!GetFileSize(this->_map[this->_name][0], NULL))
+			ok = false;
+		this->_mutex.Unlock();
+		return (ok);
 	}
+	return (false);
 }
 
-void			GIPC::Write(void *buffer, unsigned int Size)
+bool			GIPC::Read(void *buffer, unsigned int Size)
 {
-	if (this->_fd && this->_read && Size && buffer)
+	if (this->_read && Size && buffer)
 	{
-		size_t	result = fwrite(buffer, Size, 1, this->_fd);
-		if (result != Size)
-			throw GException("GIPC", "Error FWrite asked : " + GString(Size) + " Write : " + GString(result));
+		this->_mutex.Lock();
+		bool	exist(this->_map.ExistKey(this->_name));
+		this->_mutex.Unlock();
+		if (exist)
+		{
+			while (!this->IsReadable())
+				GUSleep(100);
+			this->_mutex.Lock();
+#if defined (GWIN)
+			DWORD	result;
+			ReadFile(this->_map[this->_name][0], buffer, Size, &result, NULL);
+#else
+			size_t	result = read(buffer, Size, this->_map[this->_name][0]);
+#endif
+			this->_mutex.Unlock();
+			if (result != Size)
+				throw GException("GIPC", "Error Fread asked : " + GString(Size) + " Read : " + GString(result));
+			return (true);
+		}
 	}
+	return (false);
 }
 
-void			GIPC::Write(const GString &ToSend)
+bool			GIPC::Write(void *buffer, unsigned int Size)
 {
-	if (this->_fd && this->_read)
+	if (!this->_read && Size && buffer)
 	{
-		char	*tmp = ToSend.ToChar();
-		size_t	result = fwrite(tmp, ToSend.Size(), 1, this->_fd);
-		delete[] tmp;
-		if (result != ToSend.Size())
-			throw GException("GIPC", "Error FWrite asked : " + GString(ToSend.Size()) + " Write : " + GString(result));
+		this->_mutex.Lock();
+		bool	exist(this->_map.ExistKey(this->_name));
+		this->_mutex.Unlock();
+		if (exist)
+		{
+			this->_mutex.Lock();
+#if defined (GWIN)
+			DWORD	result;
+			WriteFile(this->_map[this->_name][1], buffer, Size, &result, NULL);
+#else
+			size_t	result = fwrite(buffer, Size, 1, this->_map[this->_name][1]);
+#endif
+			this->_mutex.Unlock();
+			if (result != Size)
+				throw GException("GIPC", "Error FWrite asked : " + GString(Size) + " Write : " + GString(result));
+			return (true);
+		}
 	}
+	return (false);
+}
+
+bool			GIPC::Write(const GString &ToSend)
+{
+	if (!this->_read && !ToSend.IsEmpty())
+	{
+		this->_mutex.Lock();
+		bool	exist(this->_map.ExistKey(this->_name));
+		this->_mutex.Unlock();
+		if (exist)
+		{
+			char	*tmp = ToSend.ToChar();
+			this->_mutex.Lock();
+#if defined (GWIN)
+			DWORD	result;
+			WriteFile(this->_map[this->_name][1], tmp, ToSend.Size(), &result, NULL);
+#else
+			size_t	result = fwrite(tmp, ToSend.Size(), 1, this->_map[this->_name][1]);
+#endif
+			this->_mutex.Unlock();
+			delete[] tmp;
+			if (result != ToSend.Size())
+				throw GException("GIPC", "Error FWrite asked : " + GString(ToSend.Size()) + " Write : " + GString(result));
+			return (true);
+		}
+	}
+	return (false);
 }
 

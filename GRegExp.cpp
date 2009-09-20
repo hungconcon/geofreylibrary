@@ -1,391 +1,349 @@
-
 #include "GRegExp.h"
+#include "GException.h"
 
-GStringMap GRegExp::_map = GStringMap();
+using namespace std;
 
-void	GRegExp::AddDefinition(const GString &, const GString &)
+GRegExp::GRegExp(GString preg, GString skip)
 {
-	//this->_map[def] = value; 
+	_preg = preg;
+	_opt = GVector<GRegExpOpt>();
+	_skip = skip;
+	_burn = GString(" \t\n\r");
 }
 
-void	GRegExp::DeleteDefinition(const GString &)
+GVector<GString> *GRegExp::pregMatch(GString &str)
 {
-	//if (this->_map.ExistKey(def))
-		//this->_map.EraseKey(def);
+	str = BurnCorner(str);
+	GString t = this->skipDouble(str);
+	GStringList s = _preg.Explode("(.*)", G::KEEP_EMPTY_PARTS);
+	GVector<GString> r;
+	for (unsigned int i = 0; i < s.Size(); i++)
+	{
+		if (this->isPos(s[i], "(.*)") > -1)
+			r+=GString("");
+		else
+			r+=BurnCorner(GString(s[i]));
+	}
+	if (isNPos(_preg, "(.*)", _preg.Size() - 4) > 0)
+	{
+		r.Erase(r.Size() - 1);
+	}
+	GVector<GString> *res = new GVector<GString>;
+	if (r.Size() < 1)
+	{
+		if (this->isContener(_preg, "(.*)"))
+		{
+			(*res)+= str;
+			return res;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	unsigned int pos = 0;
+	unsigned int reg = 0;
+	if (!this->isContener(_preg, "(.*)"))
+	{
+		if (this->isContener(str,r[0]))
+		{
+			pos+=r[0].Size();
+			r.Erase(0);
+		}
+		else
+			return NULL;
+	}
+	else
+	{
+		if (r.Size() > 0 && r[r.Size() - 1].Size() == 0)
+			r.Erase(r.Size() - 1);
+	}
+	for (; reg < r.Size(); reg++)
+	{
+		int restmp = longRes(&r, pos, reg, str);
+		if (restmp < 0)
+			return NULL;
+		GString mot = "";
+		for (unsigned int i = 0; i < (unsigned int)restmp; i++)
+			mot += str[pos + i];
+		(*res)+= BurnCorner(mot);
+		pos += restmp + r[reg].Size();
+	}
+	if (reg == r.Size() && _preg.Size() > 4 && isNPos(_preg, "(.*)", _preg.Size() - 4) > 0)
+	{
+		int restmp;
+		if (str.Size() == pos && (_opt.Size() == 0 || (_opt.Size() > reg && _opt[reg].getEmp() == EMPTY)))
+			restmp = 0;
+		else
+			restmp = longRes(&r, pos, reg, str);
+		if (restmp < 0)
+			return NULL;
+		if (pos + restmp > str.Size())
+			throw GException("Error RegExp");
+		GString mot = "";
+		for (unsigned int i = 0; i < (unsigned int)restmp; i++)
+			mot += str[pos + i];
+		(*res)+= BurnCorner(mot);
+		return res;
+	}
+	return res;
 }
 
-GRegExp::GRegExp(const GString &re)
+int GRegExp::isPos(GString str1, GString str2)
 {
-	this->_regexp = re;
+	if (str1.Size() < str2.Size())
+		return -1;
+	for (unsigned int i = 0; i <= str1.Size() - str2.Size(); i++)
+	{
+		unsigned int j = 0;
+		while (str1[i + j] == str2[j] && j < str2.Size())
+			j++;
+		if (j == str2.Size())
+			return i;
+	}
+	return -1;
 }
+
+int GRegExp::isNPos(GString str1, GString str2, unsigned int pos)
+{
+	if (str1.Size() + pos < str2.Size())
+		return -1;
+	for (unsigned int i = pos; i <= str1.Size() - str2.Size(); i++)
+	{
+		unsigned int j = 0;
+		while (str1[i + j] == str2[j] && j < str2.Size())
+			j++;
+		if (j == str2.Size())
+			return i;
+	}
+	return -1;
+}
+
 
 GRegExp::~GRegExp(void)
 {
 
 }
 
-void	GRegExp::SetRegExp(const GString &re)
+GString GRegExp::skipDouble(GString str)
 {
-	this->_regexp = re;
-}
-
-void	GRegExp::SetPattern(const GString &re)
-{
-	this->_regexp = re;
-}
-
-GString	GRegExp::ReToPost(const GString &rere)
-{
-	GString re(rere);
-	int nalt, natom;
-	GString dst;
-	struct 
+	GString res("");
+	for (unsigned int i = 0; i < str.Size() - 1; i++)
 	{
-		int nalt;
-		int natom;
-	} paren[100], *p;
-	p = paren;
-	nalt = 0;
-	natom = 0;
-	for(unsigned int i = 0; i < re.Size(); ++i)
-	{
-		switch(re[i])
+		if (str[i] == str[i + 1])
 		{
-		case '(':
-			if(natom > 1)
+			unsigned int j = 0;
+			while (j < _skip.Size() && _skip[j] != str[i])
+				j++;
+			if (j == _skip.Size())
+				res += str[i];
+		}
+		else
+			res += str[i];
+	}
+	res += str[str.Size() - 1];
+	return res;
+}
+
+int GRegExp::longRes(GVector<GString> *res, unsigned int pos, unsigned int reg, GString &str)
+{
+	if ( pos > str.Size() || res->Size() < reg)
+		return -1;
+	if (!res || res->Size() == reg)
+	{
+		if (this->_opt.Size() == 0 || (this->_opt.Size() > reg && (_opt[reg].getObliWord().Size() == 0)))
+		{
+			if (_opt.Size() != 0)
 			{
-				--natom;
-				dst += '.';
+				GString tmp = _opt[reg].getStopChar();
+				for (unsigned int i = pos; i < str.Size(); i++)
+					for (unsigned int j = 0; j < tmp.Size(); j++)
+						if (tmp[j] == str[i])
+							return -1;
+				if (_opt[reg].getEmp() == NOEMPTY && (str.Size() - pos) == 0)
+					return -1;
+				return str.Size() - pos;
 			}
-			if(p >= paren+100)
-				return NULL;
-			p->nalt = nalt;
-			p->natom = natom;
-			p++;
-			nalt = 0;
-			natom = 0;
-			break;
-		case '|':
-			if (natom == 0)
-				return NULL;
-			while(--natom > 0)
+			return str.Size() - pos;
+		}
+		return str.Size();
+	}
+	if (this->_opt.Size() == 0 || (this->_opt.Size() > reg && (_opt[reg].getObliWord().Size() == 0)))
+	{
+		unsigned int i = pos;
+		while (i < str.Size() - (*res)[reg].Size() + 1)
+		{
+			if (this->_opt.Size() > reg)
 			{
-				dst += '.';
+				GString tmp = _opt[reg].getStopChar();
+				for (unsigned int j = 0; j < tmp.Size(); j++)
+				{
+					if (tmp[j] == str[i])
+					{
+						if (i - pos < 0)
+							return -1;
+						else if (this->_opt.Size() == 0 || (this->_opt.Size() > reg && _opt[reg].getEmp() == EMPTY))
+							return i - pos;
+						else if (i - pos > 0)
+							return i - pos;
+						return -1;
+					}
+				}
 			}
-			nalt++;
-			break;
-		case ')':
-			if(p == paren)
-				return ("");
-			if(natom == 0)
-				return ("");
-			while(--natom > 0)
-				dst += '.';
-			for(; nalt > 0; nalt--)
-				dst += '|';
-			--p;
-			nalt = p->nalt;
-			natom = p->natom;
-			natom++;
-			break;
-		case '*':
-		case '+':
-		case '?':
-			if(natom == 0)
-				return NULL;
-			dst += re[i];
-			break;
-		default:
-			if(natom > 1){
-				--natom;
-				dst += '.';
+			if (_opt.Size() > reg + 1 && _opt[reg + 1].getStopChar() == "" && _opt[reg + 1].getObliWord().Size() == 0)
+			{
+				if (_opt[reg].getStopChar().Size() == 0 && _opt[reg].getObliWord().Size() == 0)
+				{
+					unsigned int j = 0;
+					while ((*res)[reg].Size() > j && (*res)[reg][j] == str[i + j])
+						j++;
+					if (j == (*res)[reg].Size())
+						return i - pos;
+				}
+				i++;
+			}	
+			else
+			{
+				unsigned int j = 0;
+				if ((*res)[reg].Size() == 0)
+				{
+					if (this->_opt.Size() > reg && _opt[reg].getEmp() == NOEMPTY && (i - pos) > 0)
+					{
+						if (longRes(res, i, reg + 1, str) != -1)
+							return i - pos;
+					}
+					else
+					{
+						if (this->_opt.Size() <= reg || (this->_opt.Size() > reg && _opt[reg].getEmp() == EMPTY))
+							return i - pos;
+					}
+				}
+				else
+				{
+					while ((*res)[reg].Size() > j && (*res)[reg][j] == str[i + j])
+						j++;
+				/* test fin avec (.*)t sans opt*/
+					if (j == (*res)[reg].Size())
+					{
+						if (this->_opt.Size() > reg)
+						{
+							if ((_opt[reg].getEmp() == NOEMPTY && (i - pos) > 1) || _opt[reg].getEmp() == EMPTY)
+								if ((reg + 1 < res->Size()) || (reg + 1 == res->Size() && str.Size() == i + (*res)[reg].Size()))
+									return i - pos;
+						}
+						else
+						{
+							if ((reg + 1 < res->Size()) || (reg + 1 == res->Size() && str.Size() == i + (*res)[reg].Size()))
+								return i - pos;
+						}
+					}
+				}
+				i++;
 			}
-			dst += re[i];
-			natom++;
-			break;
 		}
+		return -1;
 	}
-	if(p != paren)
-		return NULL;
-	while(--natom > 0)
-		dst += '.';
-	for(; nalt > 0; nalt--)
-		dst += '|';
-	return (dst);
-}
-
-
-
-
-enum
-{
-	Match = 256,
-	Split = 257
-};
-
-
-State matchstate = { Match };	/* matching state */
-int nstate;
-
-/* Allocate and initialize State */
-State*
-state(int c, State *out, State *out1)
-{
-	State *s;
-	
-	nstate++;
-	s = (State *)malloc(sizeof(*s));
-	s->lastlist = 0;
-	s->c = c;
-	s->out = out;
-	s->out1 = out1;
-	return s;
-}
-
-/*
- * A partially built NFA without the matching state filled in.
- * Frag.start points at the start state.
- * Frag.out is a list of places that need to be set to the
- * next state for this fragment.
- */
-typedef struct Frag Frag;
-typedef union Ptrlist Ptrlist;
-struct Frag
-{
-	State *start;
-	Ptrlist *out;
-};
-
-/* Initialize Frag struct. */
-Frag
-frag(State *start, Ptrlist *out)
-{
-	Frag n = { start, out };
-	return n;
-}
-
-/*
- * Since the out pointers in the list are always 
- * uninitialized, we use the pointers themselves
- * as storage for the Ptrlists.
- */
-union Ptrlist
-{
-	Ptrlist *next;
-	State *s;
-};
-
-/* Create singleton list containing just outp. */
-Ptrlist*
-list1(State **outp)
-{
-	Ptrlist *l;
-	
-	l = (Ptrlist*)outp;
-	l->next = NULL;
-	return l;
-}
-
-/* Patch the list of states at out to point to start. */
-void
-patch(Ptrlist *l, State *s)
-{
-	Ptrlist *next;
-	
-	for(; l; l=next){
-		next = l->next;
-		l->s = s;
-	}
-}
-
-/* Join the two lists l1 and l2, returning the combination. */
-Ptrlist*
-append(Ptrlist *l1, Ptrlist *l2)
-{
-	Ptrlist *oldl1;
-	
-	oldl1 = l1;
-	while(l1->next)
-		l1 = l1->next;
-	l1->next = l2;
-	return oldl1;
-}
-
-
-State	*GRegExp::PostToNFA(const GString &post)
-{
-	GString postfix(post);
-	Frag stack[1000], *stackp, e1, e2, e;
-	State *s;
-	#define push(s) *stackp++ = s
-	#define pop() *--stackp
-	stackp = stack;
-	for (unsigned int i = 0; i < postfix.Size(); ++i)
+	if (this->_opt.Size() > reg && _opt[reg].getObliWord().Size() > 0)
 	{
-		switch(postfix[i])
-		{
-		default:
-			s = state(postfix[i], NULL, NULL);
-			push(frag(s, list1(&s->out)));
-			break;
-		case '.':
-			e2 = pop();
-			e1 = pop();
-			patch(e1.out, e2.start);
-			push(frag(e1.start, e2.out));
-			break;
-		case '|':
-			e2 = pop();
-			e1 = pop();
-			s = state(Split, e1.start, e2.start);
-			push(frag(s, append(e1.out, e2.out)));
-			break;
-		case '?':	/* zero or one */
-			e = pop();
-			s = state(Split, e.start, NULL);
-			push(frag(s, append(e.out, list1(&s->out1))));
-			break;
-		case '*':
-			e = pop();
-			s = state(Split, e.start, NULL);
-			patch(e.out, s);
-			push(frag(s, list1(&s->out1)));
-			break;
-		case '+':
-			e = pop();
-			s = state(Split, e.start, NULL);
-			patch(e.out, s);
-			push(frag(e.start, list1(&s->out1)));
-			break;
+		GVector<GString> tmp = _opt[reg].getObliWord();
+		for (unsigned int i = 0; i < tmp.Size(); i++)
+		{	
+			if (tmp[i].Size() <= str.Size() + pos)
+			{
+				unsigned int j = 0;
+				while (j < tmp[i].Size() && tmp[i][j] == str[pos + j])
+					j++;
+				if (j == tmp[i].Size())
+				{
+					if (reg == res->Size() && str.Size() == pos + j)
+						return j;
+					if (reg < res->Size())
+					{
+						unsigned int k = 0;
+						while (k < str.Size() && k < (*res)[reg].Size() && str[k + pos + j] == (*res)[reg][k])
+							k++;
+
+						/*test fin de chaine */
+						if ((*res)[reg].Size() == k)
+							return tmp[i].Size();
+					}
+				}
+			}
 		}
+		return -1;
 	}
-	e = pop();
-	if(stackp != stack)
-		return NULL;
-
-	patch(e.out, &matchstate);
-	return e.start;
-#undef pop
-#undef push
+	return -1;
 }
 
-typedef struct List List;
-
-List l1, l2;
-static int listid;
-
-void addstate(List*, State*);
-void step(List*, int, List*);
-
-
-List*
-startlist(State *start, List *l)
+/* if str2 == str1 */
+bool GRegExp::isContener(GString str1, GString str2)
 {
-	l->n = 0;
-	listid++;
-	addstate(l, start);
-	return l;
+	if (str2.Size() > str1.Size())
+		return false;
+	unsigned int i = 0;
+	while (i < str2.Size() && str1[i] == str2[i])
+		i++;
+	if (i == str2.Size())
+		return true;
+	return false;
 }
 
-/* Check whether state list contains a match. */
-int
-ismatch(List *l)
+void GRegExp::addOption(GRegExpOpt &opt)
 {
-	int i;
-
-	for(i=0; i<l->n; i++)
-		if(l->s[i] == &matchstate)
-			return 1;
-	return 0;
+	_opt.PushBack(opt);
 }
 
-/* Add s to l, following unlabeled arrows. */
-void
-addstate(List *l, State *s)
+GString GRegExp::getBurn() const
 {
-	if(s == NULL || s->lastlist == listid)
-		return;
-	s->lastlist = listid;
-	if(s->c == Split){
-		/* follow unlabeled arrows */
-		addstate(l, s->out);
-		addstate(l, s->out1);
-		return;
-	}
-	l->s[l->n++] = s;
+	return _burn;
+}
+void GRegExp::setBurn(GString burn)
+{
+	_burn = burn;
 }
 
-/*
- * Step the NFA from the states in clist
- * past the character c,
- * to create next NFA state set nlist.
- */
-void
-step(List *clist, int c, List *nlist)
+GString GRegExp::BurnCorner(GString str)
 {
-	int i;
-	State *s;
-
-	listid++;
-	nlist->n = 0;
-	for(i=0; i<clist->n; i++){
-		s = clist->s[i];
-		if(s->c == c)
-			addstate(nlist, s->out);
-	}
+	if (_burn.Size() == 0)
+		return str;
+	GString res;
+	int l = burnLeft(str);
+	int r = burnRight(str);
+	if (r - l <= 0 || r < 0 || l < 0)
+		return str;
+	for (unsigned int i = (unsigned int)l; i <= (unsigned int)r; i++)
+		res += str[i];
+	return (GString(res));
 }
 
-/* Run NFA to determine whether it matches s. */
-int GEXPORTED
-match(State *start, char *s)
+int GRegExp::burnLeft(GString str)
 {
-	int c;
-	List *clist, *nlist, *t;
-
-	clist = startlist(start, &l1);
-	nlist = &l2;
-	for(; *s; s++){
-		c = *s & 0xFF;
-		step(clist, c, nlist);
-		t = clist; clist = nlist; nlist = t;	/* swap clist, nlist */
-	}
-	return ismatch(clist);
-}
-
-
-GString	GRegExp::GStringToRe(const GString &t)
-{
-	return (t);
-}
-
-bool	GRegExp::Match(const GString &str)
-{
-	GString post = this->ReToPost(this->GStringToRe(str));
-	State *start = this->PostToNFA(post.ToChar());
-	l1.s = (State **)malloc(nstate*sizeof l1.s[0]);
-	l2.s = (State **)malloc(nstate*sizeof l2.s[0]);
-	if(match(start, str.ToChar()))
-		return (true);
-	return (false);
-}
-
-GVector<GStringList>	GRegExp::PregMatchAll(const GString &req)
-{
-	GVector<GStringList> res;
-	GString str(req);
-	while (true)
+	for (unsigned int i = 0; i < str.Size(); i++)
 	{
-		GStringList r = this->PregMatch(str);
-		if (r.Size())
+		bool test = false;
+		for (unsigned int j = 0; j < _burn.Size(); j++)
 		{
-			res.PushBack(r);
-			int pos = str.Find(r[r.Size() - 1]);
-			str = str.Substr(pos);
-			continue;
+			if (str[i] == _burn[j])
+				test = true;
 		}
-		break;
+		if (!test)
+			return i;
 	}
-	return (res);
+	return -1;
 }
 
-
+int GRegExp::burnRight(GString str)
+{
+	for (unsigned int i = str.Size(); i > 0; i--)
+	{
+		bool test = false;
+		for (unsigned int j = 0; j < _burn.Size(); j++)
+		{
+			if (str[i] == _burn[j])
+				test = true;
+		}
+		if (!test)
+			return i;
+	}
+	return -1;
+}

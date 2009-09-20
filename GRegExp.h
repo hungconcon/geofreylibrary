@@ -1,50 +1,31 @@
+#ifndef GREGEXP_H__
+#define GREGEXP_H__
 
-#ifndef __GREGEXP_H__
-# define __GREGEXP_H__
+#include "GRegExpOpt.h"
 
-#include "GString.h"
-#include "GVector.hpp"
-#include "GExport.h"
-#include "GMap.hpp"
-
-struct State
+class GRegExp
 {
-	int c;
-	State *out;
-	State *out1;
-	int lastlist;
+public:
+	GRegExp(GString preg="(.*)", GString _skip = "");
+	~GRegExp(void);
+	void addOption(GRegExpOpt &opt);
+	GVector<GString> *pregMatch(GString &str);
+	static int isPos(GString str1, GString str2);
+	static int isNPos(GString str1, GString str2, unsigned int pos);
+	GString skipDouble(GString str);
+	int longRes(GVector<GString> *res,unsigned int pos, unsigned int reg, GString &str);
+	static bool isContener(GString str1, GString str2);
+	GString getBurn() const;
+	void setBurn(GString burn);
+	GString BurnCorner(GString str);
+	int burnLeft(GString str);
+	int burnRight(GString str);
+
+private:
+	GVector<GRegExpOpt> _opt;
+	GString _preg;
+	GString _skip;
+	GString _burn;
 };
-
-struct List
-{
-	State **s;
-	int n;
-};
-
-class GEXPORTED GRegExp
-{
-	public:
-		GRegExp(const GString &);
-		~GRegExp(void);
-
-		void					AddDefinition(const GString &, const GString &);
-		void					DeleteDefinition(const GString &);
-		void					SetRegExp(const GString &);
-		void					SetPattern(const GString &);
-		bool					Match(const GString &);
-		GVector<GStringList>	PregMatchAll(const GString &);
-		GStringList				PregMatch(const GString &);
-	private:
-		static GStringMap	_map;		
-		GString				_regexp;
-
-		GString				GStringToRe(const GString &);
-		GString				ReToPost(const GString &);
-		State				*PostToNFA(const GString &);
-
-};
-
 
 #endif
-
-

@@ -47,6 +47,11 @@ class GEXPORTED GImage
 		GString			GetFormat(void) const;
 		void			ConvertToJpeg(void);
 		void			ConvertToBmp(const GString &FileName);
+		void			MirrorVertical(void);
+		void			MirrorHorizontal(void);
+		void			RotationRight(void);
+		void			RotationLeft(void);
+		void			Rotation(void);
 		
 
 	private:

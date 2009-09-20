@@ -1,5 +1,6 @@
 
 #include "GImage.h"
+#include "GSwap.hpp"
 
 GImage::GImage(const GString &File) : _file(File)
 {
@@ -103,20 +104,71 @@ void			GImage::ConvertToBmp(const GString &FileName)
 	f.Write(&Type, sizeof(Type));
 	f.Write(&HeaderFile, sizeof(HeaderFile));
 	f.Write(&BmpHeader, sizeof(BmpHeader));
-	for (unsigned int j = 0; j < this->_height; ++j)
+	unsigned int j = 0;
+	for (; j < this->_height; ++j)
 	{
 		unsigned int i = 0;
 		for (; i < this->_width; ++i)
 			f.Write(&this->_imageRVB[i][j], sizeof(GColorRVB));
-		if (i * 3 < line)	
+		if ((i * 3) < line)	
 		{
 			GString	Empty(GString::GetBuffer("\0", 1));
 			GString	str;
-			for (; i * 3 < line; i++)
+			for (; (i * 3) < line; i++)
 				str += Empty;
 			f.Write(str);
 		}
+		if (this->_height % 4 != 0)
+			f.Write(GString::GetBuffer("\0\0", 2));
 	}
 	f.Close();
+}
+
+void			GImage::MirrorVertical(void)
+{
+	for (unsigned int i = 0; i < this->_width / 2; ++i)
+		for (unsigned int j = 0; j < this->_height; ++j)
+		{
+			GSwap(this->_imageRVB[i][j], this->_imageRVB[this->_width - i - 1][j]);
+		}
+}
+
+void			GImage::MirrorHorizontal(void)
+{
+	for (unsigned int i = 0; i < this->_width; ++i)
+		for (unsigned int j = 0; j < this->_height / 2; ++j)
+		{
+			GSwap(this->_imageRVB[i][j], this->_imageRVB[i][this->_height - j]);
+		}
+}
+
+void			GImage::Rotation(void)
+{
+	this->MirrorVertical();
+	this->MirrorHorizontal();
+}
+
+void			GImage::RotationLeft(void)
+{
+	GColorRVB	**tmp = new GColorRVB*[this->_height];
+	for (unsigned int i = 0; i < this->_height; ++i)
+		tmp[i] = new GColorRVB[this->_width];
+
+	/*
+	for (unsigned int j = 0; j < this->_height; ++j)
+		for (unsigned int i = 0; i < this->_width; ++i)
+			tmp[j][i] = this->_imageRVB[i][j];
+	*/
+
+	for (unsigned int i = 0; i < this->_width; ++i)
+		delete[] this->_imageRVB[i];
+	delete[] this->_imageRVB;
+	this->_imageRVB = tmp;
+	
+	GSwap(this->_height, this->_width);
+}
+
+void			GImage::RotationRight(void)
+{
 }
 

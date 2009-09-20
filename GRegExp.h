@@ -8,7 +8,7 @@ class GRegExp
 public:
 	GRegExp(GString preg="(.*)", GString _skip = "");
 	~GRegExp(void);
-	void addOption(GRegExpOpt &opt);
+	void addOption(GRegExpOpt opt);
 	GVector<GString> *pregMatch(GString &str);
 	static int isPos(GString str1, GString str2);
 	static int isNPos(GString str1, GString str2, unsigned int pos);

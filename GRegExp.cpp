@@ -288,7 +288,7 @@ bool GRegExp::isContener(GString str1, GString str2)
 	return false;
 }
 
-void GRegExp::addOption(GRegExpOpt &opt)
+void GRegExp::addOption(GRegExpOpt opt)
 {
 	_opt.PushBack(opt);
 }

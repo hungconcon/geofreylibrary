@@ -27,7 +27,8 @@ class	GEXPORTED GISocketServer : public GISocket
 			ERROR_BIND		= 3,
 			ERROR_ACCEPT	= 4,
 			ERROR_SEND		= 5,
-			ERROR_RECEIVE	= 6
+			ERROR_RECEIVE	= 6,
+			ERROR_SOCKET	= 7
 		};
 };
 

@@ -180,7 +180,7 @@ int GRegExp::longRes(GVector<GString> *res, unsigned int pos, unsigned int reg, 
 				{
 					if (tmp[j] == str[i])
 					{
-						if (i - pos < 0)
+						if ((int)i - (int)pos < 0)
 							return -1;
 						else if (this->_opt.Size() == 0 || (this->_opt.Size() > reg && _opt[reg].getEmp() == EMPTY))
 							return i - pos;

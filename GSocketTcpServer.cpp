@@ -66,12 +66,12 @@ GSocketTcpServer::GSocketTcpServer(unsigned int port, unsigned int maxConnexion)
 	this->_sockaddr.sin_port = htons(this->_port);
 	if (bind(this->_socket,(sockaddr *) &(this->_sockaddr), sizeof (this->_sockaddr)) == SOCKET_ERROR)
 	{
-		this->_lastError = GSocketTcpServer::ERROR_SOCKET;
+		this->_lastError = this->ERROR_SOCKET;
 		throw GException("GSocketTcpServer", "Error bind");
 	}
 	if (listen(this->_socket, this->_maxConnexion) == SOCKET_ERROR)
 	{
-		this->_lastError = GSocketTcpServer::ERROR_SOCKET;
+		this->_lastError = ERROR_SOCKET;
 		throw GException("GSocketTcpServer", "Error listen");
 	}
 #endif

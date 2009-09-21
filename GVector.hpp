@@ -29,6 +29,7 @@ class GEXPORTED GVector
 		
 		void			PushFront(T);
 		void			PushBack(T);
+		void			PushSorted(T);
 		void			Clear(void);
 		void			Erase(unsigned int);
 		void			Delete(const T &);
@@ -76,6 +77,31 @@ GVector<T>::GVector(T elem)
 	this->_begin = list;
 	this->_end = list;
 }
+
+template<typename T>
+GVector<T>::GVector(const GVector &v)
+{
+	this->_begin = NULL;
+	this->_nbElem = 0;
+	this->_end = NULL;
+	GList<T> *l = v._begin;
+	while (l)
+	{
+		this->PushBack(l->_elem);
+		l = l->_next;
+	}
+}
+
+template<typename T>
+GVector<T>::GVector(const std::vector<T> &v)
+{
+	this->_nbElem = 0;
+	this->_begin = NULL;
+	this->_end = NULL;
+	for (unsigned int i = 0; i < v.size(); ++i)
+		this->PushBack(v[i]);
+}
+
 template<typename T>
 GVector<T>::~GVector(void)
 {
@@ -88,6 +114,7 @@ GVector<T>::~GVector(void)
 		delete lnext;
 	}
 }
+
 template<typename T>
 void	GVector<T>::Clear(void)
 {
@@ -103,6 +130,7 @@ void	GVector<T>::Clear(void)
 	this->_end = NULL;
 	this->_nbElem = 0;
 }
+
 template<typename T>
 unsigned int GVector<T>::Size(void) const
 {
@@ -116,6 +144,7 @@ T	GVector<T>::Front(void) const
 		return (this->_begin->_elem);
 	throw GException("GVector", "Empty vector !");
 }
+
 template<typename T>
 T	GVector<T>::Back(void) const
 {
@@ -123,6 +152,7 @@ T	GVector<T>::Back(void) const
 		return (this->_end->_elem);
 	throw GException("GVector", "Empty vector !");
 }
+
 template<typename T>
 bool	GVector<T>::IsEmpty(void) const
 {
@@ -145,7 +175,6 @@ bool	GVector<T>::Contain(const T &e) const
 	return (false);
 }
 
-
 template<typename T>
 int	GVector<T>::IndexOf(T e) const
 {
@@ -161,6 +190,7 @@ int	GVector<T>::IndexOf(T e) const
 	}
 	return (-1);
 }
+
 template<typename T>
 void	GVector<T>::PushBack(T elem)
 {
@@ -176,6 +206,7 @@ void	GVector<T>::PushBack(T elem)
 	this->_end->_next = list;
 	this->_end = list;
 }
+
 template<typename T>
 void	GVector<T>::PushFront(T elem)
 {
@@ -183,6 +214,7 @@ void	GVector<T>::PushFront(T elem)
 	if (this->_begin == NULL)
 	{
 		this->_begin = new GList<T>(elem);
+		this->_end = this->_begin;
 		return ;
 	}
 	GList<T> *list = new GList<T>(elem);
@@ -190,6 +222,23 @@ void	GVector<T>::PushFront(T elem)
 	this->_begin->_previous = list;
 	this->_begin = list;
 }
+
+template<typename T>
+void	GVector<T>::PushSorted(T elem)
+{
+	GList<T>		*p = this->_begin;
+	unsigned int	i = 0;
+	while (p)
+	{
+		if (elem <= p->_elem)
+			break;
+		p = p->_next;
+		i++;
+	}
+	this->Insert(i, elem);
+	this->Sort();
+}
+
 template<typename T>
 T	GVector<T>::PopFront(void)
 {
@@ -201,6 +250,7 @@ T	GVector<T>::PopFront(void)
 	}
 	throw GException("GVector", "Vector is Empty");
 }
+
 template<typename T>
 T	GVector<T>::PopBack(void)
 {
@@ -212,19 +262,7 @@ T	GVector<T>::PopBack(void)
 	}
 	throw GException("GVector", "Vector is Empty");
 }
-template<typename T>
-GVector<T>::GVector(const GVector &v)
-{
-	this->_begin = NULL;
-	this->_nbElem = 0;
-	this->_end = NULL;
-	GList<T> *l = v._begin;
-	while (l)
-	{
-		this->PushBack(l->_elem);
-		l = l->_next;
-	}
-}
+
 template<typename T>
 std::vector<T>	GVector<T>::ToStdVector(void) const
 {
@@ -239,20 +277,16 @@ std::vector<T>	GVector<T>::ToStdVector(void) const
 }
 
 template<typename T>
-GVector<T>::GVector(const std::vector<T> &v)
-{
-	this->_nbElem = 0;
-	this->_begin = NULL;
-	this->_end = NULL;
-	for (unsigned int i = 0; i < v.size(); ++i)
-		this->PushBack(v[i]);
-}
-template<typename T>
 void	GVector<T>::Insert(unsigned int index, const T &elem)
 {
-	this->_nbElem++;
+	if (index == 0)
+	{
+		this->PushFront(elem);
+		return;
+	}
 	if (index < this->_nbElem)
 	{
+		this->_nbElem++;
 		GList<T> *l = this->_begin;
 		unsigned int i = 0;
 		while (l)
@@ -272,9 +306,6 @@ void	GVector<T>::Insert(unsigned int index, const T &elem)
 	else
 		this->PushBack(elem);
 }
-
-
-
 
 template<typename T>
 void	GVector<T>::Erase(unsigned int index)
@@ -322,10 +353,6 @@ void	GVector<T>::Erase(unsigned int index)
 		++i;
 	}
 }
-
-
-
-
 
 template<typename T>
 void	GVector<T>::Delete(const T &e)
@@ -394,9 +421,6 @@ void	GVector<T>::Sort(G::OrderOption g)
 	}
 }
 
-
-
-
 template<typename T>
 T		&GVector<T>::operator[](unsigned int index)
 {	
@@ -413,8 +437,6 @@ T		&GVector<T>::operator[](unsigned int index)
 	}
 	return (l->_elem);
 }
-
-
 
 template<typename T>
 bool	GVector<T>::operator==(const GVector<T> &v)
@@ -433,7 +455,6 @@ bool	GVector<T>::operator==(const GVector<T> &v)
 	return (true);
 }
 
-
 template<typename T>
 GVector<T>	GVector<T>::operator=(const GVector<T> &v)
 {
@@ -448,7 +469,6 @@ GVector<T>	GVector<T>::operator=(const GVector<T> &v)
 	}
 	return (*this);
 }
-
 
 template<typename T>
 bool	GVector<T>::operator!=(const GVector<T> &v)
@@ -505,7 +525,6 @@ GVector<T>		&GVector<T>::operator<<(const GVector<T> &vec)
 	}
 	return (*this);
 }
-
 
 template<typename T>
 GVector<T>		GVector<T>::operator+(const GVector<T> &vec)

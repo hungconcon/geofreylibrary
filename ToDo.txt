@@ -22,4 +22,4 @@ swap DONE
 image				resize rotate filter mirror capcha ?	=> http://xphilipp.developpez.com/articles/filtres/?page=page_3#LIII-A => http://xphilipp.developpez.com/articles/meanshift/
 patterns
 Internationalization
-
+Sorted				(bubble, http://en.wikipedia.org/wiki/Sorting_algorithm)

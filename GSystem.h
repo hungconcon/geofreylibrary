@@ -16,7 +16,12 @@
 #		include <pwd.h>
 #		include <dirent.h>
 #		include <stdio.h>
-
+#		include <sys/ioctl.h>
+#		include <fcntl.h>
+#		include <unistd.h>
+#if defined(GLINUX)
+#		include <linux/cdrom.h>
+#endif
 #endif
 
 class GSystem

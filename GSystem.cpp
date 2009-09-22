@@ -109,6 +109,14 @@ void		GSystem::Open(const GString &Drive)
 #else
 	GString test;
 	test = Drive;
+	int drive;
+	drive = open("/dev/cdrom", O_RDONLY | O_NONBLOCK);
+	if (drive == -1)
+		return ;
+	if (ioctl(drive, CDROMEJECT) == -1)
+		return ;
+	if (close(drive) == -1)
+		return ;
 #endif
 }
 

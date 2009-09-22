@@ -26,3 +26,4 @@ Internationalization
 Sorted				(bubble, http://en.wikipedia.org/wiki/Sorting_algorithm)
 USB				http://acquier.developpez.com/cours/USB/
 RLE				Run Length Encoding (jpg...)
+GAccount			comptes (Sessions)

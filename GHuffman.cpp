@@ -2,7 +2,7 @@
 #include "GHuffman.h"
 #include "GFileInfos.h"
 #include "GFile.h"
-#include "GStr.h"
+#include "GExecutionTime.h"
 
 GSheet::GSheet(void) : _weight(0), _data(0), _left(NULL), _right(NULL)
 {
@@ -167,179 +167,170 @@ std::ostream&	operator<<(std::ostream &os, const GSheet &s)
 	return (os);
 }
 
-GHuffman::GHuffman(const GString &file) : _file(file), _stats(NULL), _nbChar(0), _tree(NULL)
+bool			GHuffman::Compress(const GString &FileIn, const GString &FileOut)
 {
-}
-
-GHuffman::~GHuffman(void)
-{
-	if (this->_stats)
-		delete this->_stats;
-	if (this->_tree)
-		delete this->_tree;
-}
-
-bool			GHuffman::CreateStats(void)
-{
-	GFileInfos	f(this->_file);
-	if (f.Exist() && !this->_stats)
+	GFileInfos	f(FileIn);
+	if (!f.Exist())
+		return (false);
+	GVector<GSheet*>	_treeV;
+	GSheet				*_tree;
+	GString				_content;
+	unsigned int		_nbChar = 0;
+	GFile	fileIn(FileIn);
+	fileIn.Open(true);
+	GHuffmanStats *_stats = new GHuffmanStats[256];
+	_content = fileIn.Read();
+	fileIn.Close();
+	GExecutionTime	time;
+	for (unsigned int i = 0; i < _content.Size(); i++)
 	{
-		GFile	file(this->_file);
-		file.Open(true);
-		this->_stats = new GHuffmanStats[256];
-		this->_content = file.Read();
-		for (unsigned int i = 0; i < this->_content.Size(); i++)
-		{
-			if (this->_stats[(unsigned char)this->_content[i]]._frequence == 0)
-				this->_nbChar++;
-			this->_stats[(unsigned char)this->_content[i]]._frequence++;
-		}
-		file.Close();
-		return (true);
+		if (_stats[(unsigned char)_content[i]]._frequence == 0)
+			_nbChar++;
+		_stats[(unsigned char)_content[i]]._frequence++;
 	}
-	return (false);
-}
-
-bool			GHuffman::CreateTree(void)
-{
-	this->CreateStats();
-	if (this->_stats && this->_treeV.IsEmpty())
-	{
-		for (unsigned int i = 0; i < 256; i++)
-			if (this->_stats[i]._frequence)
-				this->_treeV.PushSorted(GSheet(this->_stats[i]._frequence, i));
-		if (this->_treeV.IsEmpty())
-			return (false);
-		while (this->_treeV.Size() > 1)
+	std::cerr << "Stats         : " << time.Restart() << std::endl;
+	for (unsigned int i = 0; i < 256; i++)
+		if (_stats[i]._frequence)
 		{
-			GSheet	top1(this->_treeV.PopFront());
-			GSheet	top2(this->_treeV.PopFront());
-			this->_treeV.PushSorted(GSheet(top1, top2));
+			unsigned int	pos = _treeV.Size();
+			for (unsigned int j = 0; j < pos; j++)
+				if (_treeV[j]->GetWeight() <= _stats[i]._frequence)
+					pos = j;
+			_treeV.Insert(pos, new GSheet(_stats[i]._frequence, i));
 		}
-		this->_tree = new GSheet(this->_treeV.PopFront());
-		this->Calculate(this->_tree, 0, -1);
-		return (true);
-	}
-	return (false);
-}
-
-bool			GHuffman::Compress(const GString &File)
-{
-	if (this->_stats && !this->_treeV.IsEmpty())
+	std::cerr << "PushFrequence : " << time.Restart() << std::endl;
+	if (_treeV.IsEmpty())
+		return (false);
+	while (_treeV.Size() > 1)
 	{
-		GFile	file(File);
-		file.Open(true);
-		file.Clear();
-		GFileInfos		f(this->_file);
-		GHuffmanHeader	Header;
-		Header._nbChar = this->_nbChar;
-		Header._size = (long)f.Size();
-		int	pos = this->_file.LastIndexOf(".");
-		if (pos == GString::NotFound)
+		GSheet	*top1(_treeV.PopFront());
+		GSheet	*top2(_treeV.PopFront());
+		GSheet	*fusion = new GSheet(top1, top2);
+		unsigned int	pos = _treeV.Size();
+		for (unsigned int i = 0; i < pos; i++)
+			if (_treeV[i]->GetWeight() <= fusion->GetWeight())
+				pos = i;
+		_treeV.Insert(pos, fusion);
+	}
+	std::cerr << "BuitTree    : " << time.Restart() << std::endl;
+	_tree = _treeV.PopFront();
+	std::cerr << _tree << std::endl;
+	std::cerr << "CpTree      : " << time.Restart() << std::endl;
+	Calculate(_stats, _tree, 0, -1);
+	std::cerr << "Calculate   : " << time.Restart() << std::endl;
+	GFile	file(FileOut);
+	file.Open(true);
+	file.Clear();
+	GHuffmanHeader	Header;
+	Header._nbChar = _nbChar;
+	Header._size = (long)f.Size();
+	int	pos = FileIn.LastIndexOf(".");
+	if (pos == GString::NotFound)
+		for (unsigned int i = 0; i < 4; ++i)
+			Header._extension[i] = 0;
+	else
+	{
+		int	dif = FileIn.Size() - pos;
+		if (dif == 0)
 			for (unsigned int i = 0; i < 4; ++i)
 				Header._extension[i] = 0;
 		else
 		{
-			int	dif = this->_file.Size() - pos;
-			if (dif == 0)
-				for (unsigned int i = i; i < 4; ++i)
-					Header._extension[i] = 0;
-			else
-			{
-				pos++;
-				unsigned int i = 0;
-				for (; i < 4 && pos < (int)this->_file.Size(); i++)
-					Header._extension[i] = this->_file[pos++];
-				for (; i < 4; i++)
-					Header._extension[i] = 0;;
-			}
+			pos++;
+			unsigned int i = 0;
+			for (; i < 4 && pos < (int)FileIn.Size(); i++)
+				Header._extension[i] = FileIn[pos++];
+			for (; i < 4; i++)
+				Header._extension[i] = 0;;
 		}
-		file.Write(&Header, sizeof(Header));
-		unsigned int	sizeus = sizeof(unsigned short);
-		unsigned int	sizeuc = sizeof(unsigned char);
-		unsigned int	sizeui = sizeof(unsigned int);
-		unsigned int	sizeex = sizeuc << 3;
-		for (unsigned int i = 0; i < 256; i++)
-		{
-			if (this->_stats[i]._frequence)
-			{
-				file.Write(&this->_stats[i]._nbits, sizeuc);
-				if (this->_stats[i]._nbits < (sizeus << 3))
-					file.Write(&this->_stats[i]._code, sizeus);
-				else
-					file.Write(&this->_stats[i]._code, sizeui);
-				file.Write(&i, sizeuc);
-			}
-		}
-		unsigned int	j = 0;
-		unsigned int	i = 1;
-		long			compteur = 1;
-		long			taille = this->_content.Size();
-		int				temp = 0;
-		unsigned char	c;
-		while (compteur < taille + 1) 
-		{
-			c = this->_content[compteur - 1];
-			temp += ((this->_stats[c]._code) >> (this->_stats[c]._nbits - 1 - j)) & 1;
-			if (i >= sizeex && j >= (this->_stats[c]._nbits - 1))
-			{
-				file.Write(&temp, sizeuc);
-				temp = 0;
-				i = 1;
-				j = 0;
-				compteur++;
-			}
-			else if (i >= sizeex)
-			{
-				file.Write(&temp, sizeuc);
-				temp = 0;
-				i = 1;
-				j++;
-			}
-			else if (j >= (this->_stats[c]._nbits - 1))
-			{
-				temp = temp << 1;
-				i++;
-				compteur++;
-				if (compteur == taille + 1)
-					file.Write(&temp, sizeuc);
-				j = 0;
-			}
-			else
-			{
-				temp = temp << 1;
-				i++;
-				j++;
-			}
-		}
-		file.Close();
-		return (true);
 	}
-	return (false);
+	file.Write(&Header, sizeof(Header));
+	unsigned int	sizeus = sizeof(unsigned short);
+	unsigned int	sizeuc = sizeof(unsigned char);
+	unsigned int	sizeui = sizeof(unsigned int);
+	unsigned int	sizeex = sizeuc << 3;
+	for (unsigned int i = 0; i < 256; i++)
+	{
+		if (_stats[i]._frequence)
+		{
+			file.Write(&_stats[i]._nbits, sizeuc);
+			if (_stats[i]._nbits < (sizeus << 3))
+				file.Write(&_stats[i]._code, sizeus);
+			else
+				file.Write(&_stats[i]._code, sizeui);
+			file.Write(&i, sizeuc);
+		}
+	}
+	std::cerr << "WriteHeader   : " << time.Restart() << std::endl;
+	unsigned int	j = 0;
+	unsigned int	i = 1;
+	long			compteur = 1;
+	long			taille = _content.Size();
+	int				temp = 0;
+	unsigned char	c;
+	while (compteur < taille + 1) 
+	{
+		c = _content[compteur - 1];
+		temp += ((_stats[c]._code) >> (_stats[c]._nbits - 1 - j)) & 1;
+		if (i >= sizeex && j >= (_stats[c]._nbits - 1))
+		{
+			file.Write(&temp, sizeuc);
+			temp = 0;
+			i = 1;
+			j = 0;
+			compteur++;
+		}
+		else if (i >= sizeex)
+		{
+			file.Write(&temp, sizeuc);
+			temp = 0;
+			i = 1;
+			j++;
+		}
+		else if (j >= (_stats[c]._nbits - 1))
+		{
+			temp = temp << 1;
+			i++;
+			compteur++;
+			if (compteur == taille + 1)
+				file.Write(&temp, sizeuc);
+			j = 0;
+		}
+		else
+		{
+			temp = temp << 1;
+			i++;
+			j++;
+		}
+	}
+	std::cerr << "WriteFile    : " << time.Restart() << std::endl;
+	file.Close();
+	delete[] _stats;
+	return (true);
 }
 
-void			GHuffman::Calculate(GSheet *a, int code, int n)
+void			Calculate(GHuffmanStats *_stats, GSheet *a, int code, int n)
 {
-	if (a && this->_stats)
+	if (a && _stats)
 	{
 		if (!a->IsNode())
 		{
-			this->_stats[a->GetData()]._code = code;
-			this->_stats[a->GetData()]._nbits = n + 1;
+			_stats[a->GetData()]._code = code;
+			_stats[a->GetData()]._nbits = n + 1;
 		}
 		else
 		{
 			if (a->GetLeft())
-				this->Calculate(a->GetLeft(), code << 1, n + 1);
+				Calculate(_stats, a->GetLeft(), code << 1, n + 1);
 			if (a->GetRight())
-				this->Calculate(a->GetRight(), (code << 1) + 1, n + 1);
+				Calculate(_stats, a->GetRight(), (code << 1) + 1, n + 1);
 		}
 	}
 }
 
-bool			GHuffman::Decompress(const GString &File)
+bool			GHuffman::Decompress(const GString &FileIn, const GString &FileOut)
 {
-	GFileInfos	f(this->_file);
+	GFileInfos	f(FileIn);
 	if (f.Exist())
 	{
 		unsigned int	code = 0;
@@ -355,10 +346,10 @@ bool			GHuffman::Decompress(const GString &File)
 		unsigned int	sizeex = sizeuc << 3;
 
 		GSheet			*r = new GSheet;
-		GFile			out(File);
+		GFile			out(FileOut);
 		out.Clear();
 		out.Open(true);
-		GFile			file(this->_file);
+		GFile			file(FileIn);
 		file.Open(true);
 		file.Read(&Header, sizeof(Header));
 		unsigned int i = 0;
@@ -368,14 +359,14 @@ bool			GHuffman::Decompress(const GString &File)
 			file.Read(&codeencours, sizeuc);
 			(codeencours < (sizeuc << 3)) ? file.Read(&code, sizeus) : file.Read(&code, sizeui);
 			file.Read(&carac, sizeuc);
-			this->BuildTree(r, codeencours, code, carac);
+			BuildTree(r, codeencours, code, carac);
 		}
 		i = 0;
 		unsigned int j = 0;
 		file.Read(&codeencours, sizeuc);	
 		while (k < Header._size + 1)
 		{
-			recherche = this->Find(code, j, r, &carac);
+			recherche = Find(code, j, r, &carac);
 			if (i < sizeex && recherche == false)
 			{
 				code = code << 1;
@@ -412,7 +403,7 @@ bool			GHuffman::Decompress(const GString &File)
 	return (false);
 }
 
-void			GHuffman::BuildTree(GSheet *r, int nb, int code, unsigned char c)
+void			BuildTree(GSheet *r, int nb, int code, unsigned char c)
 {
 	if (nb == 1)
 	{
@@ -425,17 +416,17 @@ void			GHuffman::BuildTree(GSheet *r, int nb, int code, unsigned char c)
 	{
 		if (r->GetLeft() == NULL)
 			r->SetLeft(new GSheet);
-		this->BuildTree(r->GetLeft(), nb - 1, code, c);
+		BuildTree(r->GetLeft(), nb - 1, code, c);
 	}
 	else
 	{
 		if (r->GetRight() == NULL)
 			r->SetRight(new GSheet);
-		this->BuildTree(r->GetRight(), nb - 1, code, c);
+		BuildTree(r->GetRight(), nb - 1, code, c);
 	}
 }
 
-bool			GHuffman::Find(unsigned int code, unsigned int nb, GSheet *r, unsigned char* cPtr)
+bool			Find(unsigned int code, unsigned int nb, GSheet *r, unsigned char* cPtr)
 {
 	unsigned int temp;
 	if (!nb && !r->IsNode())
@@ -449,14 +440,14 @@ bool			GHuffman::Find(unsigned int code, unsigned int nb, GSheet *r, unsigned ch
 		if (!(temp & 1))
 		{
 			if (r->GetLeft())
-				return (this->Find(code, nb - 1, r->GetLeft(), cPtr));
+				return (Find(code, nb - 1, r->GetLeft(), cPtr));
 			else
 				return (false);
 		}
 		else
 		{
 			if (r->GetRight())
-				return (this->Find(code, nb - 1, r->GetRight(), cPtr));
+				return (Find(code, nb - 1, r->GetRight(), cPtr));
 			else
 				return (false);
 		}

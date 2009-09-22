@@ -55,27 +55,16 @@ private:
 	GSheet			*_right;
 };
 
+bool		Find(unsigned int, unsigned int, GSheet *, unsigned char *);
+void		BuildTree(GSheet *, int, int, unsigned char);
+void		Calculate(GHuffmanStats *, GSheet *, int, int);
+
+
 class	GHuffman
 {
 public:
-	GHuffman(const GString &);
-	~GHuffman(void);
-	bool			CreateStats(void);
-	bool			CreateTree(void);
-	bool			Compress(const GString &);
-	bool			Decompress(const GString &);
-
-private:
-	void			Calculate(GSheet *, int, int);
-	void			BuildTree(GSheet *, int, int, unsigned char);
-	bool			Find(unsigned int, unsigned int, GSheet *, unsigned char *);
-
-	GString				_file;
-	GHuffmanStats		*_stats;
-	GVector<GSheet>		_treeV;
-	GSheet				*_tree;
-	GString				_content;
-	unsigned int		_nbChar;
+	static bool		Compress(const GString &, const GString &);
+	static bool		Decompress(const GString &, const GString &);
 };
 
 #endif

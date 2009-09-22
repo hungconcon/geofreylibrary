@@ -32,8 +32,8 @@ GPrecisionTime	GExecutionTime::Stop(void)
 	if (this->_started)
 	{
 		GPrecisionTime	now;
-		return (this->_begin - now);
 		this->_started = false;
+		return (this->_begin - now);
 	}
 	return (GPrecisionTime::Null());
 }

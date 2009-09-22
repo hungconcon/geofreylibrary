@@ -279,24 +279,26 @@ std::vector<T>	GVector<T>::ToStdVector(void) const
 template<typename T>
 void	GVector<T>::Insert(unsigned int index, const T &elem)
 {
-	if (index == 0)
+	if (index == 0 || this->_nbElem == 0)
 	{
 		this->PushFront(elem);
 		return;
 	}
-	if (index < this->_nbElem - 1)
+	if (index < this->_nbElem)
 	{
 		this->_nbElem++;
 		GList<T> *l = this->_begin;
 		unsigned int i = 0;
 		while (l)
 		{
-			if (index == i)
+			if (index - 1 == i)
 			{
 				GList<T> *list = new GList<T>(elem);
 				list->_next = l->_next;
 				list->_previous = l;
 				l->_next = list;
+				if (list->_next == NULL)
+					this->_end = list;
 				return;
 			}
 			l = l->_next;

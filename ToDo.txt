@@ -20,6 +20,9 @@ random DONE
 smartpointer
 swap DONE
 image				resize rotate filter mirror capcha ?	=> http://xphilipp.developpez.com/articles/filtres/?page=page_3#LIII-A => http://xphilipp.developpez.com/articles/meanshift/
+image (jpg)			http://tpecompression.free.fr/?p=jpeg http://r0ro.free.fr/tipe/docs/TIPE.pdf
 patterns
 Internationalization
 Sorted				(bubble, http://en.wikipedia.org/wiki/Sorting_algorithm)
+USB				http://acquier.developpez.com/cours/USB/
+RLE				Run Length Encoding (jpg...)

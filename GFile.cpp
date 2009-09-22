@@ -150,8 +150,6 @@ GString	GFile::Read(void)
 		delete[] buffer;
 		return (ret);
 	}
-	else
-		throw GException("GFile", "This file is not open !");
 	return ("");
 }
 
@@ -173,8 +171,6 @@ GString	GFile::Read(unsigned int Size)
 		delete[] buffer;
 		return (ret);
 	}
-	else
-		throw GException("GFile", "This file is not open !");
 	return ("");
 }
 

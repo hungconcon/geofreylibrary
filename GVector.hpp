@@ -7,6 +7,7 @@
 #include "GWarning.h"
 #include "GException.h"
 #include "GExport.h"
+#include "GSwap.hpp"
 
 template<typename T>
 struct GList
@@ -27,9 +28,9 @@ class GEXPORTED GVector
 		GVector(const std::vector<T> &);
 		~GVector(void);
 		
-		void			PushFront(T);
-		void			PushBack(T);
-		void			PushSorted(T);
+		void			PushFront(const T &);
+		void			PushBack(const T &);
+		void			PushSorted(const T &);
 		void			Clear(void);
 		void			Erase(unsigned int);
 		void			Delete(const T &);
@@ -192,7 +193,7 @@ int	GVector<T>::IndexOf(T e) const
 }
 
 template<typename T>
-void	GVector<T>::PushBack(T elem)
+void	GVector<T>::PushBack(const T &elem)
 {
 	this->_nbElem++;
 	if (this->_begin == NULL)
@@ -208,7 +209,7 @@ void	GVector<T>::PushBack(T elem)
 }
 
 template<typename T>
-void	GVector<T>::PushFront(T elem)
+void	GVector<T>::PushFront(const T &elem)
 {
 	this->_nbElem++;
 	if (this->_begin == NULL)
@@ -224,7 +225,7 @@ void	GVector<T>::PushFront(T elem)
 }
 
 template<typename T>
-void	GVector<T>::PushSorted(T elem)
+void	GVector<T>::PushSorted(const T &elem)
 {
 	GList<T>		*p = this->_begin;
 	unsigned int	i = 0;
@@ -236,7 +237,6 @@ void	GVector<T>::PushSorted(T elem)
 		i++;
 	}
 	this->Insert(i, elem);
-	this->Sort();
 }
 
 template<typename T>
@@ -284,7 +284,7 @@ void	GVector<T>::Insert(unsigned int index, const T &elem)
 		this->PushFront(elem);
 		return;
 	}
-	if (index < this->_nbElem)
+	if (index < this->_nbElem - 1)
 	{
 		this->_nbElem++;
 		GList<T> *l = this->_begin;
@@ -395,9 +395,7 @@ void	GVector<T>::Sort(G::OrderOption g)
 				{
 					if (l->_elem < l->_previous->_elem)
 					{
-						T save = l->_elem;
-						l->_elem = l->_previous->_elem;
-						l->_previous->_elem = save;
+						GSwap(l->_elem, l->_previous->_elem);
 						test = true;
 					}
 					l = l->_next;
@@ -409,9 +407,7 @@ void	GVector<T>::Sort(G::OrderOption g)
 				{
 					if (l->_elem > l->_previous->_elem)
 					{
-						T save = l->_elem;
-						l->_elem = l->_previous->_elem;
-						l->_previous->_elem = save;
+						GSwap(l->_elem, l->_previous->_elem);
 						test = true;
 					}
 					l = l->_next;

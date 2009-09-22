@@ -29,8 +29,9 @@ GSheet::GSheet(GSheet *s)
 	}
 }
 
-GSheet::GSheet(long long weight, unsigned char data) : _weight(weight), _data(data), _left(NULL), _right(NULL)
+GSheet::GSheet(long long weight, unsigned char data) : _weight(weight), _left(NULL), _right(NULL)
 {
+	this->_data = data;
 	this->_node = false;
 }
 
@@ -113,22 +114,18 @@ GSheet			*GSheet::GetRight(void)
 	return (this->_right);
 }
 
-void			GSheet::SetRight(unsigned char c, bool node)
+void			GSheet::SetLeft(GSheet *left)
 {
-	std::cerr << "Set Right  : " << c << " " << node << std::endl;
-	if (this->_right)
-		delete this->_right;
-	this->_right = new GSheet(0, c);
-	this->_node = node;
-}
-
-void			GSheet::SetLeft(unsigned char c, bool node)
-{
-	std::cerr << "Set Left  : " << c << " " << node << std::endl;
 	if (this->_left)
 		delete this->_left;
-	this->_left = new GSheet(0, c);
-	this->_node = node;
+	this->_left = left;
+}
+
+void			GSheet::SetRight(GSheet *right)
+{
+	if (this->_right)
+		delete this->_right;
+	this->_right = right;
 }
 
 std::ostream&	operator<<(std::ostream &os, GSheet *s)
@@ -197,7 +194,6 @@ bool			GHuffman::CreateStats(void)
 				this->_nbChar++;
 			this->_stats[(unsigned char)this->_content[i]]._frequence++;
 		}
-		
 		file.Close();
 		return (true);
 	}
@@ -214,14 +210,13 @@ bool			GHuffman::CreateTree(void)
 				this->_treeV.PushSorted(GSheet(this->_stats[i]._frequence, i));
 		if (this->_treeV.IsEmpty())
 			return (false);
-		while (this->_treeV.Size() != 1)
+		while (this->_treeV.Size() > 1)
 		{
 			GSheet	top1(this->_treeV.PopFront());
 			GSheet	top2(this->_treeV.PopFront());
-			GSheet	fusion(GSheet(top1, top2));
-			this->_treeV.PushSorted(fusion);
+			this->_treeV.PushSorted(GSheet(top1, top2));
 		}
-		this->_tree = new GSheet(this->_treeV.Front());
+		this->_tree = new GSheet(this->_treeV.PopFront());
 		this->Calculate(this->_tree, 0, -1);
 		return (true);
 	}
@@ -329,15 +324,15 @@ void			GHuffman::Calculate(GSheet *a, int code, int n)
 	{
 		if (!a->IsNode())
 		{
-			this->_stats[a->GetData()]._code = (code = (code << 1) + a->IsNode());
+			this->_stats[a->GetData()]._code = code;
 			this->_stats[a->GetData()]._nbits = n + 1;
 		}
 		else
 		{
 			if (a->GetLeft())
-				this->Calculate(a->GetLeft(), code, n + 1);
+				this->Calculate(a->GetLeft(), code << 1, n + 1);
 			if (a->GetRight())
-				this->Calculate(a->GetRight(), code, n + 1);
+				this->Calculate(a->GetRight(), (code << 1) + 1, n + 1);
 		}
 	}
 }
@@ -375,15 +370,12 @@ bool			GHuffman::Decompress(const GString &File)
 			file.Read(&carac, sizeuc);
 			this->BuildTree(r, codeencours, code, carac);
 		}
-		std::cerr << r << std::endl;
 		i = 0;
 		unsigned int j = 0;
 		file.Read(&codeencours, sizeuc);	
 		while (k < Header._size + 1)
 		{
-			std::cerr << "Find" << std::endl;
 			recherche = this->Find(code, j, r, &carac);
-			std::cerr << "Finded : " << recherche << " " << carac << std::endl;
 			if (i < sizeex && recherche == false)
 			{
 				code = code << 1;
@@ -425,20 +417,20 @@ void			GHuffman::BuildTree(GSheet *r, int nb, int code, unsigned char c)
 	if (nb == 1)
 	{
 		if (!(code & 1))
-			r->SetLeft(c, false);
+			r->SetLeft(new GSheet(0, c));
 		else
-			r->SetRight(c, true);
+			r->SetRight(new GSheet(0, c));
 	}
 	else if (!((code >> (nb - 1)) & 1))
 	{
 		if (r->GetLeft() == NULL)
-			r->SetLeft('\0', false);
+			r->SetLeft(new GSheet);
 		this->BuildTree(r->GetLeft(), nb - 1, code, c);
 	}
 	else
 	{
 		if (r->GetRight() == NULL)
-			r->SetRight('\0', true);
+			r->SetRight(new GSheet);
 		this->BuildTree(r->GetRight(), nb - 1, code, c);
 	}
 }

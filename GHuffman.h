@@ -40,8 +40,8 @@ public:
 	GSheet			&operator=(const GSheet &);
 	GSheet			*GetLeft(void);
 	GSheet			*GetRight(void);
-	void			SetRight(unsigned char, bool);
-	void			SetLeft(unsigned char, bool);
+	void			SetRight(GSheet *);
+	void			SetLeft(GSheet *);
 
 	friend std::ostream&	operator<<(std::ostream&, GSheet *);
 	friend std::ostream&	operator<<(std::ostream&, const GSheet &);

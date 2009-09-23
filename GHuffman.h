@@ -4,6 +4,7 @@
 
 #include "GVector.hpp"
 #include "GString.h"
+#include "GExport.h"
 
 #include <iostream>
 
@@ -26,11 +27,8 @@ class	GSheet
 {
 public:
 	GSheet(void);
-	GSheet(GSheet *);
 	GSheet(long long, unsigned char);
-	GSheet(const GSheet &);
 	GSheet(GSheet *, GSheet *);
-	GSheet(const GSheet &, const GSheet &);
 	~GSheet(void);
 
 	long long		GetWeight(void) const;
@@ -60,7 +58,7 @@ void		BuildTree(GSheet *, int, int, unsigned char);
 void		Calculate(GHuffmanStats *, GSheet *, int, int);
 
 
-class	GHuffman
+class	GEXPORTED GHuffman
 {
 public:
 	static bool		Compress(const GString &, const GString &);

@@ -101,16 +101,17 @@ void		GSystem::Open(const GString &Drive)
 	GString cmd = "open " + Drive + " shareable type cdaudio";
 	char *c = cmd.ToChar();
 	mciSendString(c, NULL, 0, NULL);
-	delete c;
+	delete [] c;
 	cmd = "set " + Drive + " door open";
 	c = cmd.ToChar();
 	mciSendString(c, NULL, 0, NULL);
 	delete c;
-#else
-	GString test;
-	test = Drive;
+#elif defined(GLINUX)
+	GString cmd("/etc/" + Drive);
+	char *c = cmd.ToChar();
 	int drive;
-	drive = open("/dev/cdrom", O_RDONLY | O_NONBLOCK);
+	drive = open(c, O_RDONLY | O_NONBLOCK);
+	delete [] c;
 	if (drive == -1)
 		return ;
 	if (ioctl(drive, CDROMEJECT) == -1)
@@ -131,9 +132,18 @@ void		GSystem::Close(const GString &Drive)
 	c = cmd.ToChar();
 	mciSendString(c, NULL, 0, NULL);
 	delete c;
-#else
-	GString test;
-	test = Drive;
+#elif defined(GLINUX)
+	GString cmd("/etc/" + Drive);
+	char *c = cmd.ToChar();
+	int drive;
+	drive = open(c, O_RDONLY | O_NONBLOCK);
+	delete [] c;
+	if (drive == -1)
+		return ;
+	if (ioctl(drive, CDROMCLOSETRAY) == -1)
+		return ;
+	if (close(drive) == -1)
+		return ;
 #endif
 }
 

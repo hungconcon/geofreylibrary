@@ -180,10 +180,14 @@ GString		GDirectory::Pwd(void)
 	if (n == 0)
 		return (this->_path);
 	this->_path = GString(szPath);
-#else
+#elif defined(GBSD)
 	char *path = new char[1024];
 	if (getwd(path) == NULL)
 		throw GException(G::CANNOT_GET_CURRENT_PATH);
+	this->_path = path;
+	delete[] path;
+#elif defined(GLINUX)
+	char *path = get_current_dir_name();
 	this->_path = path;
 	delete[] path;
 #endif

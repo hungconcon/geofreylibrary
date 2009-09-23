@@ -3,6 +3,8 @@
 
 #include "GExport.h"
 
+
+#include <iostream>
 #if defined (GWIN)
 #		include <windows.h>
 #		include <time.h>

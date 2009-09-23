@@ -8,6 +8,7 @@
 #include <tlhelp32.h>
 #		include "windows.h"
 #else
+#		include <stdlib.h>
 #		include <sys/types.h>
 #		include <signal.h>
 #		include <dirent.h>

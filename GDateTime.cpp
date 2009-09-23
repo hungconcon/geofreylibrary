@@ -139,7 +139,7 @@ int			GDateTime::DayWeek(void) const
 }
 bool		GDateTime::IsBisextile(void) const
 {
-	return (this->_tm->tm_year % 4 == 0 && this->_tm->tm_year != 100 || this->_tm->tm_year % 400 == 0);
+	return ((this->_tm->tm_year % 4 == 0 && this->_tm->tm_year) != 100 || this->_tm->tm_year % 400 == 0);
 }
 
 int			GDateTime::GetNumberDayMonth(void) const
@@ -214,7 +214,7 @@ int			GDateTime::GetNumberDayMonth(int m, int y)
 }
 bool		GDateTime::IsBisextile(int y)
 {
-	return (y % 4 == 0 && y != 100 || y % 400 == 0);
+	return ((y % 4 == 0 && y != 100) || y % 400 == 0);
 }
 GString		GDateTime::GetDateTime(const GString &format, G::LanguageOption op)
 {

@@ -6,8 +6,10 @@ GMutex::GMutex(void)
 #if defined (GWIN)
 	InitializeCriticalSection(&this->_cr_sct);
 	this->_mutex = CreateMutex(NULL, false, NULL);
-#else
+#elif defined(GBSD)
 	this->_mutex = PTHREAD_MUTEX_INITIALIZER;
+#elif defined(GLINUX)
+	pthread_mutex_init(&this->_mutex, NULL);
 #endif
 }
 
@@ -31,7 +33,7 @@ void	GMutex::Lock(void)
 void	GMutex::TryLock(void)
 {
 #if defined (GWIN)
-		WaitForSingleObject(this->_mutex, 1);
+	WaitForSingleObject(this->_mutex, 1);
 #else
 	pthread_mutex_trylock(&this->_mutex);
 #endif

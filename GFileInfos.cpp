@@ -117,11 +117,12 @@ GDateTime		GFileInfos::BirthTime(void) const
 	FileTimeToLocalFileTime(&this->_stat.ftCreationTime, &t);
 	FileTimeToSystemTime(&t, &St);
 	return (GDateTime(St.wYear, St.wMonth - 1, St.wDay, St.wHour, St.wMinute, St.wSecond));	
-#else
+#elif defined(GBSD)
 	struct tm *s = new (struct tm);
 	s = gmtime(&(this->_stat.st_birthtime));
-	GDateTime *d = new GDateTime(s->tm_year, s->tm_mon, s->tm_mday, s->tm_hour, s->tm_min, s->tm_sec);
-	return (*d);
+	GDateTime d(s->tm_year, s->tm_mon, s->tm_mday, s->tm_hour, s->tm_min, s->tm_sec);
+	free s;
+	return (d);
 #endif
 }
 

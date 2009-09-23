@@ -17,6 +17,8 @@
 #		include "atlbase.h"
 #		include "atlstr.h"
 #		include "comutil.h"
+#else
+#		include "string.h"
 #endif
 
 #define TRUEGSTR "true"

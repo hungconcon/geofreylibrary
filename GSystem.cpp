@@ -107,7 +107,7 @@ void		GSystem::Open(const GString &Drive)
 	mciSendString(c, NULL, 0, NULL);
 	delete c;
 #elif defined(GLINUX)
-	GString cmd("/etc/" + Drive);
+	GString cmd("/dev/" + Drive);
 	char *c = cmd.ToChar();
 	int drive;
 	drive = open(c, O_RDONLY | O_NONBLOCK);
@@ -133,7 +133,7 @@ void		GSystem::Close(const GString &Drive)
 	mciSendString(c, NULL, 0, NULL);
 	delete c;
 #elif defined(GLINUX)
-	GString cmd("/etc/" + Drive);
+	GString cmd("/dev/" + Drive);
 	char *c = cmd.ToChar();
 	int drive;
 	drive = open(c, O_RDONLY | O_NONBLOCK);

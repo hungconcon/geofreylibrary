@@ -1,0 +1,7 @@
+
+1 - Explicitation des types (signed ou unsigned) certain system non mais le type signed par defaut mais unsigned ...
+    Du coup toujours precisez le SIGNED ou UNSIGNED
+2 - Boucle for interdit, while est ton ami.
+3 - Nom de methode par de _ et mettre en majuscule les different mot : MaMethode..TaGeuleDeCon...
+4 - Ajouter this-> pour l'acces aux attributs.
+5 - Preciser (void) pour une methode dans parametres.

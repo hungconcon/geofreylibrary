@@ -18,7 +18,7 @@ class GEXPORTED GHttp
 		void		SetUser(const GString &, const GString &);
 		void		SetProxy(const GString &, unsigned int port);
 		void		SetProxy(const GString &, unsigned int port, const GString &, const GString &);
-		GString	Get(const GString &);
+		GString		Get(const GString &);
 		void		Post(const GString &, const GString &);
 
 	private:

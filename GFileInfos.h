@@ -6,8 +6,7 @@
 #include "GDateTime.h"
 #include "GExport.h"
 
-#if defined (GWIN)
-#else
+#if defined (GUNIX)
 #		include <sys/types.h>
 #		include <sys/stat.h>
 #endif

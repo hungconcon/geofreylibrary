@@ -121,7 +121,7 @@ GDateTime		GFileInfos::BirthTime(void) const
 	struct tm *s = new (struct tm);
 	s = gmtime(&(this->_stat.st_birthtime));
 	GDateTime d(s->tm_year, s->tm_mon, s->tm_mday, s->tm_hour, s->tm_min, s->tm_sec);
-	free s;
+	delete s;
 	return (d);
 #endif
 }

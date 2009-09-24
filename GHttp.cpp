@@ -9,14 +9,12 @@ GHttp::GHttp(const GString &host, unsigned int port)
 	this->_proxyPass = "";
 	this->_host = host;
 	this->_port = port;
-	this->_socket = new GSocketTcpClient(host, port);
-	this->_socket->Connect();
+	this->_socket.Init();
+	this->_socket.Connect();
 }
 
 GHttp::~GHttp(void)
 {
-	if (this->_socket)
-		delete this->_socket;
 }
 
 void	GHttp::SetUser(const GString &user, const GString &pass)
@@ -41,7 +39,7 @@ void	GHttp::SetProxy(const GString &host, unsigned int port)
 
 void	GHttp::Post(const GString &p, const GString &tab)
 {
-	/*GString page(p);
+	GString page(p);
 	GString	message(tab);
 	if (!page.StartWith("http://"))
 	{
@@ -64,12 +62,11 @@ void	GHttp::Post(const GString &p, const GString &tab)
 	chaine += "\r\n";
 	chaine += message + "\r\n";
 	chaine += "\r\n";
-	this->_socket->Send(chaine);*/
+	this->_socket.Send(chaine);
 }
 
 GString		GHttp::Get(const GString &g)
 {
-	/*
 	GString	page(g);
 	if (!page.StartWith("http://"))
 	{
@@ -92,26 +89,26 @@ GString		GHttp::Get(const GString &g)
 	if (!this->_user.IsEmpty())
 		str += "Authorization: Basic " + GCryptography::GBase64::Encode(this->_user + ":" + this->_pass) + "\r\n";
 	str += "\r\n";
-	this->_socket->Send(str);
-	GString rec("", 0);
+	this->_socket.Send(str);
+	GString rectot;
 	while (true)
 	{
-		rec += this->_socket->Receive();
+		GString rec;
+		rec = this->_socket.Receive();
 		if (rec.Size() < 1024)
 		{
-			GString	sub = GString(rec).Substr(0, GString(rec).Find("\r\n"));
+			rectot += rec;
+			GString	sub = rec.Substr(0, rec.Find("\r\n"));
 			GStringList	tab = sub.Split(" ");
 			if (tab.Size() > 2)
 			{
 				//GESTION DES ERREUR
 			}
-			GString test(rec); 
-			int	pos = GString(rec).Find("\r\n\r\n");
+			int	pos = rec.Find("\r\n\r\n");
 			if (pos != GString::NotFound)
-				break;//this->_response = this->_response.substr(pos + 4);
+				;//this->_response = this->_response.Substr(pos + 4);
 		}
-	}*/
-	GString rec;
-	return (rec);
+	}
+	return (rectot);
 }
 

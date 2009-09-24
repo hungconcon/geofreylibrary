@@ -9,11 +9,12 @@ namespace GIPC
 	#if defined	(GWIN)
 	GMap<GString, GVector<HANDLE> >			GPipe::_map = GMap<GString, GVector<HANDLE> >();
 	#else
-	GMap<GString, GVEctor<int> >			GPipe::_map = GMap<GString, GVector<int> >();
+	GMap<GString, GVector<int> >			GPipe::_map = GMap<GString, GVector<int> >();
 	#endif
 
-	GPipe::GPipe(const GString &Name) : _name(Name), _read(true)
+	GPipe::GPipe(const GString &Name) : _name(Name)
 	{
+		this->_read = true;
 	}
 
 	void			GPipe::SetName(const GString &Name)
@@ -84,7 +85,7 @@ namespace GIPC
 		if (this->_read && Size && buffer)
 		{
 			this->_mutex.Lock();
-			bool	exist(this->_map.ExistKey(this->_name));
+			bool exist(this->_map.ExistKey(this->_name));
 			this->_mutex.Unlock();
 			if (exist)
 			{
@@ -174,7 +175,7 @@ namespace GIPC
 		this->_semid = semget(this->_key, 1, IPC_CREAT | IPC_EXCL | 0666);
 		if (this->_semid == -1)
 			throw GException("GSemaphore", "Error Creation Semaphore");
-		semctl(this->_semid, 0, SET_VAL, 1);
+		semctl(this->_semid, 0, SETVAL, 1);
 		this->_num = this->_sum;
 		this->_sum++;
 #endif

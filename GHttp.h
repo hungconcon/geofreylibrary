@@ -5,10 +5,11 @@
 #include "GString.h"
 #include "GThread.h"
 #include "GMutex.h"
+#include "GExport.h"
 #include "GSocketTcpClient.h"
 #include "GCryptography.h"
 
-class GHttp
+class GEXPORTED GHttp
 {
 	public:
 		GHttp(const GString &, unsigned int port = 80);
@@ -29,7 +30,7 @@ class GHttp
 		unsigned int		_proxyPort;
 		GString				_proxyUser;
 		GString				_proxyPass;
-		GSocketTcpClient	*_socket;
+		GSocketTcpClient	_socket;
 		
 };
 

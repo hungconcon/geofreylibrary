@@ -81,7 +81,8 @@ void			GImage::ConvertToBmp(const GString &FileName)
 	f.Open(true);
 	GBitmapHeaderFile	HeaderFile;
 	GBitmapType			Type;
-	GStrcpy(Type.file_type, "BM", 2);
+	Type.file_type[0] = 'B';
+	Type.file_type[1] = 'M';
 	HeaderFile.reserved = 0;
 	HeaderFile.bitmap_offset = 54;
 	

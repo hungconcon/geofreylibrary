@@ -1,6 +1,7 @@
 
 #include "GIPC.h"
 #include "GSleep.h"
+#include "GFileInfos.h"
 
 namespace GIPC
 {
@@ -72,8 +73,14 @@ namespace GIPC
 				return (false);
 			bool	ok(true);
 			this->_mutex.Lock();
+#if defined (GWIN)
 			if (!GetFileSize(this->_map[this->_name][0], NULL))
 				ok = false;
+#else
+			GFileInfos	f(this->_name);
+			if (f.Size() > 0)
+				ok = false;
+#endif
 			this->_mutex.Unlock();
 			return (ok);
 		}
@@ -96,7 +103,7 @@ namespace GIPC
 				DWORD	result;
 				ReadFile(this->_map[this->_name][0], buffer, Size, &result, NULL);
 	#else
-				size_t	result = read(buffer, Size, this->_map[this->_name][0]);
+				size_t result = read(this->_map[this->_name][0], buffer, Size);
 	#endif
 				this->_mutex.Unlock();
 				if (result != Size)
@@ -121,7 +128,7 @@ namespace GIPC
 				DWORD	result;
 				WriteFile(this->_map[this->_name][1], buffer, Size, &result, NULL);
 	#else
-				size_t	result = fwrite(buffer, Size, 1, this->_map[this->_name][1]);
+				size_t	result = write(this->_map[this->_name][1], buffer, Size);
 	#endif
 				this->_mutex.Unlock();
 				if (result != Size)
@@ -147,7 +154,7 @@ namespace GIPC
 				DWORD	result;
 				WriteFile(this->_map[this->_name][1], tmp, ToSend.Size(), &result, NULL);
 	#else
-				size_t	result = fwrite(tmp, ToSend.Size(), 1, this->_map[this->_name][1]);
+				size_t	result = write(this->_map[this->_name][1], tmp, ToSend.Size());
 	#endif
 				this->_mutex.Unlock();
 				delete[] tmp;

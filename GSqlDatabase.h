@@ -9,14 +9,14 @@
 class GSqlDatabase
 {
 	public:
-		GSqlDatabase();
+		GSqlDatabase(void);
 		~GSqlDatabase(void);
 
-		void	Connect(const GString &, const GString &, const GString &);
+		void	Connect(const GString &Host, const GString &Login, const GString &Pass);
 		void	SelectDatabase(const GString &);
 
 	private:
-		GSocketTcpClient	*_socket;
+		GSocketTcpClient	_socket;
 };
 
 #endif

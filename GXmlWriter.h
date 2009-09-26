@@ -4,7 +4,7 @@
 
 #include "GExport.h"
 #include "GString.h"
-#include "GDeclaration.h"
+#include "G.h"
 #include "GMap.hpp"
 
 class GXmlWriter

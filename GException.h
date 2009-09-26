@@ -3,7 +3,7 @@
 # define __GEXCEPTION_H__
 
 
-#include "GDeclaration.h"
+#include "G.h"
 #include "GExport.h"
 #include <exception>
 

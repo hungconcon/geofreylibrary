@@ -1,86 +1,107 @@
-#ifndef __G_H__
-# define __G_H__
+
+#ifndef __GDEC_H__
+# define __GDEC_H__
+
+namespace G
+{
+		enum LanguageOption
+		{
+			FRENCH,
+			ENGLISH,
+			SPANISH,
+			ITALIAN,
+		};
+
+		enum CaseOption
+		{
+			CASE_SENSITIVE,
+			CASE_INSENSITIVE
+		};
+
+		enum XmlVersion
+		{
+			XML_1_0,
+			XML_1_1
+		};
+
+		enum XmlElement
+		{
+			ELEMENT_ANY,
+			ELEMENT_EMPTY,
+			ELEMENT_PCDATA
+		};
+
+		enum XmlEncoding
+		{
+			UTF8,
+			ISO
+		};
 
 
+		enum SocketOption
+		{
 
-/*
-// Chaines
-*/
+		};
 
-#include "GChar.h"			// Char
-#include "GString.h"		// String
-#include "GRegExp.h"		// RegExp
+		enum SplitOption
+		{
+			SKIP_EMPTY_PARTS	= 0x001,
+			KEEP_EMPTY_PARTS	= 0x002
+		};
+		enum TrimOption
+		{
+			TRIM_BLANK			= 0x001,
+			TRIM_SPACE			= 0x002,
+			TRIM_TAB			= 0x003,
+			TRIM_ENTER			= 0x004,
+			TRIM_NUMBER			= 0x005,
+			TRIM_ALPHA			= 0x006,
+			TRIM_ALPHANUM		= 0x007
+		};
 
-/*
-//	CONTENEURS
-*/
+		enum IndexOption
+		{
+			INDEX_ALL_CHAR		= 0x001,
+			INDEX_THIS_CHAR		= 0x002
+		};
 
-#include "GVector.hpp"		// Vecteur
-#include "GMap.hpp"			// Map
-#include "GMultiMap.hpp"	// Multimap
+		enum OrderOption
+		{
+			ORDER_ASC,
+			ORDER_DESC
+		};
 
-/*
-// Temps
-*/
+		enum SqlOption
+		{
+			MYSQL
+		};
 
-#include "GDateTime.h"		// Date et Time
-#include "GDate.h"			// Date 
-#include "GTime.h"			// Time
+		enum Exception
+		{
+			CANNOT_TRADUCT_THIS_LANGUAGE,
+			CANNOT_CREATE_DIRECTORY,
+			CANNOT_GET_CURRENT_PATH,
+			CANNOT_REMOVE_DIRECTORY,
 
-/*
-// Maths
-*/
+			CANNOT_FIND_DOCTYPE,
 
-#include "G2dPoint.h"		// Point 2d
-#include "G3dPoint.h"		// Point 3d
-#include "GComplexe.h"		// Complexe
-#include "GFraction.h"		// Fraction
-#include "GIntegerList.h"
+			DIRECTORY_NOT_EXIST,
+	
+			OUT_OF_RANGE,
 
-/*
-// Fichiers et repertoires 
-*/
+			VECTOR_IS_EMPTY,
 
-#include "GFile.h"			// Fichier
-#include "GFileInfos.h"		// Infos Fichier
-#include "GDirectory.h"		// Repertoire
+			SOCKET_INIT_ERROR,
+			SOCKET_CONNECT_ERROR,
+			SOCKET_SEND_ERROR,
+			SOCKET_UNKNOW_HOST,
 
-/* 
-// Thread, Mutex, Semaphore
-*/
+			BAD_REGEXP_FORMAT,
 
-#include "GThread.h"		// Thread
-#include "GMutex.h"			// Mutex
-#include "GSleep.h"			// Sleep
+			NOT_A_BOOLEEN,
+			NOT_AN_INTEGER
+		};
 
-#include "GCryptography.h"
-
-
-
-/*
-//	Systeme
-*/ 
-
-#include "GDesktop.h"		// Bureau
-#include "GMouse.h"			// Souris
-#include "GProcessus.h"		// Proccessus
-#include "GSystem.h"		// Systeme
-
-/*
-// Reseau
-*/
-
-#include "GSocketTcpClient.h"
-#include "GSqlDatabase.h"
-#include "GSmtp.h"
-#include "GHttp.h"
-
-/*
-// Surcharge language
-*/
-
-#include "GException.h"		// Exception
-#include "GWarning.h"		// Warning
-#include "GConnect.h"
+};
 
 #endif

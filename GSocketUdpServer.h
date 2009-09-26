@@ -4,7 +4,7 @@
 
 #include "GString.h"
 #include "GException.h"
-#include "GDeclaration.h"
+#include "G.h"
 #include "GWarning.h"
 #include "GStream.h"
 #include "GExport.h"

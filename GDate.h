@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 #include <time.h>
-#include "GDeclaration.h"
+#include "G.h"
 #include "GString.h"
 #include "GDayInstance.h"
 #include "GMonthInstance.h"

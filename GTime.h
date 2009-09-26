@@ -5,7 +5,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-#include "GDeclaration.h"
+#include "G.h"
 #include "GString.h"
 #include "GExport.h"
 #include "GPrecisionTime.h"

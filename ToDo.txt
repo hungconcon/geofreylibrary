@@ -1,14 +1,13 @@
-Pipes DONE
 Files
 Semaphores
 Signaux
-Sql
+Sql			
 Logger
 Injecteur de dll		http://www.cppfrance.com/codes/WIN32-INJECTION-DLL-METHODES-REMOTETHREAD-PROPRE-REGISTRY_49419.aspx
 XmlReader
 cpu info
 disk filler
-musique	DONE		http://crteknologies.free.fr/programmation/ressources/wav.php
+musique			http://crteknologies.free.fr/programmation/ressources/wav.php
 cryptage
 cacher curseur
 raccourcis
@@ -16,14 +15,17 @@ installeur			http://www.cppfrance.com/codes/INSTALL-UNISTALL_48136.aspx
 CRC	DONE???				http://dvsoft.developpez.com/Articles/CRC/
 Interprocess			Mutex, data
 iostream
-random DONE
+Random
 smartpointer
-swap DONE
 image				resize rotate filter mirror capcha ?	=> http://xphilipp.developpez.com/articles/filtres/?page=page_3#LIII-A => http://xphilipp.developpez.com/articles/meanshift/
 image (jpg)			http://tpecompression.free.fr/?p=jpeg http://r0ro.free.fr/tipe/docs/TIPE.pdf
-patterns
+patterns			Singleton DONE
 Internationalization
 Sorted				(bubble, http://en.wikipedia.org/wiki/Sorting_algorithm)
 USB				http://acquier.developpez.com/cours/USB/
 RLE				Run Length Encoding (jpg...)
 GAccount			comptes (Sessions)
+Playlist			.m3u 
+RegExp				Re => post => NFA => DFA => match + preg_match
+Parseur CSS 			pour les gui	
+ 

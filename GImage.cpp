@@ -38,14 +38,14 @@ GImage::GImage(const GString &File) : _file(File)
 		unsigned int line = this->_width * 3;
 		while (line % 4 != 0)
 			line++;
-		this->_imageRVB = new GColorRVB*[this->_width];
+		this->_imageRGB = new GColorRGB*[this->_width];
 		for (unsigned int i = 0; i < this->_width; ++i)
-			this->_imageRVB[i] = new GColorRVB[this->_height];
+			this->_imageRGB[i] = new GColorRGB[this->_height];
 		for (unsigned int j = 0; j < this->_height; ++j)
 		{
 			unsigned int i = 0;
 			for (; i < this->_width; ++i)
-				file.Read(&this->_imageRVB[i][j], sizeof(GColorRVB));
+				file.Read(&this->_imageRGB[i][j], sizeof(GColorRGB));
 			while ((i * 3) < line)
 				file.Read(line - (i++ * 3));
 		}
@@ -110,7 +110,7 @@ void			GImage::ConvertToBmp(const GString &FileName)
 	{
 		unsigned int i = 0;
 		for (; i < this->_width; ++i)
-			f.Write(&this->_imageRVB[i][j], sizeof(GColorRVB));
+			f.Write(&this->_imageRGB[i][j], sizeof(GColorRGB));
 		if ((i * 3) < line)	
 		{
 			GString	Empty(GString::GetBuffer("\0", 1));
@@ -130,7 +130,7 @@ void			GImage::MirrorVertical(void)
 	for (unsigned int i = 0; i < this->_width / 2; ++i)
 		for (unsigned int j = 0; j < this->_height; ++j)
 		{
-			GSwap(this->_imageRVB[i][j], this->_imageRVB[this->_width - i - 1][j]);
+			GSwap(this->_imageRGB[i][j], this->_imageRGB[this->_width - i - 1][j]);
 		}
 }
 
@@ -139,7 +139,7 @@ void			GImage::MirrorHorizontal(void)
 	for (unsigned int i = 0; i < this->_width; ++i)
 		for (unsigned int j = 0; j < this->_height / 2; ++j)
 		{
-			GSwap(this->_imageRVB[i][j], this->_imageRVB[i][this->_height - j]);
+			GSwap(this->_imageRGB[i][j], this->_imageRGB[i][this->_height - j]);
 		}
 }
 
@@ -151,9 +151,9 @@ void			GImage::Rotation(void)
 
 void			GImage::RotationLeft(void)
 {
-	GColorRVB	**tmp = new GColorRVB*[this->_height];
+	GColorRGB	**tmp = new GColorRGB*[this->_height];
 	for (unsigned int i = 0; i < this->_height; ++i)
-		tmp[i] = new GColorRVB[this->_width];
+		tmp[i] = new GColorRGB[this->_width];
 
 	/*
 	for (unsigned int j = 0; j < this->_height; ++j)
@@ -162,9 +162,9 @@ void			GImage::RotationLeft(void)
 	*/
 
 	for (unsigned int i = 0; i < this->_width; ++i)
-		delete[] this->_imageRVB[i];
-	delete[] this->_imageRVB;
-	this->_imageRVB = tmp;
+		delete[] this->_imageRGB[i];
+	delete[] this->_imageRGB;
+	this->_imageRGB = tmp;
 	
 	GSwap(this->_height, this->_width);
 }

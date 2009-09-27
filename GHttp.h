@@ -15,9 +15,9 @@ class GEXPORTED GHttp
 		GHttp(const GString &, unsigned int port = 80);
 		~GHttp(void);
 	
-		void		SetUser(const GString &, const GString &);
-		void		SetProxy(const GString &, unsigned int port);
-		void		SetProxy(const GString &, unsigned int port, const GString &, const GString &);
+		void		SetUser(const GString &Login, const GString &Password);
+		void		SetProxy(const GString &Server, unsigned int Port);
+		void		SetProxy(const GString &Server, unsigned int Port, const GString &Login, const GString &Password);
 		GString		Get(const GString &);
 		void		Post(const GString &, const GString &);
 

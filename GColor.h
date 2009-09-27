@@ -4,7 +4,7 @@
 
 #include "GExport.h"
 
-struct GColorRVB
+struct GColorRGB
 {
 	char	_red;
 	char	_green;

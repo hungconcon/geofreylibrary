@@ -27,9 +27,9 @@ class GEXPORTED GMutex
 			HANDLE				_mutex;
 			CRITICAL_SECTION	_cr_sct;
 		#else
-			pthread_mutex_t _mutex;
+			pthread_mutex_t		_mutex;
 		#endif
-		bool	_lock;
+		bool					_lock;
 };
 
 

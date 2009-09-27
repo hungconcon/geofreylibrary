@@ -19,3 +19,10 @@ void	GStrcpy(char *dest, char *source, unsigned int Size)
 		++i;
 	}
 }
+unsigned int GStrlen(char *Str)
+{
+	unsigned int i = 0;
+	while (Str[i])
+		++i;
+	return (i);
+}

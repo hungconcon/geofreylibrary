@@ -7,7 +7,7 @@
 #include "GFile.h"
 #include "GThread.h"
 #include "GMap.hpp"
-#if defined (WIN32) | defined (_WIN32) |  defined (__WIN32) | defined (WIN) | defined (WIN64) | defined (__WIN64)
+#if defined (GWIN)
 #		include "windows.h"
 #endif
 

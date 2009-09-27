@@ -1,8 +1,6 @@
 
 #include "GChar.h"
 
-//CONSTRUCTEURS
-
 GChar::GChar(void)
 {
 	this->_c = 0;
@@ -21,10 +19,6 @@ GChar::GChar(const GChar &g)
 {
 	this->_c = g._c;
 }
-GChar::GChar(const GChar *g)
-{
-	this->_c = g->_c;
-}
 GChar::GChar(int c)
 {
 	this->_c = (char)c;
@@ -33,8 +27,6 @@ GChar::~GChar(void)
 {
 
 }
-
-// METHODES BOOLENNES
 
 bool	GChar::IsNull(void) const
 {

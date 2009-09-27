@@ -21,13 +21,13 @@ class GEXPORTED GThread
 {
 	public:
 		GThread(void);
-		GThread(GFunction);
+		GThread(GFunction Function);
 		~GThread(void);
 
 		void		Abort(void);
-		void		Start(void *arg);
+		void		Start(void *Argument);
 		void		Start(void);
-		void		SetFunction(GFunction);
+		void		SetFunction(GFunction Function);
 		GThreadId	GetId(void) const;
 
 	private:

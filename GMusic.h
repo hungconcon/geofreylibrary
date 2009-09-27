@@ -22,8 +22,8 @@ class	GEXPORTED GMusic
 public:
 	GMusic(void);
 	~GMusic(void);
-	GMusic(const GMusic &);
-	GMusic(const GString &);
+	GMusic(const GMusic &Music);
+	GMusic(const GString &MusicPath);
 	bool	Play(void);
 	bool	Pause(void);
 	bool	Stop(void);

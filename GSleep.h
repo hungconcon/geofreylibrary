@@ -9,7 +9,7 @@
 #include <unistd.h>
 #endif
 
-void GEXPORTED GSleep(unsigned int Secondes);
-void GEXPORTED GUSleep(unsigned int MicroSecondes);
+void GEXPORTED GSleep(unsigned int Seconds);
+void GEXPORTED GUSleep(unsigned int MicroSeconds);
 
 #endif

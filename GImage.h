@@ -59,7 +59,7 @@ class GEXPORTED GImage
 		unsigned int	_width;
 		unsigned int	_height;
 		GString			_format;
-		GColorRVB		**_imageRVB;
+		GColorRGB		**_imageRGB;
 		
 };
 

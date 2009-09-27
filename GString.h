@@ -36,11 +36,11 @@ class GEXPORTED GString
 		};
 
 		GString(void);
-		GString(const char *);
+		GString(const char *Str);
 		GString(const GString &);
 		GString(const GString *);
-		GString(bool test);
-		GString(const std::string &);
+		GString(bool Booleen);
+		GString(const std::string &Str);
 		GString(const GChar &);
 		GString(const GChar *);
 		#if defined (WIN32) | defined (_WIN32) |  defined (__WIN32) | defined (WIN) | defined (WIN64) | defined (__WIN64)
@@ -50,15 +50,15 @@ class GEXPORTED GString
 		#endif
 		GString(char);											
 		GString(unsigned char);									
-		GString(int);
-		GString(unsigned int);
-		GString(long);
-		GString(unsigned long);
-		GString(short);
-		GString(unsigned short);
-		GString(float	, unsigned int = 6);
-		GString(double	, unsigned int = 6);
-		GString(long long	, unsigned int = 6);
+		GString(int Number);
+		GString(unsigned int Number);
+		GString(long Number);
+		GString(unsigned long Number);
+		GString(short Number);
+		GString(unsigned short Number);
+		GString(float Number, unsigned int Precision = 6);
+		GString(double Number, unsigned int Precision = 6);
+		GString(long long Number, unsigned int Precision = 6);
 		~GString(void);
 
 		// --== CONVERSIONS ==--
@@ -106,16 +106,16 @@ class GEXPORTED GString
 		int					Find(const GString &, CaseOption = GString::CaseSensitive) const;
 		int					Find(const GString &, unsigned int, CaseOption = GString::CaseSensitive) const;			
 		bool				IsNumeric(void) const;
-		bool				Compare(const GString &) const;
+		bool				Compare(const GString &Str) const;
 		bool				IsAlpha(void) const;
-		bool				EndWith(const GString &) const;
-		bool				StartWith(const GString &) const;
+		bool				EndWith(const GString &Str) const;
+		bool				StartWith(const GString &Str) const;
 		bool				IsEmpty(void) const;
 		static GString		GetBuffer(const char *, unsigned int);
-		static GString		Join(GVector<GString> &, const GString &, G::SplitOption = G::SKIP_EMPTY_PARTS);
-		static GString		Join(GVector<GString> &, G::SplitOption = G::SKIP_EMPTY_PARTS);
-		static GString		Implode(GVector<GString> &, const GString &, G::SplitOption = G::SKIP_EMPTY_PARTS);
-		static GString		Implode(GVector<GString> &, G::SplitOption = G::SKIP_EMPTY_PARTS);
+		static GString		Join(GVector<GString> &List, const GString &, G::SplitOption = G::SKIP_EMPTY_PARTS);
+		static GString		Join(GVector<GString> &List, G::SplitOption = G::SKIP_EMPTY_PARTS);
+		static GString		Implode(GVector<GString> &List, const GString &, G::SplitOption = G::SKIP_EMPTY_PARTS);
+		static GString		Implode(GVector<GString> &List, G::SplitOption = G::SKIP_EMPTY_PARTS);
 		GString				Remove(unsigned int, unsigned int) const;
 		GString				Remove(const GString &, CaseOption = GString::CaseSensitive) const;
 		GString				Fill(char) const;														

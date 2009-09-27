@@ -12,7 +12,6 @@ class GEXPORTED GChar
 		GChar(char c);
 		GChar(unsigned char c);
 		GChar(const GChar &);
-		GChar(const GChar *);
 		GChar(int);
 		~GChar(void);
 

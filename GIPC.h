@@ -23,7 +23,7 @@
 namespace GIPC
 {
 
-	class	GEXPORTED GPipe
+	class GEXPORTED GPipe
 	{
 	public:
 		GPipe(const GString &);

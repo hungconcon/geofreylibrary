@@ -27,9 +27,9 @@ class GEXPORTED GDirectory
 		GDirectory(void);
 		~GDirectory(void);
 
-		bool				Mkdir(const GString &);
-		bool				Rmdir(bool test = true);
-		static bool			Rmdir(const GString &, bool test = true);
+		bool				Mkdir(const GString &Directory);
+		bool				Rmdir(bool RmFiles = true);
+		static bool			Rmdir(const GString &Directory, bool test = true);
 		static bool			Rename(const GString &, const GString &);					
 		bool				Mkpath(const GString &Path);
 		static bool			Rmpath(const GString &);

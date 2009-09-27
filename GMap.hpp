@@ -13,15 +13,15 @@ class GEXPORTED GMap
 		GMap(void);
 		~GMap(void);
 		unsigned int	Size(void) const;
-		U				&operator[](const T &);
-		void			PushBack(const T &, const U &);
-		void			PushFront(const T &, const U &);
+		U				&operator[](const T &Key);
+		void			PushBack(const T &Key, const U &Value);
+		void			PushFront(const T &Key, const U &Value);
 		void			Clear(void);
 		bool			IsEmpty(void) const;
-		bool			ExistKey(T);
-		bool			ExistValue(U);
-		void			EraseKey(T);
-		void			EraseValue(U);
+		bool			ExistKey(T Key);
+		bool			ExistValue(U Value);
+		void			EraseKey(T Key);
+		void			EraseValue(U Value);
 		void			Erase(unsigned int Index);
 		int 			IndexOfValue(U Value);
 		int				IndexOfKey(T Key);
@@ -29,8 +29,8 @@ class GEXPORTED GMap
 		U				&FrontValue(void);
 		T				&BackKey(void);
 		U				&BackValue(void);
-		T				&Key(unsigned int);
-		U				&Value(unsigned int);
+		T				&Key(unsigned int Position);
+		U				&Value(unsigned int Position);
 		
 
 	private:

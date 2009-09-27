@@ -23,20 +23,20 @@ class GEXPORTED GVector
 {
 	public:
 		GVector(void);
-		GVector(T);
-		GVector(const GVector<T> &);
-		GVector(const std::vector<T> &);
+		GVector(T Elem);
+		GVector(const GVector<T> &Vector);
+		GVector(const std::vector<T> &Vector);
 		~GVector(void);
 		
-		void			PushFront(const T &);
-		void			PushBack(const T &);
-		void			PushSorted(const T &);
+		void			PushFront(const T &Elem);
+		void			PushBack(const T &Elem);
+		void			PushSorted(const T &Elem);
 		void			Clear(void);
-		void			Erase(unsigned int);
-		void			Delete(const T &);
-		bool			Contain(const T &) const;
+		void			Erase(unsigned int Position);
+		void			Delete(const T &Elem);
+		bool			Contain(const T &Elem) const;
 		bool			IsEmpty(void) const;
-		void			Insert(unsigned int, const T &);
+		void			Insert(unsigned int Position, const T &Elem);
 		T				PopFront(void);
 		T				PopBack(void);
 		std::vector<T>	ToStdVector(void) const;
@@ -45,7 +45,7 @@ class GEXPORTED GVector
 		int				IndexOf(T) const;
 		unsigned int	Size(void) const;
 		void			Sort(G::OrderOption = G::ORDER_ASC);
-		T				&operator[](unsigned int);
+		T				&operator[](unsigned int Position);
 		GVector<T>		operator=(const GVector<T> &);
 		bool			operator==(const GVector<T> &);
 		bool			operator!=(const GVector<T> &);

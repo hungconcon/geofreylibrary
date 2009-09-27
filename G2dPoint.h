@@ -6,8 +6,8 @@ class G2dPoint
 {
 	public:
 		G2dPoint(void);
-		G2dPoint(double x, double y);
-		G2dPoint(const G2dPoint &);
+		G2dPoint(double X, double Y);
+		G2dPoint(const G2dPoint &Point);
 		~G2dPoint(void);
 
 		double	GetX(void) const;

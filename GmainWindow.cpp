@@ -29,6 +29,7 @@ GMainWindow::GMainWindow(void)
 	this->_classe.lpfnWndProc = MainProc;
     this->_classe.cbClsExtra = 0;
     this->_classe.cbWndExtra = 0;
+	
     this->_classe.hInstance=  this->_hInstance;
     this->_classe.hIcon=LoadIcon(NULL,IDI_APPLICATION);
     this->_classe.hCursor=LoadCursor(NULL,IDC_ARROW);

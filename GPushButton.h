@@ -7,15 +7,15 @@
 class GPushButton : public GWidget
 {
 	public:
-		GPushButton(const GWidget &Parent);
-		GPushButton(const GString &Text, const GWidget &Parent);
+		GPushButton(GWidget *Parent);
+		GPushButton(const GString &Text, GWidget *Parent);
 		~GPushButton(void);
 
 		void	SetText(const GString &Text);
 
 	
 	private:
-		GWidget		_parent;
+		GWidget		*_parent;
 };
 
 #endif

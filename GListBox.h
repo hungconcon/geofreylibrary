@@ -7,13 +7,15 @@
 class GListBox : public GWidget
 {
 	public:
-		GListBox(const GWidget &Parent);
+		GListBox(GWidget *Parent);
 		~GListBox(void);
+
+		void	AddItem(const GString &Item);
 
 
 	
 	private:
-		GWidget		_parent;
+		GWidget		*_parent;
 };
 
 #endif

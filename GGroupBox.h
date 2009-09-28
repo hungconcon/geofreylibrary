@@ -7,15 +7,15 @@
 class GGroupBox : public GWidget
 {
 	public:
-		GGroupBox(const GWidget &Parent);
-		GGroupBox(const GString &Text, const GWidget &Parent);
+		GGroupBox(GWidget *Parent);
+		GGroupBox(const GString &Text, GWidget *Parent);
 		~GGroupBox(void);
 
 		void	SetText(const GString &Text);
 
 	
 	private:
-		GWidget		_parent;
+		GWidget		*_parent;
 };
 
 #endif

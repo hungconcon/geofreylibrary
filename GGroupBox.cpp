@@ -3,18 +3,18 @@
 
 #include <iostream>
 
-GGroupBox::GGroupBox(const GString &Text, const GWidget &Parent)
+GGroupBox::GGroupBox(const GString &Text, GWidget *Parent)
 {
 	this->_parent = Parent;
 	char	*tmp = Text.ToChar();
-	this->_widget = CreateWindow("BUTTON", tmp, WS_CHILD | WS_VISIBLE | BS_GROUPBOX, 0, 0, 100, 30, this->_parent.GetWidget(), NULL, NULL, NULL);
+	this->_widget = CreateWindow("BUTTON", tmp, WS_CHILD | WS_VISIBLE | BS_GROUPBOX, 0, 0, 100, 30, this->_parent->GetWidget(), NULL, NULL, NULL);
 	delete[] tmp;
 }
 
-GGroupBox::GGroupBox(const GWidget &Parent)
+GGroupBox::GGroupBox(GWidget *Parent)
 {
 	this->_parent = Parent;
-	this->_widget = CreateWindow("BUTTON", "GGroupBox", WS_CHILD | WS_VISIBLE | BS_GROUPBOX, 0, 0, 100, 30, this->_parent.GetWidget(), NULL, NULL, NULL);
+	this->_widget = CreateWindow("BUTTON", "GGroupBox", WS_CHILD | WS_VISIBLE | BS_GROUPBOX, 0, 0, 100, 30, this->_parent->GetWidget(), NULL, NULL, NULL);
 }
 
 

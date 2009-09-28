@@ -3,18 +3,18 @@
 
 #include <iostream>
 
-GPushButton::GPushButton(const GString &Text, const GWidget &Parent)
+GPushButton::GPushButton(const GString &Text, GWidget *Parent)
 {
 	this->_parent = Parent;
 	char	*tmp = Text.ToChar();
-	this->_widget = CreateWindow("BUTTON", tmp, WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 0, 0, 100, 30, this->_parent.GetWidget(), NULL, NULL, NULL);
+	this->_widget = CreateWindow("BUTTON", tmp, WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 0, 0, 100, 30, this->_parent->GetWidget(), NULL, NULL, NULL);
 	delete[] tmp;
 }
 
-GPushButton::GPushButton(const GWidget &Parent)
+GPushButton::GPushButton(GWidget *Parent)
 {
 	this->_parent = Parent;
-	this->_widget = CreateWindow("BUTTON", "GPushButton", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 0, 0, 100, 30, this->_parent.GetWidget(), NULL, NULL, NULL);
+	this->_widget = CreateWindow("BUTTON", "GPushButton", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 0, 0, 100, 30, this->_parent->GetWidget(), NULL, NULL, NULL);
 }
 
 

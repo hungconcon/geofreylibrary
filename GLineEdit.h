@@ -7,11 +7,14 @@
 class GLineEdit : public GWidget
 {
 	public:
-		GLineEdit(const GWidget &Parent);
+		GLineEdit(GWidget *Parent);
 		~GLineEdit(void);
 
+		GString		GetText(void);
+		void		SetText(const GString &Text);
+
 	private:
-		GWidget		_parent;
+		GWidget		*_parent;
 };
 
 #endif

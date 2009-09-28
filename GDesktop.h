@@ -2,21 +2,20 @@
 #ifndef __GDESKTOP_H__
 # define __GDESKTOP_H__
 
+#include "GExport.h"
 #if defined (GWIN)
 #		include "windows.h"
 #		include "Winuser.h"
 #		pragma comment(lib, "User32.lib")
 #		pragma comment(lib, "winmm.lib")
-#else
-
 #endif
 
-class GDesktop
+class GEXPORTED GDesktop
 {
 	public:
-		/* OK WIN */	static void		HideIcons(void);
-		/* OK WIN */	static void		ShowIcons(void);
-		/* OK WIN */	static void		ChangeIconsStyle(void);
+		static void		HideIcons(void);
+		static void		ShowIcons(void);
+		static void		ChangeIconsStyle(void);
 };
 
 #endif

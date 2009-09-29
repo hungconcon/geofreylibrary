@@ -12,9 +12,13 @@ class GGridLayout : public GWidget
 
 		void	AddWidget(GWidget *Widget, unsigned int, unsigned int);
 		void	AddWidget(GWidget *Widget, unsigned int, unsigned int, unsigned int, unsigned int);
-
+		void	SetMargin(unsigned int Margin);
 	private:
-		GWidget		*_parent;
+		GWidget					*_parent;
+		unsigned int			_margin;
+		GMap<GPosition, HRGN>	_region;
+		unsigned int			_sizeX;
+		unsigned int			_sizeY;
 };
 
 #endif

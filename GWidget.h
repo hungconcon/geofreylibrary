@@ -27,6 +27,7 @@ class GWidget
 		bool			IsEnabled(void) const;
 		void			Enable(void);
 		void			Disable(void);
+		GSize			GetSize(void);
 
 	protected:
 		GWidgetHandle	_widget;

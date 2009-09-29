@@ -7,6 +7,18 @@ GSize::GSize(unsigned int X, unsigned int Y)
 	this->_y = Y;
 }
 
+GSize::GSize(void)
+{
+	this->_x = 0;
+	this->_y = 0;
+}
+
+GSize::GSize(const GSize &Size)
+{
+	this->_x = Size.GetX();
+	this->_y = Size.GetY();
+}
+
 GSize::~GSize(void)
 {
 

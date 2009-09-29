@@ -6,6 +6,8 @@ class GSize
 {
 	public:
 		GSize(unsigned int X, unsigned int Y);
+		GSize(const GSize &Size);
+		GSize(void);
 		~GSize(void);
 
 		void			SetX(unsigned int X);

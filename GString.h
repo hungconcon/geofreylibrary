@@ -24,11 +24,17 @@
 #define TRUEGSTR "true"
 #define FALSEGSTR "false"
 
+/* 
+Informations :
+DescriptionFr : 
+Classe de gestion des chaines de caratères.
+DescriptionEn : 
+String class functions.
+*/
+
 class GEXPORTED GString
 {
 	public:
-		// CONSTRUCTEURS
-
 		enum CaseOption
 		{
 			CaseSensitive,

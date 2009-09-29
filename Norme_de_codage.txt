@@ -12,3 +12,5 @@
 5 - Preciser (void) pour une methode sans parametres.
 6 - Mettre un nom explicite aux variables dans les .h.
 7 - N'exportes pas les classes qui n'ont pas besoin de l'etre !
+8 - Utiliser tourjours la pre-incrementation (++i) (beacoup plus rapide) quitte a utiliser une ligne de plus.
+9 - Pour les .h : #ifndef __NOMDELACLASSE_H__ ...

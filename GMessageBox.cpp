@@ -9,7 +9,5 @@ void		GMessageBox::Error(const GString &Title, const GString &Texte)
 	MessageBox(NULL, txt, ttl, NULL);
 	delete[] txt;
 	delete[] ttl;
-#else
-
 #endif
 }

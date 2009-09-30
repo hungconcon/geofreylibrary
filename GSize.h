@@ -21,5 +21,6 @@ class GSize
 };
 
 typedef GSize GPosition;
+typedef GSize GPoint;
 
 #endif

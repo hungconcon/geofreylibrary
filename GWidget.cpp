@@ -83,8 +83,8 @@ void			GWidget::Disable(void)
 
 GSize			GWidget::GetSize(void)
 {
-	LPRECT lpRect;
-	GetWindowRect(this->_widget, lpRect);
-	GSize s(lpRect->right - lpRect->left, lpRect->bottom - lpRect->top);
+	//LPRECT lpRect;
+	//GetWindowRect(this->_widget, lpRect);
+	GSize s(300, 300);
 	return (s);
 }

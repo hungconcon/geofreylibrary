@@ -21,19 +21,33 @@ class GWidget
 		void			SetFixedSize(const GSize &Size);
 		void			SetMinimumSize(unsigned int X, unsigned int Y);
 		void			SetMinimumSize(const GSize &Size);
+		void			SetMinimumWidth(unsigned int X);
+		void			SetMinimumHeigth(unsigned int Y);
 		void			SetMaximumSize(unsigned int X, unsigned int Y);
 		void			SetMaximumSize(const GSize &Size);
+		void			SetMaximumWidth(unsigned int X);
+		void			SetMaximumHeight(unsigned int Y);
+		GSize			GetCurrentSize(void) const;
+		GSize			GetMinimumSize(void) const;
+		GSize			GetMaximumSize(void) const;
+		unsigned int	GetMinimumWidth(void) const;
+		unsigned int	GetMinimumHeight(void) const;
+		unsigned int	GetMaximumWidth(void) const;
+		unsigned int	GetMaximumHeight(void) const;
+		void			Move(unsigned int X, unsigned Y);
+		void			Move(const GSize &Size);
 		bool			IsVisible(void);
 		bool			IsEnabled(void) const;
 		void			Enable(void);
 		void			Disable(void);
-		GSize			GetSize(void);
 
 	protected:
 		GWidgetHandle	_widget;
 		HINSTANCE		_hInstance;
 		bool			_enabled;
-		
+		GSize			_min;
+		GSize			_max;
+		GSize			_actual;		
 };
 
 #endif

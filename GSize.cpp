@@ -19,6 +19,13 @@ GSize::GSize(const GSize &Size)
 	this->_y = Size.GetY();
 }
 
+GSize	&GSize::operator=(const GSize &Size)
+{
+	this->_x = Size.GetX();
+	this->_y = Size.GetY();
+	return (*this);
+}
+
 GSize::~GSize(void)
 {
 
@@ -31,6 +38,12 @@ void	GSize::SetX(unsigned int X)
 
 void	GSize::SetY(unsigned int Y)
 {
+	this->_y = Y;
+}
+
+void	GSize::SetXY(unsigned int X, unsigned int Y)
+{
+	this->_x = X;
 	this->_y = Y;
 }
 

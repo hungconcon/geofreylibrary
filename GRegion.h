@@ -17,20 +17,30 @@ class GRegion
 		GRegion(void);
 		~GRegion(void);
 
-		void		SetRegion(const GPoint &Point, const GSize &Size = GSize(1, 1));
-		void		SetWidget(GWidget *Widget);
-		void		SetMaxHeigthRegion(unsigned int MaxY);
-		void		SetMaxWidthRegion(unsigned int MaxY);
-		void		Draw(void);
-		GPosition	GetPosition(void) const;
+		void			Draw(void);
+		void			SetParentSize(const GSize &Size);
+		void			SetMargin(unsigned int Margin);
+		void			SetSpan(unsigned int X, unsigned int Y);
+		void			SetElement(unsigned int X, unsigned int Y);
+		void			SetWidget(GWidget *Widget);
+		void			SetMax(unsigned int X, unsigned int Y);
+		GSize			GetSize(void) const;
+		unsigned int	GRegion::GetCol(void) const;
+		unsigned int	GRegion::GetRow(void) const;
+
 
 	private:
 		GWidget			*_widget;
 		GRegionType		_region;
-		GPosition		_position;
 		GSize			_size;
-		unsigned int	_sizeX;
-		unsigned int	_sizeY;
+		GSize			_parentSize;
+		unsigned int	_colspan;
+		unsigned int	_rowspan;
+		unsigned int	_numCol;
+		unsigned int	_numRow;
+		unsigned int	_margin;
+		unsigned int	_maxCol;
+		unsigned int	_maxRow;
 };
 
 #endif

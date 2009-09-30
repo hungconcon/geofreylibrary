@@ -11,16 +11,14 @@ class GGridLayout : public GWidget
 		GGridLayout(GWidget *Parent);
 		~GGridLayout(void);
 
-		void	AddWidget(GWidget *Widget, unsigned int, unsigned int);
-		void	AddWidget(GWidget *Widget, unsigned int, unsigned int, unsigned int, unsigned int);
+		void	AddWidget(GWidget *Widget, unsigned int PositionX, unsigned int PositionY, unsigned int RowSpan = 1, unsigned int ColSpan = 1);
 		void	SetMargin(unsigned int Margin);
+
 	private:
 		GWidget					*_parent;
 		unsigned int			_margin;
 		GVector<GRegion>		_region;
-		unsigned int			_sizeX;
-		unsigned int
-			_sizeY;
+		GSize					_min;
 };
 
 #endif

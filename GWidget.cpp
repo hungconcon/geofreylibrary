@@ -1,7 +1,7 @@
 
 #include "GWidget.h"
 
-GWidget::GWidget(void)
+GWidget::GWidget(void) : _min(0, 0), _max(0, 0), _actual(0, 0)
 {
 	this->_enabled = true;
 }
@@ -37,23 +37,47 @@ void			GWidget::Hide(void)
 void			GWidget::SetFixedSize(unsigned int X, unsigned int Y)
 {
 #if defined (GWIN)
-	SetWindowPos(this->_widget, HWND_TOP, 0, 0, X, Y, SWP_NOMOVE | SWP_NOOWNERZORDER);
+	if (SetWindowPos(this->_widget, HWND_TOP, 0, 0, X, Y, SWP_NOMOVE | SWP_NOOWNERZORDER) != 0)
+	{
+		this->_min.SetXY(X, Y);
+		this->_max.SetXY(X, Y);
+	}
 #endif
 }
 void			GWidget::SetFixedSize(const GSize &Size)
 {
 #if defined (GWIN)
-	SetWindowPos(this->_widget, HWND_TOP, 0, 0, Size.GetX(), Size.GetY(), SWP_NOMOVE | SWP_NOOWNERZORDER);
+	if (SetWindowPos(this->_widget, HWND_TOP, 0, 0, Size.GetX(), Size.GetY(), SWP_NOMOVE | SWP_NOOWNERZORDER) != 0)
+	{
+		this->_min = Size;
+		this->_max = Size;
+	}
 #endif
 }
-void			GWidget::SetMaximumSize(unsigned int , unsigned int )
+void			GWidget::SetMaximumSize(unsigned int X, unsigned int Y)
 {
-
+	this->_max.SetXY(X, Y);
 }
+
+void			GWidget::SetMaximumSize(const GSize &Size)
+{
+	this->_max = Size;
+}
+
 void			GWidget::SetMinimumSize(unsigned int X, unsigned int Y)
 {
+	
 #if defined (GWIN)
-	SetWindowPos(this->_widget, HWND_TOP, 0, 0, X, Y, SWP_NOMOVE | SWP_NOOWNERZORDER);
+	if (SetWindowPos(this->_widget, HWND_TOP, 0, 0, X, Y, SWP_NOMOVE | SWP_NOOWNERZORDER) != 0)
+		this->_min.SetXY(X, Y);
+#endif
+}
+
+void			GWidget::SetMinimumSize(const GSize &Size)
+{
+#if defined (GWIN)
+	if (SetWindowPos(this->_widget, HWND_TOP, 0, 0, Size.GetX(), Size.GetY(), SWP_NOMOVE | SWP_NOOWNERZORDER) != 0)
+		this->_min = Size;
 #endif
 }
 
@@ -81,10 +105,46 @@ void			GWidget::Disable(void)
 
 }
 
-GSize			GWidget::GetSize(void)
+GSize			GWidget::GetCurrentSize(void) const
 {
-	//LPRECT lpRect;
-	//GetWindowRect(this->_widget, lpRect);
-	GSize s(300, 300);
-	return (s);
+	return (this->_actual);
+}
+
+GSize			GWidget::GetMinimumSize(void) const
+{
+	return (this->_min);
+}
+
+GSize			GWidget::GetMaximumSize(void) const
+{
+	return (this->_max);
+}
+unsigned int	GWidget::GetMaximumHeight(void) const
+{
+	return (this->_max.GetY());
+}
+unsigned int	GWidget::GetMaximumWidth(void) const
+{
+	return (this->_max.GetX());
+}
+unsigned int	GWidget::GetMinimumHeight(void) const
+{
+	return (this->_min.GetY());
+}
+unsigned int	GWidget::GetMinimumWidth(void) const
+{
+	return (this->_min.GetX());
+}
+
+
+void			GWidget::Move(unsigned int X, unsigned int Y)
+{
+
+
+}
+
+void			GWidget::Move(const GSize &Size)
+{
+
+
 }

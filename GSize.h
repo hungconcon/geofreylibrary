@@ -12,8 +12,13 @@ class GSize
 
 		void			SetX(unsigned int X);
 		void			SetY(unsigned int Y);
+		void			SetXY(unsigned int X, unsigned int Y);
 		unsigned int	GetX(void) const;
 		unsigned int	GetY(void) const;
+
+		
+		GSize			&operator=(const GSize &Size);
+	
 
 	private:
 		unsigned int _x;

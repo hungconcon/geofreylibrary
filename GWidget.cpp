@@ -63,7 +63,6 @@ void			GWidget::SetMaximumSize(const GSize &Size)
 {
 	this->_max = Size;
 }
-
 void			GWidget::SetMinimumSize(unsigned int X, unsigned int Y)
 {
 	
@@ -72,7 +71,6 @@ void			GWidget::SetMinimumSize(unsigned int X, unsigned int Y)
 		this->_min.SetXY(X, Y);
 #endif
 }
-
 void			GWidget::SetMinimumSize(const GSize &Size)
 {
 #if defined (GWIN)
@@ -80,7 +78,22 @@ void			GWidget::SetMinimumSize(const GSize &Size)
 		this->_min = Size;
 #endif
 }
-
+void			GWidget::SetMaximumHeight(unsigned int MaxHeight)
+{
+	this->_max.SetY(MaxHeight);
+}
+void			GWidget::SetMaximumWidth(unsigned int MaxWidth)
+{
+	this->_max.SetX(MaxWidth);
+}
+void			GWidget::SetMinimumHeight(unsigned int MinHeight)
+{
+	this->_min.SetY(MinHeight);
+}
+void			GWidget::SetMinimumWidth(unsigned int MinWidth)
+{
+	this->_min.SetX(MinWidth);
+}
 bool			GWidget::IsVisible(void)
 {
 #if defined (GWIN)

@@ -22,7 +22,7 @@ class GWidget
 		void			SetMinimumSize(unsigned int X, unsigned int Y);
 		void			SetMinimumSize(const GSize &Size);
 		void			SetMinimumWidth(unsigned int X);
-		void			SetMinimumHeigth(unsigned int Y);
+		void			SetMinimumHeight(unsigned int Y);
 		void			SetMaximumSize(unsigned int X, unsigned int Y);
 		void			SetMaximumSize(const GSize &Size);
 		void			SetMaximumWidth(unsigned int X);

@@ -23,6 +23,7 @@ void	GGridLayout::AddWidget(GWidget *Widget, unsigned int PositionX, unsigned in
 		this->_min.SetX(Widget->GetCurrentSize().GetX());
 	if (Widget->GetCurrentSize().GetY() > 0)
 		this->_min.SetY(Widget->GetCurrentSize().GetY());
+	return ;
 	GSize Size = this->_parent->GetCurrentSize();
 	unsigned int maxX = 0;
 	unsigned int maxY = 0;

@@ -176,7 +176,7 @@ GString::GString(const CString &s)
 #endif
 GString::~GString(void)
 {
-	//delete[] this->_str;
+	delete[] this->_str;
 }
 
 GString::GString(float nbr, unsigned int precision)

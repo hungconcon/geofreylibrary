@@ -195,4 +195,7 @@ U		&GMap<T, U>::Value(unsigned int index)
 	return (this->_value[index]);
 }
 
+typedef GMap<unsigned int, unsigned int> GUIntMap;
+
 #endif
+

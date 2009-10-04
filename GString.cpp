@@ -45,9 +45,12 @@ GString::GString(const char *str)
 
 GString::GString(const GString &s)
 {
+	std::cout << "SIZE => " << s._size << std::endl;
 	this->_size = s._size;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	unsigned int alloc = ((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1;
+	std::cout << "ALLOCATE : " << alloc << std::endl;
+	this->_str = new char[alloc];
 	for (unsigned int i = 0; i < this->_size + 1; ++i)
 		this->_str[i] = s._str[i];
 }
@@ -816,7 +819,7 @@ GStringList			GString::Split(const GString &f, G::SplitOption splitop , CaseOpti
 	GStringList	vect;
 	if (this->Find(f, caseop) == -1)
 	{
-		vect.PushBack(GString::GetContent(this->_str, this->_size));
+		vect.PushBack(*(new GString(GString::GetContent(this->_str, this->_size))));
 		return (vect);
 	}
 	int pos = 0, pos1 = 0, pos2 = 0;
@@ -829,14 +832,14 @@ GStringList			GString::Split(const GString &f, G::SplitOption splitop , CaseOpti
 		pos2 = pos;
 		GString ne(this->Substr(pos1, pos2));
 		if ((splitop == G::SKIP_EMPTY_PARTS && ne.Size() != 0) || splitop == G::KEEP_EMPTY_PARTS) 
-			vect.PushBack(ne);
+			vect.PushBack(*(new GString(ne)));
 		pos += f.Size();
 	}
 	if (pos1 != 0)
 	{
 		GString ne(this->Substr(pos1, this->Size()));
 		if ((splitop == G::SKIP_EMPTY_PARTS && ne.Size() != 0) || splitop == G::KEEP_EMPTY_PARTS) 
-				vect.PushBack(ne);
+				vect.PushBack(*(new GString(ne)));
 	}
 	return (vect);	
 }

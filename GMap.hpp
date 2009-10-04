@@ -3,8 +3,19 @@
 #ifndef __GMAP_H__
 # define __GMAP_H__
 
-#include "GVector.hpp"
 #include "GExport.h"
+#include <iostream>
+
+template<typename T, typename U>
+struct GListMap
+{
+	GListMap(const T &key) : _key(key), _value(U()), _next(NULL), _previous(NULL) {}
+	GListMap(const T &key, const U &value) : _value(value), _key(key), _next(NULL), _previous(NULL) {}
+	T			_key;
+	U			_value;
+	GListMap	*_next;
+	GListMap	*_previous;
+};
 
 template<typename T, typename U>
 class GEXPORTED GMap
@@ -34,98 +45,149 @@ class GEXPORTED GMap
 		
 
 	private:
-		GVector<T>		_key;
-		GVector<U>		_value;
+		unsigned int	_nbElem;
+		GListMap<T, U>	*_begin;
+		GListMap<T, U>	*_end;
 };
 
 template<typename T, typename U>
-void	GMap<T, U>::PushBack(const T &t, const U &u)
+GMap<T, U>::GMap(void)
 {
-	this->_key.PushBack(t);
-	this->_value.PushBack(u);
-}
-
-template<typename T, typename U>
-bool	GMap<T, U>::IsEmpty(void) const
-{
-	if (this->_key.Size() == 0)
-		return (true);
-	return (false);
-}
-
-template<typename T, typename U>
-T		&GMap<T, U>::FrontKey(void)
-{
-	return (this->_key[0]);
-}
-
-template<typename T, typename U>
-U		&GMap<T, U>::FrontValue(void)
-{
-	return (this->_value[0]);
-}
-
-template<typename T, typename U>
-T		&GMap<T, U>::BackKey(void)
-{
-	return (this->_key[this->_key.Size() - 1]);
-}
-
-template<typename T, typename U>
-U		&GMap<T, U>::BackValue(void)
-{
-	return (this->_value[this->_key.Size() - 1]);
-}
-
-template<typename T, typename U>
-void	GMap<T, U>::Clear(void)
-{
-	this->_key.Clear();
-	this->_value.Clear();
-}
-template<typename T, typename U>
-void	GMap<T, U>::PushFront(const T &t, const U &u)
-{
-	this->_key.PushFront(t);
-	this->_value.PushFront(u);
-}	
-
-template<typename T, typename U>
-GMap<T, U>::GMap(void) : _key(), _value()
-{
-
+	this->_begin = NULL;
+	this->_end = NULL;
+	this->_nbElem = 0;
 }
 
 template<typename T, typename U>
 GMap<T, U>::~GMap(void)
 {
+	GListMap<T, U> *l, *lnext;
+	l = this->_begin;
+	while (l)
+	{
+		lnext = l;
+		l = l->_next;
+		delete lnext;
+	}
+}
+
+template<typename T, typename U>
+void	GMap<T, U>::Clear(void)
+{
+	GListMap<T, U> *l, *lnext;
+	l = this->_begin;
+	while (l)
+	{
+		lnext = l;
+		l = l->_next;
+		delete lnext;
+	}
+	this->_begin = NULL;
+	this->_end = NULL;
+	this->_nbElem = 0;
 }
 
 template<typename T, typename U>
 unsigned int GMap<T, U>::Size(void) const
 {
-	return (this->_key.Size());
+	return (this->_nbElem);
 }
 
 template<typename T, typename U>
-U		&GMap<T, U>::operator[](const T &t)
+T		&GMap<T, U>::FrontKey(void)
 {
-	for (unsigned int i = 0; i < this->_key.Size(); ++i)
+	if (this->_nbElem != 0)
+		return (this->_begin->_key);
+	throw GException("GVector", "Empty vector !");
+}
+
+template<typename T, typename U>
+U		&GMap<T, U>::FrontValue(void)
+{
+	if (this->_nbElem != 0)
+		return (this->_begin->_value);
+	throw GException("GVector", "Empty vector !");
+}
+
+template<typename T, typename U>
+bool	GMap<T, U>::IsEmpty(void) const
+{
+	if (this->_nbElem == 0)
+		return (true);
+	return (false);
+}
+
+template<typename T, typename U>
+void	GMap<T, U>::PushBack(const T &key, const U &value)
+{
+	this->_nbElem++;
+	if (this->_begin == NULL)
 	{
-		if (this->_key[i] == t)
-			return (this->_value[i]);
+		this->_begin = new GListMap<T, U>(key, value);
+		this->_end = this->_begin;
+		return ;
 	}
-	this->PushBack(t, U());
-	return (this->_value[this->Size() - 1]);
+	GListMap<T, U> *list = new GListMap<T, U>(key, value);
+	list->_previous = this->_end;
+	this->_end->_next = list;
+	this->_end = list;
+}
+
+template<typename T, typename U>
+void	GMap<T, U>::PushFront(const T &key, const U &value)
+{
+	this->_nbElem++;
+	if (this->_begin == NULL)
+	{
+		this->_begin = new GList<T>(key, value);
+		this->_end = this->_begin;
+		return ;
+	}
+	GListMap<T, U> *list = new GListMap<T, U>(key, value);
+	list->_next = this->_begin;
+	this->_begin->_previous = list;
+	this->_begin = list;
+}
+
+template<typename T, typename U>
+T		&GMap<T, U>::BackKey(void)
+{
+	if (this->_nbElem != 0)
+		return (this->_end->_key);
+	throw GException("GVector", "Empty vector !");
+}
+
+template<typename T, typename U>
+U		&GMap<T, U>::BackValue(void)
+{
+	if (this->_nbElem != 0)
+		return (this->_end->_value);
+	throw GException("GVector", "Empty vector !");
+}
+
+template<typename T, typename U>
+U		&GMap<T, U>::operator[](const T &key)
+{
+	GListMap<T, U> *l = this->_begin;
+	while (l)
+	{
+		if (key == l->_key)
+			return (l->_value);
+		l = l->_next;
+	}
+	this->PushBack(key, U());
+	return (this->_end->_value);
 }
 
 template<typename T, typename U>
 bool	GMap<T, U>::ExistKey(T key)
 {
-	for (unsigned int i = 0; i < this->_key.Size(); ++i)
+	GListMap<T, U> *l = this->_begin;
+	while (l)
 	{
-		if (key == this->_key[i])
+		if (key == l->_key)
 			return (true);
+		l = l->_next;
 	}
 	return (false);
 }
@@ -133,67 +195,155 @@ bool	GMap<T, U>::ExistKey(T key)
 template<typename T, typename U>
 bool	GMap<T, U>::ExistValue(U value)
 {
-	for (unsigned int i = 0; i < this->_value.Size(); ++i)
+	GListMap<T, U> *l = this->_begin;
+	while (l)
 	{
-		if (value == this->_value[i])
+		if (value == l->_value)
 			return (true);
+		l = l->_next;
 	}
 	return (false);
 }
 
 template<typename T, typename U>
-void	GMap<T, U>::EraseValue(U value)
-{
-	int pos = this->_value.IndexOf(value);
-	if (pos == -1)
-		return ;
-	this->_value.Erase(pos);
-	this->_key.Erase(pos);
-}
-
-template<typename T, typename U>
 int 	GMap<T, U>::IndexOfValue(U Value)
 {
-	return (this->_value.IndexOf(Value));
+	unsigned int i = 0;
+	GListMap<T, U> *l = this->_begin;
+	while (l)
+	{
+		if (value == l->_value)
+			return (i);
+		l = l->_next;
+		++i;
+	}
+	return (-1);
 }
 
 template<typename T, typename U>
 int		GMap<T, U>::IndexOfKey(T Key)
 {
-	return (this->_key.IndexOf(Key));
-}
-
-template<typename T, typename U>
-void	GMap<T, U>::EraseKey(T key)
-{
-	int pos = this->_key.IndexOf(key);
-	if (pos == -1)
-		return ;
-	this->_value.Erase(pos);
-	this->_key.Erase(pos);
-}
-
-template<typename T, typename U>
-void	GMap<T, U>::Erase(unsigned int Index)
-{
-	if (Index < this->_key.Size())
+	unsigned int i = 0;
+	GListMap<T, U> *l = this->_begin;
+	while (l)
 	{
-		this->_value.Erase(Index);
-		this->_key.Erase(Index);
+		if (key == l->_key)
+			return (i);
+		l = l->_next;
+		++i;
 	}
+	return (-1);
 }
 
 template<typename T, typename U>
 T		&GMap<T, U>::Key(unsigned int index)
 {
-	return (this->_key[index]);
+	unsigned int i = 0;
+	GListMap<T, U> *l = this->_begin;
+	while (l)
+	{
+		if (i == index)
+			return (l->_key);
+		l = l->_next;
+		++i;
+	}
 }
 
 template<typename T, typename U>
 U		&GMap<T, U>::Value(unsigned int index)
 {
-	return (this->_value[index]);
+	unsigned int i = 0;
+	GListMap<T, U> *l = this->_begin;
+	while (l)
+	{
+		if (i == index)
+			return (l->_value);
+		l = l->_next;
+		++i;
+	}
 }
+
+template<typename T, typename U>
+void	GMap<T, U>::Erase(unsigned int index)
+{
+	if (index > this->_nbElem)
+		throw GException("GVector", "Out of range !");
+	this->_nbElem--;
+	unsigned int i = 0;
+	GListMap<T, U> *l = this->_begin;
+	while (l)
+	{
+		if (i == index)
+		{
+			if (l->_previous != NULL && l->_next != NULL)
+			{
+				l->_previous->_next = l->_next;
+				l->_next->_previous = l->_previous;
+				delete l;
+				return ;
+			}
+			else if (l->_previous == NULL && l->_next == NULL)
+			{
+				delete l;
+				this->_nbElem = 0;
+				this->_begin = NULL;
+				this->_end = NULL;
+				return ;
+			}
+			else if (l->_next == NULL)
+			{
+				l->_previous->_next = NULL;
+				this->_end = l->_previous;
+				delete l;
+				return ;
+			}
+			else if (l->_previous == NULL)
+			{
+				l->_next->_previous = NULL;
+				this->_begin = l->_next;
+				delete l;
+				return ;
+			}
+		}
+		l = l->_next;
+		++i;
+	}
+}
+
+template<typename T, typename U>
+void	GMap<T, U>::EraseKey(T key)
+{
+	unsigned int i = 0;
+	GListMap<T, U> *l = this->_begin;
+	while (l)
+	{
+		if (key == l->_key)
+		{
+			this->Erase(i);
+			return ;
+		}
+		l = l->_next;
+		++i;
+	}
+}
+
+template<typename T, typename U>
+void	GMap<T, U>::EraseValue(U value)
+{
+	unsigned int i = 0;
+	GListMap<T, U> *l = this->_begin;
+	while (l)
+	{
+		if (value == l->_value)
+		{
+			this->Erase(i);
+			return ;
+		}
+		l = l->_next;
+		++i;
+	}
+}
+
 
 typedef GMap<unsigned int, unsigned int> GUIntMap;
 

@@ -819,7 +819,7 @@ GStringList			GString::Split(const GString &f, G::SplitOption splitop , CaseOpti
 	GStringList	vect;
 	if (this->Find(f, caseop) == -1)
 	{
-		vect.PushBack(*(new GString(GString::GetContent(this->_str, this->_size))));
+		vect.PushBack(GString::GetBuffer(this->_str, this->_size));
 		return (vect);
 	}
 	int pos = 0, pos1 = 0, pos2 = 0;
@@ -832,14 +832,14 @@ GStringList			GString::Split(const GString &f, G::SplitOption splitop , CaseOpti
 		pos2 = pos;
 		GString ne(this->Substr(pos1, pos2));
 		if ((splitop == G::SKIP_EMPTY_PARTS && ne.Size() != 0) || splitop == G::KEEP_EMPTY_PARTS) 
-			vect.PushBack(*(new GString(ne)));
+			vect.PushBack(ne);
 		pos += f.Size();
 	}
 	if (pos1 != 0)
 	{
 		GString ne(this->Substr(pos1, this->Size()));
 		if ((splitop == G::SKIP_EMPTY_PARTS && ne.Size() != 0) || splitop == G::KEEP_EMPTY_PARTS) 
-				vect.PushBack(*(new GString(ne)));
+				vect.PushBack(ne);
 	}
 	return (vect);	
 }

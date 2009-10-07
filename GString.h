@@ -155,7 +155,22 @@ class GEXPORTED GString
 		unsigned int	_size;
 		unsigned int	_allocate;
 		static GString	GetContent(const char *, unsigned int);
+
+		template<typename T>
+		unsigned int	GetSizeBeforePoint(T nbr)
+		{
+			unsigned int i = 0;
+			while (nbr > 0)
+			{
+				++i;
+				nbr /= 10;
+			}
+			return (i);
+		}
+		unsigned int	GetMallocSizeNbr(unsigned int Precision, unsigned int nbr);
 };
+
+
 
 typedef GVector<GString> GStringList;
 typedef GMap<GString, GString> GStringMap;

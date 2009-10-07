@@ -26,6 +26,7 @@ void	GGridLayout::AddWidget(GWidget *Widget, unsigned int PositionX, unsigned in
 		this->_maxX = PositionX;
 	if (PositionY > this->_maxY)
 		this->_maxY = PositionY;
+	this->_region.PushBack(GStructRegion(Widget, PositionX, PositionY, ColSpan, RowSpan));
 	if (ColSpan == 1 && RowSpan == 1)
 	{
 		this->CalculColumnMin(PositionY, Widget);

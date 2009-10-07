@@ -45,11 +45,9 @@ GString::GString(const char *str)
 
 GString::GString(const GString &s)
 {
-	std::cout << "SIZE => " << s._size << std::endl;
 	this->_size = s._size;
 	this->_allocate = this->_size + SIZE;
 	unsigned int alloc = ((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1;
-	std::cout << "ALLOCATE : " << alloc << std::endl;
 	this->_str = new char[alloc];
 	for (unsigned int i = 0; i < this->_size + 1; ++i)
 		this->_str[i] = s._str[i];
@@ -244,32 +242,31 @@ GString::GString(double nbr, unsigned int precision)
 	this->_str[i] = 0;
 }
 
+unsigned int	GString::GetMallocSizeNbr(unsigned int Precision, unsigned int nbr)
+{
+	if (Precision == 0)
+		return (nbr);
+	return (nbr + 1 + Precision);
+}
+
 GString::GString(long long nbr, unsigned int precision)
 {
 	if (precision > 9)
 		precision = 9;
-	long long save(nbr);
+	unsigned int NbrCharBeforePoint = this->GetSizeBeforePoint(nbr);
+	this->_allocate = this->GetMallocSizeNbr(precision, NbrCharBeforePoint) + SIZE;
+	unsigned int alloc = ((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1;
+	this->_str = new char[alloc];
 	unsigned int i = 0;
-	while ((int)save > 0)
-	{
-		save /= 10;
-		i++;
-	}
-	save = nbr;
-	if (precision == 0)
-		this->_size = i + precision;
-	else 
-		this->_size = i + precision + 1;
-	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
-	i = 0;
-	for (; (int)save > 0; ++i)
-	{
-		this->_str[this->_size - i - 1 - precision - 1] = ((int)save % 10) + '0';
-		save /= 10;
-	}
+	long long save(nbr);
 	if (precision != 0)
 	{
+		while (save > 0)
+		{
+			this->_str[this->_size - i - 1 - precision - 1] = (save % 10) + '0';
+			save /= 10;
+			++i;
+		}
 		this->_str[i++] = '.';
 		save = nbr - (int)nbr;
 		for (unsigned int j = 0; j < precision; ++j, ++i)
@@ -277,13 +274,19 @@ GString::GString(long long nbr, unsigned int precision)
 			save *= 10;
 			this->_str[i] = (save % 10) + '0';
 		}
+		this->_str[i] = 0;
 	}
 	else
 	{
-		this->_str[i - 1] = 0;
-		this->_size = this->_size - 1;
+		this->_size = NbrCharBeforePoint;
+		while (save > 0)
+		{
+			this->_str[this->_size - i - 1] = (save % 10) + '0';
+			save /= 10;
+			++i;
+		}
+		this->_str[this->_size] = 0;
 	}
-	this->_str[i] = 0;
 }
 
 GString::GString(int nbr)
@@ -452,6 +455,7 @@ GString				GString::GetBuffer(const char *str, unsigned int size)
 	delete[] s._str;
 	s._size = size;
 	s._allocate = s._size + SIZE;
+	//unsigned int alloc = ((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1;
 	s._str = new char[s._allocate + 1];
 	unsigned int i = 0;
 	for (; i < size; ++i)

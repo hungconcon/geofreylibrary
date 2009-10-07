@@ -11,7 +11,7 @@ class GListBox : public GWidget
 		~GListBox(void);
 
 		void	AddItem(const GString &Item);
-
+		void	Clear(void);
 
 	
 	private:

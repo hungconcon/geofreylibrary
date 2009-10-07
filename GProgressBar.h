@@ -3,6 +3,11 @@
 # define __GPROGRESSBAR_H__
 
 #include "GWidget.h"
+#if defined(GWIN)
+#	include <commctrl.h>
+#pragma comment(lib, "comctl32.lib")
+#endif
+
 
 class GProgressBar : public GWidget
 {

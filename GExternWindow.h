@@ -7,8 +7,9 @@
 #endif
 
 #include "GString.h"
+#include "GWidget.h"
 
-class GExternWindow
+class GExternWindow : public GWidget
 {
 	public:
 		GExternWindow(void);
@@ -16,13 +17,6 @@ class GExternWindow
 
 		bool	Find(const GString &WindowName);
 		bool	SetTittle(const GString &);
-		bool	Hide(void);
-		bool	Show(void);
-		bool	IsVisible(void);
-		bool	Destroy(void);
-
-	private:
-		HWND	_handle;
 };
 
 

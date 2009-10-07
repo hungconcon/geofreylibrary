@@ -9,7 +9,6 @@ GListBox::GListBox(GWidget *Parent)
 	this->_widget = CreateWindow("LISTBOX", "GGroupBox", WS_CHILD | WS_VISIBLE | WS_BORDER |LBS_NOTIFY,0, 0, 100, 30, this->_parent->GetWidget(), NULL, NULL, NULL);
 }
 
-
 GListBox::~GListBox(void)
 {
 	
@@ -21,5 +20,12 @@ void		GListBox::AddItem(const GString &Item)
 	char *tmp = Item.ToChar();
 	SendMessage(this->_widget, LB_ADDSTRING, 0, (LPARAM)tmp);
 	delete[] tmp;
+#endif
+}
+
+void		GListBox::Clear(void)
+{
+#if defined(GWIN)
+	SendMessage(this->_widget, LB_RESETCONTENT, 0, 0);
 #endif
 }

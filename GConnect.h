@@ -8,6 +8,8 @@
 #include "GMutex.h"
 //#define SIGNAL(x)
 
+
+
 typedef GMap<GString, GFunction>	GPointerMap;
 
 class GConnect
@@ -15,6 +17,10 @@ class GConnect
 	public:
 		static void	Connect(const GString &, GFunction);
 		static void	Disconnect();
+
+		static void	Lock(void);
+		static void Unlock(void);
+
 	private:
 		static void StopThread(void);
 		static void StartThread(void);

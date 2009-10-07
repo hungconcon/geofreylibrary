@@ -152,12 +152,14 @@ unsigned int	GWidget::GetMinimumWidth(void) const
 
 void			GWidget::Move(unsigned int X, unsigned int Y)
 {
-
+	if (SetWindowPos(this->_widget, HWND_TOP, X, Y, 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER) != 0)
+		;
 
 }
 
 void			GWidget::Move(const GSize &Size)
 {
-
+	if (SetWindowPos(this->_widget, HWND_TOP, Size.GetX(), Size.GetY(), 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER) != 0)
+		;
 
 }

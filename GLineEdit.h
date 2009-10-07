@@ -12,6 +12,10 @@ class GLineEdit : public GWidget
 
 		GString		GetText(void);
 		void		SetText(const GString &Text);
+		void		Password(void);
+		void		SetPasswordChar(const GChar &Char);
+		void		SetLimitLength(unsigned int Limit);
+
 
 	private:
 		GWidget		*_parent;

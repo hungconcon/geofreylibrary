@@ -188,7 +188,7 @@ GString		GSocketTcpServer::Receive(void)
 	dwFlags = 0;
 	ret = WSARecv(this->_socket, &wbuf, 1, &dwBytesRet, &dwFlags, NULL, NULL);
 	if (ret == SOCKET_ERROR)
-		return (GString());
+		throw GException("GSocketTcpClient", "Error WSARecv() !");
 	return (GString::GetBuffer(wbuf.buf, dwBytesRet));
 #else
 	char		buffer[1024];
@@ -210,6 +210,9 @@ void		GSocketTcpServer::Receive(void *Data, unsigned int Size)
 	wbuf.buf = (char *)Data;
 	dwFlags = 0;
 	ret = WSARecv(this->_socket, &wbuf, 1, &dwBytesRet, &dwFlags, NULL, NULL);
+	if (ret == 0)
+		return ;
+	throw GException("GSocketTcpSever", "Error WSARecv");
 #else
 	int	li = 0;
 	li = recv(this->_socket, Data, Size, 0);

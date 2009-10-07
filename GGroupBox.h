@@ -12,7 +12,6 @@ class GGroupBox : public GWidget
 		~GGroupBox(void);
 
 		void	SetText(const GString &Text);
-
 	
 	private:
 		GWidget		*_parent;

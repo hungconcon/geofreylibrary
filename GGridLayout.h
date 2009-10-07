@@ -12,6 +12,7 @@ typedef HRGN GRegionType;
 
 struct GStructRegion
 {
+	GStructRegion(GWidget *Widget, unsigned int X, unsigned int Y, unsigned int col, unsigned int row) : _widget(Widget), _posX(X), _posY(Y), _colspan(col), _rowspan(row), _region(NULL){}
 	GWidget			*_widget;
 	unsigned int	_posX;
 	unsigned int	_posY;

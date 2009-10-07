@@ -254,8 +254,9 @@ void		GSocketUdpClient::Receive(void *s, unsigned int size)
 		wbuf.buf = (char *)s;
 		dwFlags = 0;
 		ret = WSARecvFrom(this->_socket, &wbuf, 1, &dwBytesRet, &dwFlags, reinterpret_cast <sockaddr*> (&this->_sockaddr), &len, NULL, NULL);
-		if (ret == SOCKET_ERROR)
-			throw GException("GSocketUdpClient", "Error WSARecv");
+		if (ret == 0)
+			return ;
+		throw GException("GSocketUdpClient", "Error WSARecvFrom");
 	#else
 		int	li = 0;
 		li = recvfrom(this->_socket, s, size, 0, 0, 0);

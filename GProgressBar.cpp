@@ -6,8 +6,9 @@
 
 GProgressBar::GProgressBar(GWidget *Parent)
 {
+	InitCommonControls();
 	this->_parent = Parent;
-	this->_widget = CreateWindow("PROGRESS_CLASS", NULL, WS_CHILD | WS_VISIBLE, 0, 0, 100, 30, this->_parent->GetWidget(), NULL, NULL, NULL);
+	this->_widget = CreateWindow(PROGRESS_CLASS, NULL, WS_CHILD | WS_VISIBLE, 0, 0, 100, 30, this->_parent->GetWidget(), NULL, NULL, NULL);
 }
 
 

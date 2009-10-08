@@ -1,171 +1,100 @@
+using System;
+using System.IO;
 
-#include "GFileInfos.h"
-#include "GMessageBox.h"
-
-#include <iostream>
-
-GFileInfos::GFileInfos(void)
+namespace G
 {
-	
-}
+    class GFileInfos
+    {
+        GString _file;
 
-GFileInfos::GFileInfos(const GString &f)
-{
-	this->_file = f;
-	#if defined (GWIN)
-	if (!GetFileAttributesEx(this->_file.ToChar(), GetFileExInfoStandard, &this->_stat))
-		GWarning::Warning("GFileInfos", "GFileInfos(const GString &)", "Cannot get struct WIN32_FILE_ATTRIBUTE_DATA !");
-	#else
-		if (lstat(this->_file.ToChar(), &this->_stat) == -1)
-			GWarning::Warning("GFileInfos", "GFileInfos(const GString &)", "Cannot get struct stat !");
-	#endif
-}
+        public GFileInfos()
+        {
 
-GFileInfos::GFileInfos(const GString &, const GString &)
-{
-	
-}
+        }
+        public GFileInfos(GString file)
+        {
+            this._file = file;
+        }
+        public GFileInfos(GString Dir, GString File)
+        {
+            this._file = System.IO.Path.Combine(Dir.ToString(), File.ToString());
+        }
+        public GString FileName()
+        {
+            return (System.IO.Path.GetFileName(this._file.ToString()));
+        }
+        public static bool IsDirectory(GString Dir)
+        {
+            if (Directory.Exists(Dir.ToString()))
+                return (true);
+            return (false);
+        }
+        public bool IsDir()
+        {
+            if (Directory.Exists(this._file.ToString()))
+                return (true);
+            return (false);
+        }
+        public void SetFile(GString FileOrDirectory)
+        {
+            this._file = FileOrDirectory;
+        }
+        public Int64 Size()
+        {
+            try
+            {
+                System.IO.FileInfo monfichier = new System.IO.FileInfo(this._file.ToString());
+                return (monfichier.Length);
+            }
+            catch
+            {
 
-GString			GFileInfos::FileName(void) const
-{
-#if defined (GWIN)
-	return (this->_file);
-#else
-	return (this->_file);
-#endif
-}
+            }
+            return (-1);
+        }
+        public GDateTime BirthTime()
+        {
+            try
+            {
+                System.IO.FileInfo file = new System.IO.FileInfo(this._file.ToString());
+                return (new GDateTime(file.CreationTime));
+            }
+            catch
+            {
 
-bool			GFileInfos::IsDir(const GString &s)
-{
-#if defined (GWIN)
-	if ((GetFileAttributes(s.ToLPCSTR()) & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY) 
-		return (true);
-    return (false);
-#else
-	struct stat st;
-	if (lstat(s.ToChar(), &st) == -1)
-			GWarning::Warning("GFileInfos", "GFileInfos(const GString &)", "Cannot get struct stat !");
-	if ((st.st_mode & S_IFDIR) != 0)
-		return (true);
-	return (false);
-#endif
-}
+            }
+            return (new GDateTime());
+        }
 
-bool			GFileInfos::IsDir(void)
-{
-#if defined (GWIN)
-	if ((GetFileAttributes(this->_file.ToLPCSTR()) & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY) 
-		return (true);
-    return (false);
-#else
-	if ((this->_stat.st_mode & S_IFDIR) != 0)
-		return (true);
-	return (false);
-#endif
-}
+        public GDateTime LastModificationTime()
+        {
+            try
+            {
+                System.IO.FileInfo file = new System.IO.FileInfo(this._file.ToString());
+                return (new GDateTime(file.LastWriteTime));
+            }
+            catch
+            {
 
+            }
+            return (new GDateTime());
+        }
+        public GDateTime LastAccessTime()
+        {
+            try
+            {
+                System.IO.FileInfo file = new System.IO.FileInfo(this._file.ToString());
+                return (new GDateTime(file.LastAccessTime));
+            }
+            catch
+            {
 
-void			GFileInfos::SetFile(const GString &f)
-{
-	this->_file = f;
-	#if defined (GWIN)
-	if (!GetFileAttributesEx(this->_file.ToChar(), GetFileExInfoStandard, &this->_stat))
-		GWarning::Warning("GFileInfos", "GFileInfos(const GString &)", "Cannot get struct WIN32_FILE_ATTRIBUTE_DATA !");
-	#else
-		if (lstat(this->_file.ToChar(), &this->_stat) == -1)
-			GWarning::Warning("GFileInfos", "GFileInfos(const GString &)", "Cannot get struct stat !");
-	#endif
+            }
+            return (new GDateTime());
+        }
+        public bool Exist()
+        {
+            return (Directory.Exists(this._file.ToString()));
+        }
+    }
 }
-
-long long	GFileInfos::Size(void) const
-{
-	#if defined (GWIN)
-		long long size((this->_stat.nFileSizeHigh * MAXDWORD));
-		if (this->_stat.nFileSizeHigh > 1)
-			size *= 2;
-		size += this->_stat.nFileSizeLow;
-		return (size);
-	#else
-		return (this->_stat.st_size);
-	#endif
-}
-
-GString			GFileInfos::FormatedSize(unsigned int num) const
-{
-	long long	size(this->Size());
-	GStringList name;
-	name.PushBack("k");
-	name.PushBack("M");
-	name.PushBack("G");
-	unsigned int j  = 0;
-	long long newsize(size / 1024);
-	if (newsize == 0)
-		return ("1.0");
-	while (newsize > 1024)
-	{
-		newsize /= 1024;
-		j++;
-	}
-	return (GString(newsize, num) + name[j]);
-}
-
-GDateTime		GFileInfos::BirthTime(void) const
-{
-#if defined (GWIN)
-	SYSTEMTIME St;
-	FILETIME t;
-	FileTimeToLocalFileTime(&this->_stat.ftCreationTime, &t);
-	FileTimeToSystemTime(&t, &St);
-	return (GDateTime(St.wYear, St.wMonth - 1, St.wDay, St.wHour, St.wMinute, St.wSecond));	
-#elif defined(GBSD)
-	struct tm *s = new (struct tm);
-	s = gmtime(&(this->_stat.st_birthtime));
-	GDateTime d(s->tm_year, s->tm_mon, s->tm_mday, s->tm_hour, s->tm_min, s->tm_sec);
-	delete s;
-	return (d);
-#endif
-}
-
-GDateTime	GFileInfos::LastModificationTime(void) const
-{
-#if defined (GWIN)
-	SYSTEMTIME St;
-	FILETIME t;
-	FileTimeToLocalFileTime(&this->_stat.ftLastWriteTime, &t);
-	FileTimeToSystemTime(&t, &St);
-	return (GDateTime(St.wYear, St.wMonth - 1, St.wDay, St.wHour, St.wMinute, St.wSecond));	
-#else
-	struct tm *s = new (struct tm);
-	s = gmtime(&(this->_stat.st_mtime));
-	GDateTime *d = new GDateTime(s->tm_year, s->tm_mon, s->tm_mday, s->tm_hour, s->tm_min, s->tm_sec);
-	return (*d);
-#endif
-}
-GDateTime	GFileInfos::LastAccessTime(void) const
-{
-#if defined (GWIN)
-	SYSTEMTIME St;
-	FILETIME t;
-	FileTimeToLocalFileTime(&this->_stat.ftLastAccessTime, &t);
-	FileTimeToSystemTime(&t, &St);
-	return (GDateTime(St.wYear, St.wMonth - 1, St.wDay, St.wHour, St.wMinute, St.wSecond));
-#else
-	struct tm *s = new (struct tm);
-	s = gmtime(&(this->_stat.st_atime));
-	GDateTime *d = new GDateTime(s->tm_year, s->tm_mon, s->tm_mday, s->tm_hour, s->tm_min, s->tm_sec);
-	return (*d);
-#endif
-}
-
-bool	GFileInfos::Exist(void)
-{
-#if defined (GWIN)
-	if (GetFileAttributes(this->_file.ToLPCSTR()) == INVALID_FILE_ATTRIBUTES)
-		return (false);
-#else
-	if (lstat(this->_file.ToChar(), &this->_stat) == -1)
-		return (false);
-#endif
-	return (true);
-}
-

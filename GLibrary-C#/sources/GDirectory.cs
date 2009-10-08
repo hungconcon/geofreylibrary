@@ -1,277 +1,143 @@
+using System;
+using System.IO;
 
-#include "GDirectory.h"
-
-GDirectory::GDirectory(void)
+namespace G
 {
-	this->Cd(".");
-}
-
-GDirectory::~GDirectory(void)
-{
-
-}
-
-bool	GDirectory::Exist(void)
-{
-	char	*tmp = this->_path.ToChar();
-	bool	ok(true);
-#if defined (GWIN)
-	if (GetFileAttributes(tmp) == INVALID_FILE_ATTRIBUTES)
-		ok = (false);
-#else
-	struct stat s;
-	if (lstat(tmp, &s) == -1)
-		ok = (false);
-#endif
-	delete[] tmp;
-	return (ok);
-}
-
-bool	GDirectory::Exist(const GString &Path)
-{
-	char	*tmp = Path.ToChar();
-	bool	ok(true);
-#if defined (GWIN)
-	if (GetFileAttributes(tmp) == INVALID_FILE_ATTRIBUTES)
-		ok = (false);
-#else
-	struct stat s;
-	if (lstat(tmp, &s) == -1)
-		ok = (false);
-#endif
-	delete[] tmp;
-	return (ok);
-}
-
-GFileList	GDirectory::Ls(void)
-{
-	GFileList	list;
-	char	*tmp;
-#if defined (GWIN)
-    HANDLE hEnt;
-    WIN32_FIND_DATA ent;
-	tmp = GString(this->_path + "/" + "*").ToChar();
-	if ((hEnt = FindFirstFile(tmp, &ent)) != INVALID_HANDLE_VALUE)
+    public class GDirectory
     {
-        do
-		{
-			GFileInfos t(ent.cFileName);
-			list.PushBack(t);
-		}
-        while (FindNextFile(hEnt, &ent));   
-        FindClose(hEnt);
-    }
-#else
-	tmp = this->_path.ToChar();
-	DIR * rep = opendir(tmp);
-	if (rep != NULL)
-	{ 
-		struct dirent *ent;
-		while ((ent = readdir(rep)) != NULL) 
-		{ 
-			GFileInfos t(ent->d_name);
-			list.PushBack(t);
-		}  
-		closedir (rep); 
-	} 
-#endif
-	delete[] tmp;
-	return (list);
-}
+        private GString     _directory;
 
-GFileList	GDirectory::Ls(const GString &p)
+        public              GDirectory()
+        {
+	        this._directory = GetCurrentDirectory();
+        }
+        /*public GFileInfos[] Ls()
+        {
+            String[] files;
+            files = Directory.GetFileSystemEntries(this._directory);
+            int filecount = files.GetUpperBound(0) + 1;
+            GFileInfos[] list = new GFileInfos[filecount];
+            int i = 0;
+            while (i < filecount)
+            {
+                list[i] = files[i];
+                ++i;
+            }
+            return (list);
+        }
+        public static GFileInfos[] Ls(GString Directory)
+        {
+            GFileInfos[] list;
+            String[] files;
+            files = Directory.GetFileSystemEntries(Directory);
+            int filecount = files.GetUpperBound(0) + 1;
+            int i = 0;
+            while (i < filecount)
+            {
+                list[i] = files[i];
+                ++i;
+            }
+            return (list);
+        }*/
+        public bool         Mkdir(GString Dir)
+        {
+            bool test = true;
+            try
+            {
+                Directory.CreateDirectory(System.IO.Path.Combine(this._directory.ToString(), DirToString()));
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+        public bool		    Mkpath(GString Path)
+        {
+            bool test = true;
+            try
+            {
+                Directory.CreateDirectory(System.IO.Path.Combine(this._directory.ToString(), Path.ToString()));
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+        public static bool  Rename(GString f1, GString f2)
+        {
+            test = true;
+            try
+            {
+                Directory.Move(f1.ToString(), f2.ToString());
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+        public GString      Pwd()
+        {
+            return (this._directory);
+        }
+        public bool         Cd(GString Dir)
+        {
+            bool test = true;
+            try
+            {
+                Directory.SetCurrentDirectory(Dir.ToString());
+                this._directory = Directory.GetCurrentDirectory();
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+        public Boolean      Rmdir(bool Recursif)
+        {
+            Boolean test = true;
+            try
+            {
+                Directory.Delete(this._directory.ToString(), Recursif);
+                this._directory = Directory.GetCurrentDirectory();
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+        public static Boolean  Rmdir(GString Dir, bool Recursif)
+        {
+            Boolean test = true;
+            try
+            {
+                Directory.Delete(Dir.ToString(), Recursif);
+                this._directory = Directory.GetCurrentDirectory();
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+        public bool         Rmpath(GString Path)
+        {
+	        return (true);	
+        }
+
+/*        
+static void PrintSpecFolder()
 {
-	GFileList	list;
-	char	*tmp;
-#if defined (GWIN)
-    HANDLE hEnt;
-    WIN32_FIND_DATA ent;
-	tmp = GString(p+ "/" + "*").ToChar();
-	if ((hEnt = FindFirstFile(tmp, &ent)) != INVALID_HANDLE_VALUE)
-    {
-        do
-		{
-			GFileInfos t(ent.cFileName);
-			list.PushBack(t);
-		}
-        while (FindNextFile(hEnt, &ent));   
-        FindClose(hEnt);
-    }
-#else
-	tmp = p.ToChar();
-	DIR * rep = opendir(tmp);
-	if (rep != NULL)
-	{ 
-		struct dirent *ent;
-		while ((ent = readdir(rep)) != NULL) 
-		{ 
-			GFileInfos t(ent->d_name);
-			list.PushBack(t);
-		}  
-		closedir (rep); 
-	}
-#endif
-	delete[] tmp;
-	return (list);
-}
-
-bool		GDirectory::Mkdir(const GString &s)
-{
-	char	*tmp = s.ToChar();
-	bool	ok(true);
-#if defined (GWIN)
-	if (CreateDirectory(tmp, NULL) == 0)
-		ok = (false);
-#else
-	if (mkdir(tmp, NULL) == -1)
-		ok = (false);
-#endif
-	delete[] tmp;
-	return (ok);
-}
-
-bool		GDirectory::Mkpath(const GString &s)
-{
-	GString current = this->Pwd();
-	GStringList list = s.Split("\\");
-	for (unsigned int i = 0; i < list.Size(); ++i)
-	{
-		char	*tmp = list[i].ToChar();
-#if defined (GWIN)
-		if (CreateDirectory(tmp, NULL) == 0)
-#else
-		if (mkdir(tmp, NULL) == -1)
-#endif
-		{
-			delete[] tmp;
-			this->Cd(current);
-			return (false);
-		}
-		delete[] tmp;
-		this->Cd(list[i]);
-	}
-	this->Cd(current);
-	return (true);
-}
-
-bool		GDirectory::Rename(const GString &f1, const GString &f2)
-{
-	bool	ok(true);
-#if defined (GWIN)
-	char	*tmp1 = f1.ToChar();
-	char	*tmp2 = f2.ToChar();
-	if (MoveFile(tmp1, tmp2) == 0)
-		ok = (false);
-	delete[] tmp1;
-	delete[] tmp2;
-#else
-
-#endif
-	return (ok);
-}
-
-GString		GDirectory::Pwd(void)
-{
-#if defined (GWIN)
-	TCHAR szPath[1024]; 
-	int n;
-	if ((n = GetCurrentDirectory(1024, szPath)) == 0)
-		throw GException(G::CANNOT_GET_CURRENT_PATH);
-	if (n == 0)
-		return (this->_path);
-	this->_path = GString(szPath);
-#elif defined(GBSD)
-	char *path = new char[1024];
-	if (getwd(path) == NULL)
-		throw GException(G::CANNOT_GET_CURRENT_PATH);
-	this->_path = path;
-	delete[] path;
-#elif defined(GLINUX)
-	char *path = get_current_dir_name();
-	this->_path = path;
-	delete[] path;
-#endif
-	return (this->_path);
-}
-
-bool	GDirectory::Cd(const GString &d)
-{
-	char	*tmp = d.ToChar();
-	bool	ok(true);
-#if defined (GWIN)
-	if (SetCurrentDirectory(tmp) == 0)
-		ok = false;
-#else
-	if (chdir(tmp) == -1)
-		ok = false;
-#endif
-	delete[] tmp;
-	this->Pwd();
-	return (ok);
-}
-
-bool		GDirectory::Rmdir(bool test)
-{
-	if (test == true)
-	{
-		GFileList content = GDirectory::Ls(this->_path);
-		for (unsigned int i = 0; i < content.Size(); i++)
-		{
-			if (content[i].FileName() != "." && content[i].FileName() != "..")
-			{
-				if (content[i].IsDir())
-					GDirectory::Rmdir(this->_path + "/" + content[i].FileName());
-				else
-					GFile::Rm(this->_path + "/" + content[i].FileName());
-			}
-		}
-	}
-	char	*tmp = this->_path.ToChar();
-	bool	ok(true);
-#if defined (GWIN)
-	if (RemoveDirectory(tmp) == 0)
-		ok = (false);
-#else
-	if (rmdir(tmp) == -1)
-		ok = (false);
-#endif
-	delete[] tmp;
-	return (ok);
-}
-
-bool		GDirectory::Rmdir(const GString &d, bool test)
-{
-	if (test == true)
-	{
-		GFileList content = GDirectory::Ls(d);
-		for (unsigned int i = 0; i < content.Size(); i++)
-		{
-			if (content[i].FileName() != "." && content[i].FileName() != "..")
-			{
-				if (content[i].IsDir())
-					GDirectory::Rmdir(d + "/" + content[i].FileName());
-				else
-					GFile::Rm(d + "/" + content[i].FileName());
-			}
-		}
-	}
-	char	*tmp = d.ToChar();
-	bool	ok(true);
-#if defined (GWIN)
-	if (RemoveDirectory(tmp) == 0)
-		ok = (false);
-#else
-	if (rmdir(tmp) == -1)
-		ok = (false);
-#endif
-	delete[] tmp;
-	return (ok);
-}
-
-
-bool		GDirectory::Rmpath(const GString &)
-{
-	return (true);	
+    // Répertoire spéciaux
+    Console.WriteLine("Répertoire spéciaux");
+    Environment.SpecialFolder[] sfe = (Environment.SpecialFolder[]) 
+                                      Enum.GetValues(typeof(Environment.SpecialFolder));
+    for (int i = 0; i<sfe.Length; i++)
+        Console.WriteLine(Environment.GetFolderPath(sfe[i]));
 }
 
 GString		GDirectory::GetPathDesktop(void)
@@ -419,20 +285,8 @@ GString		GDirectory::GetPathRoot(void)
 #else
 	return ("");
 #endif
+}*/
+
+
+    }
 }
-
-
-
-/*
-#  m_AppData = m_Reg.LireStr("AppData");
-# m_Cache = m_Reg.LireStr("Cache");
-# m_LocalAppData = m_Reg.LireStr("Local AppData");
-# m_LocalSettings = m_Reg.LireStr("Local Settings");
-# m_VoisinageReseau = m_Reg.LireStr("NetHood");
-# m_VoisinageImpression = m_Reg.LireStr("PrintHood");
-# m_Recents = m_Reg.LireStr("Recent");
-# m_EnvoyerVers = m_Reg.LireStr("SendTo");
-# m_Demarrage = m_Reg.LireStr("Startup");
-# m_Modeles = m_Reg.LireStr("Templates");
-
-*/

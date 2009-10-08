@@ -1,397 +1,190 @@
+using System;
 
-#include "GDateTime.h"
+namespace G
+{
+    public class GDateTime
+    {
+        DateTime    _time;
 
-GDateTime::GDateTime(void)
-{
-	time_t tt;
-	time (&tt);
-#if defined (WIN32) | defined (_WIN32) |  defined (__WIN32) | defined (WIN64) | defined (_WIN64) | defined (__WIN64)
-	this->_tm = new tm;
-	localtime_s(this->_tm, &tt);
-#else
-	this->_tm = localtime(&tt);
-#endif
-}
+        public              GDateTime()
+        {
+            this._time = DateTime.Now;
+        }
+        public              GDateTime(GDateTime d)
+        {
+            this._time = d._time;
+        }
+        public              GDateTime(int y, int M, int d, int h, int m, int s)
+        {
+            this._time = new DateTime(y, M, d, h, m, s);
+        }
+        public int          Hour()
+        {
+            return (this._time.Hour);
+        }
+        public int          Minute()
+        {
+	        return (this._time.Minute);
+        }
+        public int          Second()
+        {
+	        return (this._time.Second);
+        }
+        public void         AddHours(int h)
+        {
+	        this._time.AddHours(h);
+        }
+        public void         AddMinutes(int m)
+        {
+	        this._time.AddMinutes(m);
+        }
+        public void         AddSeconds(int s)
+        {
+	        this._time.AddSeconds(s);
+        }
+        public int          Day()
+        {
+	        return (this._time.Day);
+        }
+        public int          Month()
+        {
+            return (this._time.Month);
+        }
+        public int          Year()
+        {
+            return (this._time.Year);
+        }
+        public int          DayOfYear()
+        {
+	        return (this._time.DayOfYear);
+        }
+        public int          DayOfWeek()
+        {
+            return (this._time.DayOfWeek);
+        }
+        public bool         IsBisextile()
+        {
+            return (DateTime.IsLeapYear(this._time));
+        }
+        public static bool  IsBisextile(int Year)
+        {
+            return (DateTime.IsLeapYear(Year));
+        }
+        public void         AddYears(int y)
+        {
+            this._time.AddYears(y);
+        }
+        public void         AddMonths(int m)
+        {
+            this._time.AddMonths(m);
+        }
+        public void         AddDays(int d)
+        {
+	        this._time.AddDays(d);
+        }
+        public int          GetNumberDayMonth()
+        {
+            switch (this._time.Month) 
+	        {
+		    case 1 : case 3 : case 5: case 7 : case 8 : case 10 : case 12 :
+			    return (31);
+		    case 4 : case 6 : case 9 : case 11 :
+			    return (30);
+		    case 2 :
+			    return (this.IsBisextile()) ? 29 : 28;
+	        }
+	        return (0);
+        }
+        public void         SetDate(int y, int m, int d)
+        {
+            this._time = new DateTime(y, m, d);
+        }
+        public void         SetTime(int h, int m, int s)
+        {
+            new DateTime(this._time.Year, this._time.Month, this._time.Day, h, m, s);
+        }
+        public static int   GetNumberDayMonth(int m, int y)
+        {
+	        switch (m) 
+	        {
+		        case 1 : case 3 : case 5: case 7 : case 8 : case 10 : case 12 :
+			        return (31);
+		        case 4 : case 6 : case 9 : case 11 :
+			        return (30);
+		        case 2 :
+			        return (GDate.IsBisextile(y)) ? 29 : 28;
+	        }
+	        return 0;
+        }
+        public GString      GetDateTime(GString Format)
+        {
+	        GString test = new GString(this._time.Day);
+	        //DayInterface *d = GDayInstance::GetInstance(op);
+	        //g = g.Replace("%dddd", d->GetDay(this._tm->tm_wday));
+	        //g = g.Replace("%ddd", d->GetTruncateDay(this._tm->tm_wday));
+	        Format = Format.Replace("%dd", test.RightJustified(2, '0'));
+	        Format = Format.Replace("%d", test);
+	        //MonthInterface *m = GMonthInstance::GetInstance(op);
+	        test = new GString(this._time.Month);
+	        //Format = Format.Replace("%MMMM", m->GetMonth(this._tm->tm_mon));
+	        //Format = Format.Replace("%MMM", m->GetTruncateMonth(this._tm->tm_mon));
+	        Format = Format.Replace("%MM", test.RightJustified(2, '0'));
+	        Format = Format.Replace("%M", this._tm->tm_mon + 1);
+	        test = new GString(this._time.Year);
+	        Format = Format.Replace("%yyyy", test);
+	        Format = Format.Replace("%yy", test.Substr(2, 4));
+	        test = new GString(this._time.Hour);
+	        Format = Format.Replace("%hh", test.RightJustified(2, '0'));
+	        Format = Format.Replace("%h", test);
+	        test = new GString (this._time.Minute);
+	        Format = Format.Replace("%mm", test.RightJustified(2, '0'));
+	        Format = Format.Replace("%m", test);
+	        test = new GString (this._time.Second);
+	        Format = Format.Replace("%ss", test.RightJustified(2, '0'));
+	        Format = Format.Replace("%s", test);
+	        return (Format);
+        }
+ 
+        public static bool		operator !=(GDateTime d1, GDateTime d2)
+        {
+            if (d1._time != d2._time)
+                return (true);
+            return (false);
+        }
 
-GDateTime::GDateTime(const GPrecisionTime &p)
-{
-#if defined (GWIN)
-	this->_tm = new tm;
-	struct timeval64	tv = p.GetTimeval64();
-	localtime_s(this->_tm, &tv.tv_sec);
-#else
-	struct timeval64	tv = p.GetTimeval64();
-	this->_tm = localtime((time_t *)&tv.tv_sec);
-#endif
-}
-
-GDateTime::GDateTime(const GDate &d)
-{
-	this->_tm = new tm;
-	this->_tm->tm_mon = d.Month() - 1;
-	this->_tm->tm_year = d.Year() - 1900;
-	this->_tm->tm_wday = d.DayWeek();
-	this->_tm->tm_yday = d.DayYear();
-	this->_tm->tm_mday = d.Day() - 1;
-}
-
-GDateTime::GDateTime(const GTime &Time)
-{
-	this->_tm = new tm;
-	this->_tm->tm_hour = Time.Hour();
-	this->_tm->tm_min = Time.Min();
-	this->_tm->tm_sec = Time.Sec();
-}
-
-GDateTime::GDateTime(const GDate &Date, const GTime &Time)
-{
-	this->_tm = new tm;
-	this->_tm->tm_hour = Time.Hour();
-	this->_tm->tm_mday = Date.Day() - 1;
-	this->_tm->tm_min = Time.Min();
-	this->_tm->tm_mon = Date.Month() - 1;
-	this->_tm->tm_sec = Time.Sec();
-	this->_tm->tm_year = Date.Year() - 1900;
-	this->_tm->tm_wday = Date.DayWeek();
-	this->_tm->tm_yday = Date.DayYear();
-}
-
-GDateTime::GDateTime(int y, int M, int d, int h, int m, int s)
-{
-	this->_tm = new tm;
-	if (y < 0)
-		GWarning::Warning("GDateTime", "GDateTime(int Y, int M, int D, int h, int m, int s)", "Year is out of range !");
-	if (M < 1 || M > 12)
-		GWarning::Warning("GDateTime", "GDateTime(int Y, int M, int D, int h, int m, int s)", "Month is out of range !");
-	if (d < 1 || d > 31)
-		GWarning::Warning("GDateTime", "GDateTime(int Y, int M, int D, int h, int m, int s)", "Day is out of range !");
-	if (h < 0 || h > 23)
-		GWarning::Warning("GDateTime", "GDateTime(int Y, int M, int D, int h, int m, int s)", "Hours is out of range !");
-	if (m < 0 || m > 59)
-		GWarning::Warning("GDateTime", "GDateTime(int Y, int M, int D, int h, int m, int s)", "Minutes is out of range !");
-	if (s < 0 || s > 59)
-		GWarning::Warning("GDateTime", "GDateTime(int Y, int M, int D, int h, int m, int s)", "Secondes is out of range !");
-	this->_tm->tm_year = y - 1900;
-	this->_tm->tm_mon = M;
-	this->_tm->tm_mday = d;
-	this->_tm->tm_hour = h;
-	this->_tm->tm_min = m;
-	this->_tm->tm_sec = s;
-	mktime(this->_tm);
-}
-
-GDateTime::~GDateTime(void)
-{
-	delete this->_tm;
-}
-
-int			GDateTime::Hour(void) const
-{
-	return (this->_tm->tm_hour);
-}
-
-int			GDateTime::Min(void) const
-{
-	return (this->_tm->tm_min);
-}
-
-int			GDateTime::Sec(void) const
-{
-	return (this->_tm->tm_sec);
-}
-void		GDateTime::AddHours(int h)
-{
-	this->_tm->tm_hour += h;
-	mktime(this->_tm);
-}
-void		GDateTime::AddMins(int m)
-{
-	this->_tm->tm_min += m;
-	mktime(this->_tm);
-}
-void		GDateTime::AddSecs(int s)
-{
-	this->_tm->tm_sec += s;
-	mktime(this->_tm);
-}
-
-int			GDateTime::Day(void) const
-{
-	return (this->_tm->tm_mday + 1);
-}
-
-int			GDateTime::Month(void) const
-{
-	return (this->_tm->tm_mon + 1);
-}
-
-int			GDateTime::Year(void) const
-{
-	return (this->_tm->tm_year + 1900);
-}
-int			GDateTime::DayYear(void) const
-{
-	return (this->_tm->tm_yday);
-}
-int			GDateTime::DayWeek(void) const
-{
-	return (this->_tm->tm_wday);
-}
-bool		GDateTime::IsBisextile(void) const
-{
-	return ((this->_tm->tm_year % 4 == 0 && this->_tm->tm_year != 100) || this->_tm->tm_year % 400 == 0);
-}
-
-int			GDateTime::GetNumberDayMonth(void) const
-{
-	switch (this->_tm->tm_mon) 
-	{
-		case 1 : case 3 : case 5: case 7 : case 8 : case 10 : case 12 :
-			return (31);
-		case 4 : case 6 : case 9 : case 11 :
-			return (30);
-		case 2 :
-			return (this->IsBisextile()) ? 29 : 28;
-	}
-	return (0);
-}
-void		GDateTime::AddYears(int y)
-{
-	this->_tm->tm_year += y;
-	mktime(this->_tm);
-}
-void		GDateTime::AddMonths(int m)
-{
-	this->_tm->tm_mon += m;
-	mktime(this->_tm);
-}
-void		GDateTime::AddDays(int d)
-{
-	this->_tm->tm_mday += d;
-	mktime(this->_tm);
-}
-
-void		GDateTime::SetDate(int y, int m, int d)
-{
-	if (y < 0)
-		GWarning::Warning("GDate", "GDate(int Y, int M, int D)", "Year is out of range !");
-	if (m < 1 || m > 12)
-		GWarning::Warning("GDate", "GDate(int Y, int M, int D)", "Month is out of range !");
-	if (d < 1 || d > 31)
-		GWarning::Warning("GDate", "GDate(int Y, int M, int D)", "Day is out of range !");
-	this->_tm->tm_mon = m;
-	this->_tm->tm_mday = d;
-	this->_tm->tm_year = y;
-	mktime(this->_tm);
-}
-
-void		GDateTime::SetTime(int h, int m, int s)
-{
-	if (h < 0 || h > 23)
-		GWarning::Warning("GTime", "GTime(int Hours, int Minutes, int Seconds)", "Hours is out of range !");
-	if (m < 0 || m > 59)
-		GWarning::Warning("GTime", "GTime(int Hours, int Minutes, int Seconds)", "Minutes is out of range !");
-	if (s < 0 || s > 59)
-		GWarning::Warning("GTime", "GTime(int Hours, int Minutes, int Seconds)", "Secondes is out of range !");
-	this->_tm->tm_hour = h;
-	this->_tm->tm_min = m;
-	this->_tm->tm_sec = s;
-	mktime(this->_tm);
-}
-
-int			GDateTime::GetNumberDayMonth(int m, int y)
-{
-	switch (m) 
-	{
-		case 1 : case 3 : case 5: case 7 : case 8 : case 10 : case 12 :
-			return (31);
-		case 4 : case 6 : case 9 : case 11 :
-			return (30);
-		case 2 :
-			return (GDate::IsBisextile(y)) ? 29 : 28;
-	}
-	return 0;
-}
-bool		GDateTime::IsBisextile(int y)
-{
-	return ((y % 4 == 0 && y != 100) || y % 400 == 0);
-}
-GString		GDateTime::GetDateTime(const GString &format, G::LanguageOption op)
-{
-	GString g(format);
-	GString test(this->_tm->tm_mday);
-	DayInterface *d = GDayInstance::GetInstance(op);
-	g = g.Replace("%dddd", d->GetDay(this->_tm->tm_wday));
-	g = g.Replace("%ddd", d->GetTruncateDay(this->_tm->tm_wday));
-	g = g.Replace("%dd", test.RightJustified(2, '0'));
-	g = g.Replace("%d", test);
-	MonthInterface *m = GMonthInstance::GetInstance(op);
-	test = (this->_tm->tm_mon + 1);
-	g = g.Replace("%MMMM", m->GetMonth(this->_tm->tm_mon));
-	g = g.Replace("%MMM", m->GetTruncateMonth(this->_tm->tm_mon));
-	g = g.Replace("%MM", test.RightJustified(2, '0'));
-	g = g.Replace("%M", this->_tm->tm_mon + 1);
-	test = this->_tm->tm_year + 1900;
-	g = g.Replace("%yyyy", test);
-	g = g.Replace("%yy", test.Substr(2, 4));
-	test = this->_tm->tm_hour;
-	g = g.Replace("%hh", test.RightJustified(2, '0'));
-	g = g.Replace("%h", test);
-	test = this->_tm->tm_min;
-	g = g.Replace("%mm", test.RightJustified(2, '0'));
-	g = g.Replace("%m", test);
-	test = this->_tm->tm_sec;
-	g = g.Replace("%ss", test.RightJustified(2, '0'));
-	g = g.Replace("%s", test);
-	delete d;
-	delete m;
-	return (g);
-}
-bool		GDateTime::operator!=(const GDateTime &d) const
-{
-	if (this->_tm->tm_mday != d._tm->tm_mday)
-		return (true);
-	if (this->_tm->tm_mon != d._tm->tm_mon)
-		return (true);
-	if (this->_tm->tm_year != d._tm->tm_year)
-		return (true);
-	if (this->_tm->tm_hour != d._tm->tm_hour)
-		return (true);
-	if (this->_tm->tm_min != d._tm->tm_min)
-		return (true);
-	if (this->_tm->tm_sec != d._tm->tm_sec)
-		return (true);
-	return (false);
-}
-bool		GDateTime::operator<(const GDateTime &d) const
-{
-	if (this->_tm->tm_year < d._tm->tm_year)
-		return (true);
-	if (this->_tm->tm_year > d._tm->tm_year)
-		return (false);
-	if (this->_tm->tm_mon < d._tm->tm_mon)
-		return (true);
-	if (this->_tm->tm_mon > d._tm->tm_mon)
-		return (false);
-	if (this->_tm->tm_mday < d._tm->tm_mday)
-		return (true);
-	if (this->_tm->tm_mday > d._tm->tm_mday)
-		return (false);
-	if (this->_tm->tm_hour < d._tm->tm_hour)
-		return (true);
-	if (this->_tm->tm_hour > d._tm->tm_hour)
-		return (false);
-	if (this->_tm->tm_min < d._tm->tm_min)
-		return (true);
-	if (this->_tm->tm_min > d._tm->tm_min)
-		return (false);
-	if (this->_tm->tm_sec < d._tm->tm_sec)
-		return (true);
-	if (this->_tm->tm_sec > d._tm->tm_sec)
-		return (false);
-	return (false);
-}
-bool		GDateTime::operator<=(const GDateTime &d) const
-{
-	if (this->_tm->tm_year < d._tm->tm_year)
-		return (true);
-	if (this->_tm->tm_year > d._tm->tm_year)
-		return (false);
-	if (this->_tm->tm_mon < d._tm->tm_mon)
-		return (true);
-	if (this->_tm->tm_mon > d._tm->tm_mon)
-		return (false);
-	if (this->_tm->tm_mday < d._tm->tm_mday)
-		return (true);
-	if (this->_tm->tm_mday > d._tm->tm_mday)
-		return (false);
-	if (this->_tm->tm_hour < d._tm->tm_hour)
-		return (true);
-	if (this->_tm->tm_hour > d._tm->tm_hour)
-		return (false);
-	if (this->_tm->tm_min < d._tm->tm_min)
-		return (true);
-	if (this->_tm->tm_min > d._tm->tm_min)
-		return (false);
-	if (this->_tm->tm_sec < d._tm->tm_sec)
-		return (true);
-	if (this->_tm->tm_sec > d._tm->tm_sec)
-		return (false);
-	return (true);
-}
-bool		GDateTime::operator==(const GDateTime &d) const
-{
-	if (this->_tm->tm_mday != d._tm->tm_mday)
-		return (false);
-	if (this->_tm->tm_mon != d._tm->tm_mon)
-		return (false);
-	if (this->_tm->tm_year != d._tm->tm_year)
-		return (false);
-	if (this->_tm->tm_mday != d._tm->tm_mday)
-		return (false);
-	if (this->_tm->tm_mon != d._tm->tm_mon)
-		return (false);
-	if (this->_tm->tm_year != d._tm->tm_year)
-		return (false);
-	return (true);
-}
-bool		GDateTime::operator>(const GDateTime &d) const
-{
-	if (this->_tm->tm_year < d._tm->tm_year)
-		return (false);
-	if (this->_tm->tm_year > d._tm->tm_year)
-		return (true);
-	if (this->_tm->tm_mon < d._tm->tm_mon)
-		return (false);
-	if (this->_tm->tm_mon > d._tm->tm_mon)
-		return (true);
-	if (this->_tm->tm_mday < d._tm->tm_mday)
-		return (false);
-	if (this->_tm->tm_mday > d._tm->tm_mday)
-		return (true);
-	if (this->_tm->tm_hour < d._tm->tm_hour)
-		return (false);
-	if (this->_tm->tm_hour > d._tm->tm_hour)
-		return (true);
-	if (this->_tm->tm_min < d._tm->tm_min)
-		return (false);
-	if (this->_tm->tm_min > d._tm->tm_min)
-		return (true);
-	if (this->_tm->tm_sec < d._tm->tm_sec)
-		return (false);
-	if (this->_tm->tm_sec > d._tm->tm_sec)
-		return (true);
-	return (false);
-}
-bool		GDateTime::operator>=(const GDateTime &d) const
-{
-	if (this->_tm->tm_year < d._tm->tm_year)
-		return (false);
-	if (this->_tm->tm_year > d._tm->tm_year)
-		return (true);
-	if (this->_tm->tm_mon < d._tm->tm_mon)
-		return (false);
-	if (this->_tm->tm_mon > d._tm->tm_mon)
-		return (true);
-	if (this->_tm->tm_mday < d._tm->tm_mday)
-		return (false);
-	if (this->_tm->tm_mday > d._tm->tm_mday)
-		return (true);
-	if (this->_tm->tm_hour < d._tm->tm_hour)
-		return (false);
-	if (this->_tm->tm_hour > d._tm->tm_hour)
-		return (true);
-	if (this->_tm->tm_min < d._tm->tm_min)
-		return (false);
-	if (this->_tm->tm_min > d._tm->tm_min)
-		return (true);
-	if (this->_tm->tm_sec < d._tm->tm_sec)
-		return (false);
-	if (this->_tm->tm_sec > d._tm->tm_sec)
-		return (true);
-	return (true);
-}
-unsigned int	GDateTime::GetTimeStamp(void) const
-{
-	return ((unsigned int)mktime(this->_tm));
+        public static bool		operator <(GDateTime d1, GDateTime d2)
+        {
+            if (d1._time < d2._time)
+                return (true);
+            return (false);
+        }
+        public static bool      operator<=(GDateTime d1, GDateTime d2)
+        {
+            if (d1._time <= d2._time)
+                return (true);
+            return (false);
+        }
+        public static bool      operator==(GDateTime d1, GDateTime d2)
+        {
+            if (d1._time == d2._time)
+                return (true);
+            return (false);
+        }
+        public static bool      operator>(GDateTime d1, GDateTime d2)
+        {
+            if (d1._time > d2._time)
+                return (true);
+            return (false);
+        }
+        public static bool operator >=(GDateTime d1, GDateTime d2)
+        {
+            if (d1._time >= d2._time)
+                return (true);
+            return (false);
+        }
+        public UInt32              GetTimeStamp()
+        {
+            return (this._time.Ticks);
+        }
+    }
 }

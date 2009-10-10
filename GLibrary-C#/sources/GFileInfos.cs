@@ -3,7 +3,7 @@ using System.IO;
 
 namespace G
 {
-    class GFileInfos
+    public class GFileInfos
     {
         GString _file;
 
@@ -39,18 +39,20 @@ namespace G
         {
             this._file = FileOrDirectory;
         }
-        public Int64 Size()
+        public Int64 Size
         {
-            try
+            get
             {
-                System.IO.FileInfo monfichier = new System.IO.FileInfo(this._file.ToString());
-                return (monfichier.Length);
+                try
+                {
+                    System.IO.FileInfo monfichier = new System.IO.FileInfo(this._file.ToString());
+                    return (monfichier.Length);
+                }
+                catch
+                {
+                    return (-1);
+                }
             }
-            catch
-            {
-
-            }
-            return (-1);
         }
         public GDateTime BirthTime()
         {

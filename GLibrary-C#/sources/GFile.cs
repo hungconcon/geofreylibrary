@@ -1,8 +1,8 @@
 using System;
-
+using System.IO;
 namespace G
 {
-    class GFile
+    public class GFile
     {
         Boolean _open = true;
         GString _file;
@@ -19,6 +19,19 @@ namespace G
         ~GFile()
         {
             this.Close();
+        }
+        public static bool Touch(GString FileName)
+        {
+            Boolean test = true;
+            try
+            {
+                File.Create(FileName);
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
         }
         public void SetFile(GString file)
         {

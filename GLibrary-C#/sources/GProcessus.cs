@@ -1,120 +1,92 @@
+using System;
+using System.Diagnostics;
 
-#include "GProcessus.h"
-
-GProcessus::GProcessus(unsigned int PID, const GString &Path)
+namespace G
 {
-	this->_pid = PID;
-	this->_path = Path;
-}
-
-GProcessus::~GProcessus(void)
-{
-	
-}
-
-GString		GProcessus::GetPath(void) const
-{
-	return (this->_path);
-}
-
-unsigned int GProcessus::GetPID(void) const
-{
-	return (this->_pid);
-}
-
-bool	GProcessus::Kill(void) const
-{
-#if defined(GWIN)
-	HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, this->_pid);
-	if (hProcess == NULL)
-		return (false);
-	if (TerminateProcess(hProcess, 0) == 0)
-		return (false);
-	CloseHandle(hProcess);
-#else
-	if (kill(this->_pid, SIGKILL) == -1)
-		return (false);
-#endif
-	return (true);
-}
-
-bool	GProcessus::Kill(const GString &Process)
-{
-#if defined(GWIN)
-    HANDLE hSnapShot;
-    PROCESSENTRY32 pe;
-    hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if (hSnapShot == INVALID_HANDLE_VALUE)
-		return (false);
-	if (Process32First(hSnapShot, &pe))
+    public class GProcessus
     {
-        do
-		{
-			GString s(pe.szExeFile);
-			if (s == Process)
-			{
-				HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pe.th32ProcessID);
-				if (hProcess == NULL)
-					return (false);
-				if (TerminateProcess(hProcess, 0) == 0)
-					return (false);
-				CloseHandle(hProcess);	
-			}
-		}
-        while (Process32Next(hSnapShot, &pe));
+        Process _proc;
+
+        public GProcessus(Process p)
+        {
+            this._proc = p;
+        }
+        public GString GetPath()
+        {
+	        return (this._proc.ProcessName);
+        }
+        public Boolean  Kill()
+        {
+            Boolean test = true;
+            try
+            {
+                this._proc.Kill();
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+
+        public static Boolean Kill(GString ProcessName)
+        {
+            Boolean test = true;
+            try
+            {
+                System.Diagnostics.Process[] prc = Process.GetProcessesByName(ProcessName);
+                UInt32 i = 0;
+                while (i < prc.Length)
+                {
+                    prc[i].Kill();
+                    ++i;
+                }
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+
+        public static bool Run(GString ProccessName)
+        {
+            Boolean test = true;
+            try
+            {
+                System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                proc.StartInfo.FileName = ProccessName;
+                proc.Start() ;
+                proc.Close();
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+
+        public static bool Run(GString ProccessName, GString Params)
+        {
+            Boolean test = true;
+            try
+            {
+                System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                proc.StartInfo.FileName = ProccessName;
+                proc.StartInfo.Arguments = Params;
+                proc.Start() ;
+                proc.Close();
+            }
+            catch
+            {
+                test = false;
+            }
+            return (test);
+        }
+
+        public UInt32   GetPID()
+        {
+            return ((UInt32)this._proc.Id);
+        }
     }
-    CloseHandle(hSnapShot);
-#elif defined(GUNIX)
-	struct dirent *Read;
-	DIR *rep;
-	rep = opendir("/proc");
-	if (rep == NULL)
-		return (false);
-	while ((Read = readdir(rep)))
-	{
-		if (atoi(Read->d_name) > 0 && atoi(Read->d_name) < 32768)
-		{
-			char buffer[1024];
-			GString s(Read->d_name);
-			s = "/proc/" + s + "/file";
-			int n = readlink(s.ToChar(), buffer, 1024);
-			if (n != -1)
-			{
-				buffer[n] = 0;
-				if (GString(buffer) == Process)
-				{
-					if (kill(atoi(Read->d_name), SIGKILL) == -1)
-						return (false);
-				}
-			}
-		}
-	}
-	closedir(rep); 
-
-#endif
-	return (true);
 }
-
-bool	GProcessus::Run(const GString &name)
-{
-#if defined(GWIN)
-	PROCESS_INFORMATION pi;
-	STARTUPINFO si;
-	ZeroMemory(&pi, sizeof(PROCESS_INFORMATION));
-	ZeroMemory(&si, sizeof(STARTUPINFO));
-	if (CreateProcess(name.ToLPCSTR(), NULL, NULL, NULL, FALSE, NULL, NULL, NULL, (LPSTARTUPINFO) &si, (LPPROCESS_INFORMATION) &pi) == 0)
-		return (false);
-#elif defined(GUNIX)
-	char *tab;
-	tab = name.ToChar();
-	if (system(tab) == -1)
-	{
-		delete tab;
-		return (false);
-	}
-	delete tab;
-#endif
-	return (true);
-}
-
-

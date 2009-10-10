@@ -6,6 +6,14 @@ namespace G
     {
         DateTime    _time;
 
+        public              GDateTime(Int64 timestamp)
+        {
+            this._time = new DateTime(timestamp);
+        }
+        public              GDateTime(DateTime d)
+        {
+            this._time = d;
+        }
         public              GDateTime()
         {
             this._time = DateTime.Now;
@@ -42,29 +50,25 @@ namespace G
         {
 	        this._time.AddSeconds(s);
         }
-        public int          Day()
+        public Int32          Day()
         {
 	        return (this._time.Day);
         }
-        public int          Month()
+        public Int32          Month()
         {
             return (this._time.Month);
         }
-        public int          Year()
+        public Int32          Year()
         {
             return (this._time.Year);
         }
-        public int          DayOfYear()
+        public Int32         DayOfYear()
         {
 	        return (this._time.DayOfYear);
         }
-        public int          DayOfWeek()
-        {
-            return (this._time.DayOfWeek);
-        }
         public bool         IsBisextile()
         {
-            return (DateTime.IsLeapYear(this._time));
+            return (DateTime.IsLeapYear(this._time.Year));
         }
         public static bool  IsBisextile(int Year)
         {
@@ -112,7 +116,7 @@ namespace G
 		        case 4 : case 6 : case 9 : case 11 :
 			        return (30);
 		        case 2 :
-			        return (GDate.IsBisextile(y)) ? 29 : 28;
+			        return (GDateTime.IsBisextile(y)) ? 29 : 28;
 	        }
 	        return 0;
         }
@@ -129,7 +133,7 @@ namespace G
 	        //Format = Format.Replace("%MMMM", m->GetMonth(this._tm->tm_mon));
 	        //Format = Format.Replace("%MMM", m->GetTruncateMonth(this._tm->tm_mon));
 	        Format = Format.Replace("%MM", test.RightJustified(2, '0'));
-	        Format = Format.Replace("%M", this._tm->tm_mon + 1);
+	        Format = Format.Replace("%M", test);
 	        test = new GString(this._time.Year);
 	        Format = Format.Replace("%yyyy", test);
 	        Format = Format.Replace("%yy", test.Substr(2, 4));
@@ -182,7 +186,7 @@ namespace G
                 return (true);
             return (false);
         }
-        public UInt32              GetTimeStamp()
+        public Int64              GetTimeStamp()
         {
             return (this._time.Ticks);
         }

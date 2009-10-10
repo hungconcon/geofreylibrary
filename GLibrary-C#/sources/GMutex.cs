@@ -1,55 +1,47 @@
+using System;
+using System.Threading;
 
-#include "GMutex.h"
-
-GMutex::GMutex(void)
+namespace G
 {
-#if defined (GWIN)
-	InitializeCriticalSection(&this->_cr_sct);
-	this->_mutex = CreateMutex(NULL, false, NULL);
-#elif defined(GBSD)
-	this->_mutex = PTHREAD_MUTEX_INITIALIZER;
-#elif defined(GLINUX)
-	pthread_mutex_init(&this->_mutex, NULL);
-#endif
-}
+    public class GMutex
+    {
+        Mutex _mutex;
+        bool _lock = false;
 
-GMutex::~GMutex(void)
-{
-#if defined (GWIN)
-	DeleteCriticalSection(&this->_cr_sct);
-#endif
-}
+        public GMutex()
+        {
+            this._mutex = new Mutex();
+        }
 
-void	GMutex::Lock(void)
-{
-#if defined (GWIN)
-	EnterCriticalSection(&this->_cr_sct);
-	WaitForSingleObject(this->_mutex, INFINITE);
-#else
-	pthread_mutex_lock(&this->_mutex);
-#endif
-}
+        public void Lock()
+        {
+            if (!this._lock)
+            {
+                this._mutex.WaitOne();
+                this._lock = true;
+            }
+        }
 
-void	GMutex::TryLock(void)
-{
-#if defined (GWIN)
-	WaitForSingleObject(this->_mutex, 1);
-#else
-	pthread_mutex_trylock(&this->_mutex);
-#endif
-}
+        public void Unlock()
+        {
+            if (this._lock)
+            {
+                this._mutex.ReleaseMutex();
+                this._lock = false;
+            }
+        }
 
-void	GMutex::Unlock(void)
-{
-#if defined (GWIN)
-	LeaveCriticalSection(&this->_cr_sct);
-	ReleaseMutex(this->_mutex);
-#else
-	pthread_mutex_unlock(&this->_mutex);
-#endif
-}
-
-bool	GMutex::IsLock(void) const
-{
-	return (this->_lock);
+        public void Trylock()
+        {
+            if (!this._lock)
+            {
+                if (this._mutex.WaitOne(0))
+                    this._lock = true;
+            }
+        }
+        public Boolean IsLock()
+        {
+            return (this._lock);
+        }
+    }
 }

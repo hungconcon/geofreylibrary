@@ -1,9 +1,10 @@
 using System;
 using System.Net.Sockets;
+using System.Net;
 
 namespace G
 {
-    class GSocketTcpClient //: GISocketClient
+    public class GSocketTcpClient : GISocketClient
     {
         Boolean		_init;
 		GString		_ip;
@@ -20,15 +21,19 @@ namespace G
 	        this._port = Port;
             this._init = false;
         }
-        public void     Initialize(GString Ip, Int32 Port)
+        public override Socket GetSocket()
+        {
+            return (this._socket);
+        }
+        public override void     Initialize(GString Ip, Int32 Port)
         {
 	        this._ip = Ip;
 	        this._port = Port;
 	        this.Initialize();
         }
-        public void     Initialize()
+        public override void     Initialize()
         {
-            this._socket = new Socket(AdressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this._socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 	        this._init = true;
         }
         ~GSocketTcpClient()
@@ -38,14 +43,19 @@ namespace G
 	            this._socket.Close();
             }
         }
-        public void	    Connect()
+        public override void	    Connect()
         {
             if (this._init)
 	        {
-                this._socket.Connect(new IpEndPoint (Dns.Resolve(this._ip.ToString()).AddressList[0], this._port));
+                this._socket.Connect(new IPEndPoint (Dns.Resolve(this._ip.ToString()).AddressList[0], this._port));
             }
         }
-        public Int32    Send(GString s)
+        public override Int16 GetLastError()
+        {
+            return (1);
+        }
+
+        public override Int32    Send(GString s)
         {
             if (this._init)
             {
@@ -54,10 +64,10 @@ namespace G
             }
             return (0);
         }
-        public GString  Receive()
+        public override GString  Receive()
         {
-            Byte[] message;
-            this._socket.Receive(mesage);
+            Byte[] message = new Byte[1024];
+            this._socket.Receive(message);
             return (new GString(message.ToString()));
         }
     }

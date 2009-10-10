@@ -9,23 +9,24 @@ namespace G
 
         public              GDirectory()
         {
-	        this._directory = GetCurrentDirectory();
+            this._directory = Directory.GetCurrentDirectory();
         }
-        /*public GFileInfos[] Ls()
+        public  GVector<GFileInfos> Ls()
         {
             String[] files;
             files = Directory.GetFileSystemEntries(this._directory);
             int filecount = files.GetUpperBound(0) + 1;
-            GFileInfos[] list = new GFileInfos[filecount];
+            GVector<GFileInfos> list = new GVector<GFileInfos>();
             int i = 0;
             while (i < filecount)
             {
-                list[i] = files[i];
+                GFileInfos f = new GFileInfos(this._directory + "\\" + files[i]);
+                list.PushBack(f);
                 ++i;
             }
             return (list);
         }
-        public static GFileInfos[] Ls(GString Directory)
+        /*public static GFileInfos[] Ls(GString Directory)
         {
             GFileInfos[] list;
             String[] files;
@@ -44,7 +45,7 @@ namespace G
             bool test = true;
             try
             {
-                Directory.CreateDirectory(System.IO.Path.Combine(this._directory.ToString(), DirToString()));
+                Directory.CreateDirectory(System.IO.Path.Combine(this._directory.ToString(), Dir.ToString()));
             }
             catch
             {
@@ -65,9 +66,9 @@ namespace G
             }
             return (test);
         }
-        public static bool  Rename(GString f1, GString f2)
+        public static Boolean  Rename(GString f1, GString f2)
         {
-            test = true;
+            Boolean test = true;
             try
             {
                 Directory.Move(f1.ToString(), f2.ToString());
@@ -116,7 +117,6 @@ namespace G
             try
             {
                 Directory.Delete(Dir.ToString(), Recursif);
-                this._directory = Directory.GetCurrentDirectory();
             }
             catch
             {
@@ -140,7 +140,7 @@ static void PrintSpecFolder()
         Console.WriteLine(Environment.GetFolderPath(sfe[i]));
 }
 
-GString		GDirectory::GetPathDesktop(void)
+GString		GDirectory::GetPathDesktop()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -153,7 +153,7 @@ GString		GDirectory::GetPathDesktop(void)
 #endif
 }
 
-GString		GDirectory::GetPathFonts(void)
+GString		GDirectory::GetPathFonts()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -166,7 +166,7 @@ GString		GDirectory::GetPathFonts(void)
 #endif
 }
 
-GString		GDirectory::GetPathMusic(void)
+GString		GDirectory::GetPathMusic()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -178,7 +178,7 @@ GString		GDirectory::GetPathMusic(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathVideos(void)
+GString		GDirectory::GetPathVideos()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -190,7 +190,7 @@ GString		GDirectory::GetPathVideos(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathPictures(void)
+GString		GDirectory::GetPathPictures()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -202,7 +202,7 @@ GString		GDirectory::GetPathPictures(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathCookies(void)
+GString		GDirectory::GetPathCookies()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -214,7 +214,7 @@ GString		GDirectory::GetPathCookies(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathDocuments(void)
+GString		GDirectory::GetPathDocuments()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -226,7 +226,7 @@ GString		GDirectory::GetPathDocuments(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathHistory(void)
+GString		GDirectory::GetPathHistory()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -238,7 +238,7 @@ GString		GDirectory::GetPathHistory(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathStartMenu(void)
+GString		GDirectory::GetPathStartMenu()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -250,7 +250,7 @@ GString		GDirectory::GetPathStartMenu(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathProgramsMenu(void)
+GString		GDirectory::GetPathProgramsMenu()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -262,7 +262,7 @@ GString		GDirectory::GetPathProgramsMenu(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathFavorites(void)
+GString		GDirectory::GetPathFavorites()
 {
 #if defined (GWIN)
 	GRegistry r;
@@ -274,10 +274,10 @@ GString		GDirectory::GetPathFavorites(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathRoot(void)
+GString		GDirectory::GetPathRoot()
 {
 #if defined (GWIN)
-	const unsigned long BUFSIZE = 255;
+	unsigned long BUFSIZE = 255;
 	unsigned long dwSize = BUFSIZE;
 	char pbuf[ BUFSIZE + 1];
 	::GetWindowsDirectory(pbuf, dwSize);

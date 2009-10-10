@@ -1,30 +1,25 @@
+using System;
+using System.Net;
+using System.Net.Sockets;
 
-#include "GISocket.h"
-
-int			GISocket::Send(GISocket *Socket, const GString &ToSend)
+namespace G
 {
-	if (Socket)
-		return (Socket->Send(ToSend));
-	return (0);
-}
+    public abstract class GISocket
+    {
 
-int			GISocket::Send(GISocket *Socket, void *Data, unsigned int Size)
-{
-	if (Socket && Size && Data)
-		return (Socket->Send(Data, Size));
-	return (0);
-}
+        public abstract Int32       Send(GString Message);
+		public abstract GString     Receive();
+        public abstract Socket      GetSocket();
 
-GString		GISocket::Receive(GISocket *Socket)
-{
-	if (Socket)
-		return (Socket->Receive());
-	return ("");
-}
+        public static Int32        Send(GISocket Socket, GString ToSend)
+        {
+	        return (Socket.Send(ToSend));
+        }
 
-void		GISocket::Receive(GISocket *Socket, void *Data, unsigned int Size)
-{
-	if (Socket && Data && Size)
-		Socket->Receive(Data, Size);
+        public static GString      Receive(GISocket Socket)
+        {
+	        return (Socket.Receive());
+        }
+    }
 }
 

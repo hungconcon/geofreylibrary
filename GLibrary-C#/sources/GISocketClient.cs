@@ -1,23 +1,15 @@
+using System;
 
-#ifndef		__GISOCKETCLIENT_H__
-# define	__GISOCKETCLIENT_H__
-
-#include "GString.h"
-#include "GExport.h"
-#include "GISocket.h"
-
-class	GEXPORTED GISocketClient : public GISocket
+namespace G
 {
-	public:
-		virtual ~GISocketClient(void){};
-		
-		virtual GSocket			GetSocket(void) const = 0;
-		virtual void			Init(void) = 0;
-		virtual void			Init(const GString &Ip, unsigned int Port) = 0;
-		virtual void			Connect(void) = 0;
-		virtual int				GetLastError(void) const = 0;
+    public abstract class GISocketClient : GISocket
+    {
+        public abstract void    Initialize();
+        public abstract void    Initialize(GString Ip, Int32 Port);
+        public abstract void    Connect();
+        public abstract Int16   GetLastError();
 
-		enum Error
+		public enum Error
 		{	
 			NONE			= 1,
 			UNKNOW_HOST		= 2,
@@ -27,6 +19,5 @@ class	GEXPORTED GISocketClient : public GISocket
 			ERROR_SOCKET	= 6
 		};
 
-};
-
-#endif
+    }
+}

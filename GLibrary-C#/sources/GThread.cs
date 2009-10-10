@@ -1,65 +1,56 @@
+using System;
+using System.Threading;
 
-#include "GThread.h"
-
-GThread::GThread(GFunction ptr)
+namespace G
 {
-	this->_set = true;
-	this->_start = false;
-	this->_function = ptr;
+    public class GThread
+    {
+        Thread  _th;
+        Boolean _meth = false;
+        Boolean _start = false;
+
+        public GThread(ParameterizedThreadStart Methode)
+        {
+            this._meth = true;
+            this._th = new Thread(Methode);
+        }
+
+        public GThread()
+        {
+
+        }
+
+        public void Start()
+        {
+            if (this._meth)
+            {
+                this._th.Start();
+                this._start = true;
+            }
+        }
+
+        public void Start(object Obj)
+        {
+            if (this._meth)
+            {
+                this._th.Start(Obj);
+                this._start = true;
+            }
+        }
+
+        public void Abort()
+        {
+            if (this._start == true)
+            {
+                this._th.Abort();
+                this._th.Join();
+            }
+        }
+        public void SetMethod(ParameterizedThreadStart Methode)
+        {
+            this._meth = true;
+            this._th = new Thread(Methode);
+        }
+    }
 }
-
-GThread::GThread(void)
-{
-	this->_set = false;
-	this->_start = false;
-}
-
-GThread::~GThread(void)
-{
-
-}
-
-void	GThread::Abort(void)
-{
-	if (this->_set == true && this->_start == true)
-	{
-#if defined (GWIN)
-		ExitThread(NULL);
-#else
-		pthread_exit(NULL);
-#endif
-	}
-}
-
-void	GThread::Start(void *arg)
-{
-	if (this->_set == true && !this->_start)
-	{
-#if defined (GWIN)
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)this->_function, arg, NULL, &this->_id);
-#else
-		pthread_create(&this->_thread, NULL, this->_function, arg);
-#endif
-	}
-}
-
-void	GThread::Start(void)
-{
-  this->Start(NULL);
-}
-
-void	GThread::SetFunction(GFunction f)
-{
-	if (!this->_set)
-	{
-		this->_set = true;
-		this->_function = f;
-	}
-}
-
-GThreadId	GThread::GetId(void) const
-{
-	return (this->_id);
-}
-
 

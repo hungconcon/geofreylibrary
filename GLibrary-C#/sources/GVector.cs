@@ -10,7 +10,7 @@ namespace G
         {
 
         }
-
+        
         public GVector(T Elem)
         {
             this.Add(Elem);

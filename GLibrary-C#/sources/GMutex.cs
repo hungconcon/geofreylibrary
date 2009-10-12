@@ -26,8 +26,15 @@ namespace G
         {
             if (this._lock)
             {
-                this._mutex.ReleaseMutex();
-                this._lock = false;
+                try
+                {
+                    this._mutex.ReleaseMutex();
+                    this._lock = false;
+                }
+                catch
+                {
+
+                }
             }
         }
 

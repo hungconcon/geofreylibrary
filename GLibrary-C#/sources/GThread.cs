@@ -9,10 +9,10 @@ namespace G
         Boolean _meth = false;
         Boolean _start = false;
 
-        public GThread(ParameterizedThreadStart Methode)
+        public GThread(ThreadStart Methode)
         {
             this._meth = true;
-            this._th = new Thread(Methode);
+            this._th = new Thread(new ThreadStart(Methode));
         }
 
         public GThread()

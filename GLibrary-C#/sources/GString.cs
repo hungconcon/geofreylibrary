@@ -135,19 +135,19 @@ namespace G
         }
         public GString  RightJustified(Int32 Nbr)
         {
-            return (this._str.PadRight(Nbr, ' '));
+            return (this._str.PadLeft(Nbr, ' '));
         }
         public GString  RightJustified(Int32 Nbr, Char c)
         {
-            return (this._str.PadRight(Nbr, c));
+            return (this._str.PadLeft(Nbr, c));
         }
         public GString  LeftJustified(Int32 Nbr)
         {
-            return (this._str.PadLeft(Nbr, ' '));
+            return (this._str.PadRight(Nbr, ' '));
         }
         public GString  LeftJustified(Int32 Nbr, Char c)
         {
-            return (this._str.PadLeft(Nbr, c));
+            return (this._str.PadRight(Nbr, c));
         }
         public GString  Insert(Int32 StartIndex, GString str)
         {
@@ -324,6 +324,30 @@ namespace G
         public static implicit operator GString(Int64 value)
         {
             return new GString(value);
+        }
+        public static Boolean operator== (GString t1, GString t2)
+        {
+            if (t1._str == t2._str)
+                return (true);
+            return (false);
+        }
+        public static Boolean operator !=(GString t1, GString t2)
+        {
+            if (t1._str != t2._str)
+                return (true);
+            return (false);
+        }
+        public override Boolean Equals(object obj)
+        {
+            if (obj == null || this.GetType() != obj.GetType()) return false;
+            GString t = (GString)obj;
+            if (this._str == t._str)
+                return (true);
+            return (false);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

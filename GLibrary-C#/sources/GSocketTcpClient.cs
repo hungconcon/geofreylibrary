@@ -68,7 +68,8 @@ namespace G
         {
             Byte[] message = new Byte[1024];
             this._socket.Receive(message);
-            return (new GString(message.ToString()));
+            String msg = System.Text.Encoding.ASCII.GetString(message);
+            return (new GString(msg));
         }
     }
 }

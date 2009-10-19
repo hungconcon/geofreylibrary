@@ -3,8 +3,9 @@
 # define __GLABEL_H__
 
 #include "GWidget.h"
+#include "GExport.h"
 
-class GLabel : public GWidget
+class GEXPORTED GLabel : public GWidget
 {
 	public:
 		GLabel(GWidget *Parent);

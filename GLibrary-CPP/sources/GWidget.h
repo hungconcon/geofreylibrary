@@ -7,10 +7,11 @@
 #include "GSize.h"
 #include "GFont.h"
 #include "GMessageBox.h"
+#include "GExport.h"
 
 typedef HWND GWidgetHandle;
 
-class GWidget
+class GEXPORTED GWidget
 {
 	public:
 		GWidget(void);

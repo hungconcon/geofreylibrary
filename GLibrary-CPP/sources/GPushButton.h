@@ -4,7 +4,7 @@
 
 #include "GWidget.h"
 
-class GPushButton : public GWidget
+class GEXPORTED GPushButton : public GWidget
 {
 	public:
 		GPushButton(GWidget *Parent);

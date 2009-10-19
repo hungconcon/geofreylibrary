@@ -3,8 +3,9 @@
 # define __GLISTBOX_H__
 
 #include "GWidget.h"
+#include "GExport.h"
 
-class GListBox : public GWidget
+class GEXPORTED GListBox : public GWidget
 {
 	public:
 		GListBox(GWidget *Parent);

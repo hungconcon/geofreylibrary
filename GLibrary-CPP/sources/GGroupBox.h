@@ -3,8 +3,9 @@
 # define __GGROUPBOX_H__
 
 #include "GWidget.h"
+#include "GExport.h"
 
-class GGroupBox : public GWidget
+class GEXPORTED GGroupBox : public GWidget
 {
 	public:
 		GGroupBox(GWidget *Parent);

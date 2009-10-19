@@ -3,8 +3,9 @@
 # define __GLINEEDIT_H__
 
 #include "GWidget.h"
+#include "GExport.h"
 
-class GLineEdit : public GWidget
+class GEXPORTED GLineEdit : public GWidget
 {
 	public:
 		GLineEdit(GWidget *Parent);

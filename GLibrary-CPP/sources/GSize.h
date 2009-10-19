@@ -2,7 +2,9 @@
 #ifndef __GSIZE_H__
 # define __GSIZE_H__
 
-class GSize
+#include "GExport.h"
+
+class GEXPORTED GSize
 {
 	public:
 		GSize(unsigned int X, unsigned int Y);

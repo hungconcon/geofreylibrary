@@ -22,3 +22,15 @@ void	GApplication::Initialize(void)
 		throw GException("GApplication", "Cannot init common controls !");
 #endif
 }
+
+void	GApplication::Execute(void)
+{
+#if defined(GWIN)
+	MSG Msg;
+	while(GetMessage(&Msg, NULL, 0, 0) > 0)
+    {
+        TranslateMessage(&Msg);
+        DispatchMessage(&Msg);
+    }
+#endif
+}

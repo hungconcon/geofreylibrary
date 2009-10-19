@@ -25,6 +25,7 @@ class GEXPORTED GApplication
 	public:
 		static void Initialize(int argc, char **argv);
 		static void Initialize(void);
+		static void	Execute();
 };
 
 #endif

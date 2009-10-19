@@ -16,6 +16,14 @@ GWidgetHandle	GWidget::GetWidget(void) const
 	return (this->_widget);
 }
 
+void			GWidget::SetFont(const GFont &Font)
+{
+	HFONT test = Font.GetFont();
+	if (test == NULL)
+		GMessageBox::Error("lala", "hihi");
+	SendMessage(this->_widget, WM_SETFONT, (WPARAM)test, TRUE);
+}
+
 HINSTANCE		GWidget::GetHINCANCE(void) const
 {
 	return (this->_hInstance);

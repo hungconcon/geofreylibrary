@@ -5,6 +5,8 @@
 #include "windows.h"
 #include "GString.h"
 #include "GSize.h"
+#include "GFont.h"
+#include "GMessageBox.h"
 
 typedef HWND GWidgetHandle;
 
@@ -40,6 +42,7 @@ class GWidget
 		bool			IsEnabled(void) const;
 		void			Enable(void);
 		void			Disable(void);
+		void			SetFont(const GFont &Font);
 
 	protected:
 		GWidgetHandle	_widget;

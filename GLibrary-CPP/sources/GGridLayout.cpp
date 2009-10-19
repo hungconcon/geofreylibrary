@@ -37,17 +37,9 @@ void	GGridLayout::AddWidget(GWidget *Widget, unsigned int PositionX, unsigned in
 	unsigned int i = 0;
 	while (i < this->_region.Size())
 	{
-		if (this->_region[i]._region != NULL)
-		{
-			DeleteObject(this->_region[i]._region);
-		}
 		GSize Start = this->GetPositionStart(this->_region[i], col, row);
 		GSize End = this->GetPositionEnd(this->_region[i], col, row);
-		this->_region[i]._region = CreateRectRgn(Start.GetX(), Start.GetY(), End.GetX(), End.GetY());
-		if (this->_region[i]._region)
-		{
-			SetWindowRgn(this->_region[i]._widget->GetWidget(), this->_region[i]._region, TRUE);
-		}
+		
 		
 		++i;
 	}

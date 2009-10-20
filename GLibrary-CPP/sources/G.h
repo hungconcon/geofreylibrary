@@ -14,8 +14,8 @@ namespace G
 
 		enum CaseOption
 		{
-			CASE_SENSITIVE,
-			CASE_INSENSITIVE
+			CaseSensitive,
+			CaseUnsensitive
 		};
 
 		enum XmlVersion

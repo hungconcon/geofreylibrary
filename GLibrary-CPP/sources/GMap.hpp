@@ -139,7 +139,7 @@ void	GMap<T, U>::PushFront(const T &key, const U &value)
 	this->_nbElem++;
 	if (this->_begin == NULL)
 	{
-		this->_begin = new GList<T>(key, value);
+		this->_begin = new GListMap<T, U>(key, value);
 		this->_end = this->_begin;
 		return ;
 	}
@@ -212,7 +212,7 @@ int 	GMap<T, U>::IndexOfValue(U Value)
 	GListMap<T, U> *l = this->_begin;
 	while (l)
 	{
-		if (value == l->_value)
+		if (Value == l->_value)
 			return (i);
 		l = l->_next;
 		++i;
@@ -227,7 +227,7 @@ int		GMap<T, U>::IndexOfKey(T Key)
 	GListMap<T, U> *l = this->_begin;
 	while (l)
 	{
-		if (key == l->_key)
+		if (Key == l->_key)
 			return (i);
 		l = l->_next;
 		++i;

@@ -19,6 +19,9 @@
 #include <windows.h>
 #include <commctrl.h>
 #endif
+#elif defined (GUNIX)
+#include <X11/Xlib.h>
+#endif
 
 class GEXPORTED GApplication
 {
@@ -26,6 +29,11 @@ class GEXPORTED GApplication
 		static void Initialize(int argc, char **argv);
 		static void Initialize(void);
 		static void	Execute();
+
+	private:
+#if defined(GUNIX)
+	static Display *_display;
+#endif
 };
 
 #endif

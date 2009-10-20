@@ -3,6 +3,8 @@
 #ifndef __GMAP_H__
 # define __GMAP_H__
 
+#include "GWarning.h"
+#include "GException.h"
 #include "GExport.h"
 #include <iostream>
 
@@ -10,7 +12,7 @@ template<typename T, typename U>
 struct GListMap
 {
 	GListMap(const T &key) : _key(key), _value(U()), _next(NULL), _previous(NULL) {}
-	GListMap(const T &key, const U &value) : _value(value), _key(key), _next(NULL), _previous(NULL) {}
+	GListMap(const T &key, const U &value) : _key(key), _value(value), _next(NULL), _previous(NULL) {}
 	T			_key;
 	U			_value;
 	GListMap	*_next;

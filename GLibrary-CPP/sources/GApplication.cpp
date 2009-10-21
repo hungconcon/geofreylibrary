@@ -2,7 +2,7 @@
 #include "GApplication.h"
 
 #if defined(GUNIX)
-Display *GApplication::d = NULL;
+Display *GApplication::_display = NULL;
 #endif
 
 void	GApplication::Initialize(int argc, char **argv)
@@ -45,6 +45,15 @@ void	GApplication::Execute(void)
         DispatchMessage(&Msg);
     }
 #elif defined(GUNIX)
-	XCloseDisplay(d);
+	XCloseDisplay(_display);
 #endif
 }
+
+#if defined(GUNIX)
+
+Display	*GApplication::GetDisplay(void)
+{
+	return (_display);
+}
+
+#endif

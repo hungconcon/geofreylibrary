@@ -29,9 +29,10 @@ class GEXPORTED GApplication
 		static void Initialize(void);
 		static void	Execute();
 
-	private:
 #if defined(GUNIX)
-	static Display *_display;
+		static Display	*GetDisplay(void);
+	private:
+		static Display *_display;
 #endif
 };
 

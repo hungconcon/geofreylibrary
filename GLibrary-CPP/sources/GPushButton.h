@@ -3,6 +3,7 @@
 # define __GPUSHBUTTON_H__
 
 #include "GWidget.h"
+#include "GExport.h"
 
 class GEXPORTED GPushButton : public GWidget
 {

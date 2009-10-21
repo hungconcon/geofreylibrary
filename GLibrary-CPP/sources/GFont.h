@@ -7,6 +7,8 @@
 
 #if defined(GWIN)
 typedef HFONT GFontType;
+#elif defined(GUNIX)
+typedef int GFontType;
 #endif
 
 class GEXPORTED GFont

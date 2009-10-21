@@ -2,7 +2,6 @@
 #ifndef __GWINDOW_H__
 # define __GWINDOW_H__
 
-#include "windows.h"
 #include "GString.h"
 #include "GSize.h"
 #include "GFont.h"
@@ -10,7 +9,10 @@
 #include "GExport.h"
 
 #if defined(GWIN)
+#	include "windows.h"
 typedef HWND GWidgetHandle;
+#elif defined(GUNIX)
+typedef int GWidgetHandle;
 #endif
 
 class GEXPORTED GWidget

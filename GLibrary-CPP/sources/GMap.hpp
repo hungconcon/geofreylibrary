@@ -249,6 +249,7 @@ T		&GMap<T, U>::Key(unsigned int index)
 		l = l->_next;
 		++i;
 	}
+	return (*(new T()));
 }
 
 template<typename T, typename U>
@@ -263,6 +264,7 @@ U		&GMap<T, U>::Value(unsigned int index)
 		l = l->_next;
 		++i;
 	}
+	return (*(new U()));
 }
 
 template<typename T, typename U>

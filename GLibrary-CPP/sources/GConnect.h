@@ -6,6 +6,7 @@
 #include "GString.h"
 #include "GMap.hpp"
 #include "GMutex.h"
+#include "GPair.hpp"
 //#define SIGNAL(x)
 
 typedef GMap<GString, GPair<GFunction, bool> >	GPointerMap;
@@ -15,6 +16,7 @@ class GConnect
 	public:
 		static void	Connect(const GString &, GFunction);
 		static void	Disconnect();
+		static void Disconnect(const GString &);
 		//static void	Emit(const GString &);
 
 		static void	Lock(void);
@@ -26,6 +28,7 @@ class GConnect
 		static void *Check(void *);
 		static void	AddConnect(const GString &, GFunction);
 		static void	RemoveConnect(const GString &, GFunction);
+		static void	RemoveConnect(const GString &);
 
 		static GThread		*_Thread;
 		static GPointerMap	_Map;

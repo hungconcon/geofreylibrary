@@ -1,6 +1,7 @@
 
 #include "GMainWindow.h"
 
+#if defined(GWIN)
 LRESULT CALLBACK MainProc(HWND hWnd, UINT mes, WPARAM wParam, LPARAM lParam)
 {
 	HDC hDC;
@@ -18,6 +19,7 @@ LRESULT CALLBACK MainProc(HWND hWnd, UINT mes, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hWnd, mes, wParam, lParam);
 	}
 }
+#endif
 
 GMainWindow::GMainWindow(void)
 {
@@ -29,8 +31,7 @@ GMainWindow::GMainWindow(void)
 	this->_classe.lpfnWndProc = MainProc;
     this->_classe.cbClsExtra = 0;
     this->_classe.cbWndExtra = 0;
-	
-    this->_classe.hInstance=  this->_hInstance;
+    this->_classe.hInstance=  NULL;
     this->_classe.hIcon=LoadIcon(NULL,IDI_APPLICATION);
     this->_classe.hCursor=LoadCursor(NULL,IDC_ARROW);
     this->_classe.hbrBackground= (HBRUSH)(1 + COLOR_BTNFACE);
@@ -40,7 +41,7 @@ GMainWindow::GMainWindow(void)
     this->_classe.hIconSm=LoadIcon(NULL,IDI_APPLICATION);
 	RegisterClassEx(&this->_classe);
 	//this->_widget = CreateWindowEx(	WS_EX_CLIENTEDGE, "std", "GMainWindow", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL,  this->_hInstance, NULL);
-	this->_widget = CreateWindow("std", "GMainWindow", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL,  this->_hInstance, NULL);
+	this->_widget = CreateWindow("std", "GMainWindow", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL,  NULL, NULL);
 #endif
 }
 

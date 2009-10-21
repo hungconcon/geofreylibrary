@@ -24,7 +24,7 @@ void	GConnect::Disconnect(const GString &Name)
 void	GConnect::AddConnect(const GString &Name, GFunction f)
 {
 	_Mutex.Lock();
-	_Map[Name] = GPair(f, false);
+	_Map[Name] = GPair<GFunction, bool>(f, false);
 	_Mutex.Unlock();
 }
 

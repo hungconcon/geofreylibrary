@@ -5,7 +5,7 @@
 Display *GApplication::_display = NULL;
 #endif
 
-void	GApplication::Initialize(int argc, char **argv)
+void	GApplication::Initialize(int, char **)
 {
 #if defined(GWIN)
 	INITCOMMONCONTROLSEX test;

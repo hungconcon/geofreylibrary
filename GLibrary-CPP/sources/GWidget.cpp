@@ -18,16 +18,14 @@ GWidgetHandle	GWidget::GetWidget(void) const
 
 void			GWidget::SetFont(const GFont &Font)
 {
+#if defined(GWIN)
 	HFONT test = Font.GetFont();
 	if (test == NULL)
 		GMessageBox::Error("lala", "hihi");
 	SendMessage(this->_widget, WM_SETFONT, (WPARAM)test, TRUE);
+#endif
 }
 
-HINSTANCE		GWidget::GetHINCANCE(void) const
-{
-	return (this->_hInstance);
-}
 void			GWidget::Show(void)
 {
 #if defined (GWIN)
@@ -160,14 +158,16 @@ unsigned int	GWidget::GetMinimumWidth(void) const
 
 void			GWidget::Move(unsigned int X, unsigned int Y)
 {
+#if defined(GWIN)
 	if (SetWindowPos(this->_widget, HWND_TOP, X, Y, 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER) != 0)
 		;
-
+#endif
 }
 
 void			GWidget::Move(const GSize &Size)
 {
+#if defined(GWIN)
 	if (SetWindowPos(this->_widget, HWND_TOP, Size.GetX(), Size.GetY(), 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER) != 0)
 		;
-
+#endif
 }

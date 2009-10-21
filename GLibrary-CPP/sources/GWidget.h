@@ -9,7 +9,9 @@
 #include "GMessageBox.h"
 #include "GExport.h"
 
+#if defined(GWIN)
 typedef HWND GWidgetHandle;
+#endif
 
 class GEXPORTED GWidget
 {
@@ -17,7 +19,6 @@ class GEXPORTED GWidget
 		GWidget(void);
 		~GWidget(void);
 		GWidgetHandle	GetWidget(void) const;
-		HINSTANCE		GetHINCANCE(void) const;
 		void			Show(void);
 		void			Hide(void);
 		void			SetFixedSize(unsigned int X, unsigned int Y);
@@ -47,7 +48,6 @@ class GEXPORTED GWidget
 
 	protected:
 		GWidgetHandle	_widget;
-		HINSTANCE		_hInstance;
 		bool			_enabled;
 		GSize			_min;
 		GSize			_max;

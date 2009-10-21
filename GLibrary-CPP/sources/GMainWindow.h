@@ -8,10 +8,12 @@
 #include "GSleep.h"
 #include "GSize.h"
 #include "GWidget.h"
-
+#include "GExport.h"
 
 #if defined (GWIN)
 #		include "windows.h"
+#elif defined(GUNIX)
+#		include <X11/Xlib.h>
 #endif
 
 class GMainWindow : public GWidget
@@ -26,13 +28,10 @@ class GMainWindow : public GWidget
 		unsigned int	_x;
 		unsigned int	_y; 
 
-	private:
-
-		//LRESULT CALLBACK MainProc(HWND Dlg,UINT message,WPARAM wParam,LPARAM lParam);
-
+#if defined(GWIN)
 	public:
 		WNDCLASSEX		_classe;
-
+#endif
 		
 };
 

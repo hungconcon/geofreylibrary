@@ -116,12 +116,16 @@ bool			GWidget::IsEnabled(void) const
 
 void			GWidget::Enable(void)
 {
-
+#if defined (GWIN)
+	EnableWindow(this->_widget, TRUE);
+#endif
 }
 
 void			GWidget::Disable(void)
 {
-
+#if defined (GWIN)
+	EnableWindow(this->_widget, FALSE);
+#endif
 }
 
 GSize			GWidget::GetCurrentSize(void) const

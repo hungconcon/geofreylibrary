@@ -32,8 +32,8 @@ GMainWindow::GMainWindow(void)
     this->_classe.cbClsExtra = 0;
     this->_classe.cbWndExtra = 0;
     this->_classe.hInstance=  NULL;
-    this->_classe.hIcon=LoadIcon(NULL,IDI_APPLICATION);
-    this->_classe.hCursor=LoadCursor(NULL,IDC_ARROW);
+    this->_classe.hIcon=LoadIcon(NULL, IDI_APPLICATION);
+    this->_classe.hCursor=LoadCursor(NULL, IDC_ARROW);
     this->_classe.hbrBackground= (HBRUSH)(1 + COLOR_BTNFACE);
 
     this->_classe.lpszMenuName=NULL;

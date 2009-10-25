@@ -48,6 +48,8 @@ GStringList		GAlgo::GStringToArray(const GString &s)
 	return (result);
 }
 
+
+// MODIF STACK //
 GStringList		GAlgo::GStringToNPI(const GString &s)
 {
 	GStringList l = GAlgo::GStringToArray(s);

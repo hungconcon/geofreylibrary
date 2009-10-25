@@ -165,6 +165,7 @@ bool		GDirectory::Rename(const GString &f1, const GString &f2)
 	delete[] tmp1;
 	delete[] tmp2;
 #else
+	
 
 #endif
 	return (ok);

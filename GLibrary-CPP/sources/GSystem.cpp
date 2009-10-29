@@ -50,7 +50,7 @@ GString		GSystem::GetUserName(void)
 	unsigned long dwSize = BUFSIZE;
 	char pbuf[BUFSIZE + 1];
 	::GetUserName(pbuf, &dwSize);
-	return (GString(pbuf));
+	return (pbuf);
 #else
 	register struct passwd *pw;	
 	register uid_t uid;

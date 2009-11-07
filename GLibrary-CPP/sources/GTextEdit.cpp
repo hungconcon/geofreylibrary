@@ -18,5 +18,30 @@ GTextEdit::~GTextEdit(void)
 
 void	GTextEdit::AddText(const GString &Text)
 {
+#if defined(GWIN)
+	SETTEXTEX str;
+	str.codepage = CP_ACP;
+	str.flags = ST_KEEPUNDO;
+	SendMessage(this->GetWidget(), EM_SETTEXTEX, (WPARAM)&str, (LPARAM)Text.ToLPCSTR());	
+#endif
+}
 
+void	GTextEdit::SetText(const GString &Text)
+{
+#if defined(GWIN)
+	SETTEXTEX str;
+	str.codepage = CP_ACP;
+	str.flags = ST_DEFAULT;
+	SendMessage(this->GetWidget(), EM_SETTEXTEX, (WPARAM)&str, (LPARAM)Text.ToLPCSTR());	
+#endif
+}
+
+void	GTextEdit::Clear(void)
+{
+#if defined(GWIN)
+	SETTEXTEX str;
+	str.codepage = CP_ACP;
+	str.flags = ST_DEFAULT;
+	SendMessage(this->GetWidget(), EM_SETTEXTEX, (WPARAM)&str, (LPARAM)"");	
+#endif
 }

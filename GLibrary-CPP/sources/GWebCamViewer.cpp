@@ -1,8 +1,9 @@
 
 #include "GWebCamViewer.h"
 
-GWebCamViewer::GWebCamViewer(void)
+GWebCamViewer::GWebCamViewer(GWidget *Parent)
 {
+	this->_parent = Parent;
 	this->_wcActive = false;
 }
 
@@ -11,10 +12,13 @@ GWebCamViewer::~GWebCamViewer(void)
 
 }
 
-bool	GWebCamViewer::Connect(const GWidget &Parent, short Width, short Height)
+bool	GWebCamViewer::Connect(short Width, short Height)
 {
-	this->_parent = Parent;
-	this->_widget = capCreateCaptureWindow("handle", WS_VISIBLE | WS_CHILD, 0, 0, Width, Height, this->_parent.GetWidget(), 1);
+	if (Width = 0)
+		Width = this->_parent->GetCurrentSize().GetX();
+	if (Height = 0)
+		Height = this->_parent->GetCurrentSize().GetY();
+	this->_widget = capCreateCaptureWindow("handle", WS_VISIBLE | WS_CHILD, 0, 0, Width, Height, this->_parent->GetWidget(), 1);
 	if (this->_widget == NULL)
 		return (false);
 	if (!capDriverConnect(this->_widget, 0))

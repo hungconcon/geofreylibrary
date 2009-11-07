@@ -31,7 +31,7 @@ class GSystem
 		static	void						Shutdown(void);
 		static	void						LogOff(void);
 		static	void						Sleep(void);
-		static	GString						GetUserName(void);
+		static	GString						GetLogguedName(void);
 		static	GString						GetComputerName(void);
 		static	bool						SetComputerName(const GString &);
 		static	void						Open(const GString &);

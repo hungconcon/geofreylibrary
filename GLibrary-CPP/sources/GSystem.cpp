@@ -43,7 +43,7 @@ void	GSystem::Sleep(void)
 #endif
 }
 
-GString		GSystem::GetUserName(void)
+GString		GSystem::GetLogguedName(void)
 {
 #if defined (GWIN)
 	const unsigned long BUFSIZE = 255;

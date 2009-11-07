@@ -1,14 +1,29 @@
 
 #include "GWidget.h"
 
+unsigned int GWidget::_id = 0;
+GVector<GWidget *> GWidget::_vector;
 GWidget::GWidget(void) : _min(0, 0), _max(0, 0), _actual(0, 0)
 {
+	this->_id = (this->_id)++;
+	_vector.PushBack(this);
 	this->_enabled = true;
 }
 
 GWidget::~GWidget(void)
 {
 
+}
+
+void			GWidget::SetSize(void)
+{
+#if defined(GWIN)
+	RECT lp;
+	if (GetWindowRect(this->GetWidget(), &lp) != 0)
+	{
+		this->_actual.SetXY(lp.right - lp.left, lp.bottom - lp.top);
+	}
+#endif
 }
 
 GWidgetHandle	GWidget::GetWidget(void) const
@@ -40,6 +55,8 @@ void			GWidget::Hide(void)
 #endif
 }
 
+
+
 void			GWidget::SetFixedSize(unsigned int X, unsigned int Y)
 {
 #if defined (GWIN)
@@ -60,6 +77,31 @@ void			GWidget::SetFixedSize(const GSize &Size)
 	}
 #endif
 }
+
+void			GWidget::SetWidth(unsigned int Width)
+{
+#if defined (GWIN)
+	if (SetWindowPos(this->_widget, HWND_TOP, 0, 0, Width, this->_actual.GetY(), SWP_NOMOVE | SWP_NOOWNERZORDER) != 0)
+		this->SetSize();
+#endif	
+}
+
+void			GWidget::SetSize(const GSize &Size)
+{
+#if defined (GWIN)
+	if (SetWindowPos(this->_widget, HWND_TOP, 0, 0, Size.GetX(), Size.GetY(), SWP_NOMOVE | SWP_NOOWNERZORDER) != 0)
+		this->SetSize();
+#endif	
+}
+
+void			GWidget::SetHeight(unsigned int Height)
+{
+#if defined (GWIN)
+	if (SetWindowPos(this->_widget, HWND_TOP, 0, 0, this->_actual.GetX(), Height, SWP_NOMOVE | SWP_NOOWNERZORDER) != 0)
+		this->SetSize();
+#endif	
+}
+
 void			GWidget::SetMaximumSize(unsigned int X, unsigned int Y)
 {
 	this->_max.SetXY(X, Y);
@@ -174,4 +216,25 @@ void			GWidget::Move(const GSize &Size)
 	if (SetWindowPos(this->_widget, HWND_TOP, Size.GetX(), Size.GetY(), 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER) != 0)
 		;
 #endif
+}
+
+GWidget			*GWidget::GetWidgetByHandle(GWidgetHandle Handle)
+{
+	unsigned int i = 0;
+	unsigned int size = _vector.Size();
+	while (i < size)
+	{
+		GWidgetHandle test = _vector[i]->GetWidget(); 
+		if (Handle == test)
+			return (_vector[i]);
+		++i;
+	}
+	return (NULL);
+}
+
+void	GWidget::SetBackgroundImage(const GString &Path)
+{
+	Gdiplus::Graphics graphics(this->_widget);
+	Gdiplus::Image image(Path.ToWChar());
+	graphics.DrawImage(&image, 0, 0, image.GetWidth(), image.GetHeight());
 }

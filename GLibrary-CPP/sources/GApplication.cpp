@@ -7,17 +7,7 @@ Display *GApplication::_display = NULL;
 
 void	GApplication::Initialize(int, char **)
 {
-#if defined(GWIN)
-	INITCOMMONCONTROLSEX test;
-	test.dwSize = sizeof(test);
-	test.dwICC = ICC_WIN95_CLASSES;
-	if (!InitCommonControlsEx(&test))
-		throw GException("GApplication", "Cannot init common controls !");
-#elif defined(GUNIX)
-	_display = XOpenDisplay(NULL);
-    if (_display == NULL)
-		throw GException("GApplication", "Cannot connect to Xserver !");
-#endif
+	GApplication::Initialize();
 }
 
 void	GApplication::Initialize(void)
@@ -28,6 +18,9 @@ void	GApplication::Initialize(void)
 	test.dwICC = ICC_WIN95_CLASSES;
 	if (!InitCommonControlsEx(&test))
 		throw GException("GApplication", "Cannot init common controls !");
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR  gdiplusToken;
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 #elif defined(GUNIX)
 	_display = XOpenDisplay(NULL);
     if (_display == NULL)

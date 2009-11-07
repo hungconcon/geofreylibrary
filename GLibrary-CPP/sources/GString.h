@@ -65,6 +65,7 @@ class GEXPORTED GString
 		GString(float Number, unsigned int Precision = 6);
 		GString(double Number, unsigned int Precision = 6);
 		GString(long long Number, unsigned int Precision = 6);
+
 		~GString(void);
 
 		// --== CONVERSIONS ==--
@@ -72,6 +73,7 @@ class GEXPORTED GString
 		#if defined (WIN32) | defined (_WIN32) |  defined (__WIN32) | defined (WIN) | defined (WIN64) | defined (__WIN64)
 		std::wstring	ToWString(void) const;
 		wchar_t			*ToWChar_t(void) const;
+		WCHAR			*ToWChar(void) const;
 		CString			ToCString(void) const;
 		LPCSTR			ToLPCSTR(void) const;
 		#endif

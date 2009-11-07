@@ -16,6 +16,8 @@ class GTextEdit : public GWidget
 		~GTextEdit(void);
 
 		void	AddText(const GString &Text);
+		void	SetText(const GString &Text);
+		void	Clear(void);
 
 	private:
 		GWidget		*_parent;

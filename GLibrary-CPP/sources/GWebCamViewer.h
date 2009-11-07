@@ -28,10 +28,10 @@ struct	BitMap
 class GWebCamViewer : public GWidget
 {
 	public:
-		GWebCamViewer(void);
+		GWebCamViewer(GWidget *);
 		~GWebCamViewer(void);
 
-		bool	Connect(const GWidget &Parent, short Largeur, short Hauteur);
+		bool	Connect(short Largeur = 0, short Hauteur = 0);
 		void	Disconnect(void);
 		bool	IsActive(void) const;
 		void	CaptureImage(const GString &FileName);
@@ -55,7 +55,7 @@ class GWebCamViewer : public GWidget
  HDC hDC;
 
 	private:
-		GWidget	_parent;
+		GWidget	*_parent;
 		bool	_wcActive;
 		HWND	_handle;
 		HDC		_hDC_WC;

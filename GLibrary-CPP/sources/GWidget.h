@@ -7,9 +7,13 @@
 #include "GFont.h"
 #include "GMessageBox.h"
 #include "GExport.h"
+#include "GVector.hpp"
 
 #if defined(GWIN)
 #	include "windows.h"
+#	include <gdiplus.h>
+#	define STRICT
+#pragma comment(lib, "gdiplus.lib")
 typedef HWND GWidgetHandle;
 #elif defined(GUNIX)
 typedef int GWidgetHandle;
@@ -23,6 +27,8 @@ class GEXPORTED GWidget
 		GWidgetHandle	GetWidget(void) const;
 		void			Show(void);
 		void			Hide(void);
+		void			SetHeight(unsigned int Height);
+		void			SetWidth(unsigned int Width);
 		void			SetFixedSize(unsigned int X, unsigned int Y);
 		void			SetFixedSize(const GSize &Size);
 		void			SetMinimumSize(unsigned int X, unsigned int Y);
@@ -47,13 +53,20 @@ class GEXPORTED GWidget
 		void			Enable(void);
 		void			Disable(void);
 		void			SetFont(const GFont &Font);
-
+		static GWidget	*GetWidgetByHandle(GWidgetHandle);
+		void			SetSize(void);
+		void			SetSize(const GSize &Size);
+		void			SetBackgroundImage(const GString &Image);
+	
 	protected:
-		GWidgetHandle	_widget;
-		bool			_enabled;
-		GSize			_min;
-		GSize			_max;
-		GSize			_actual;		
+		GWidgetHandle				_widget;
+		bool						_enabled;
+		GSize						_min;
+		GSize						_max;
+		GSize						_actual;
+		static unsigned int			_id;
+		static GVector<GWidget *>	_vector;
+		
 };
 
 #endif

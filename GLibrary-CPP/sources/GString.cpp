@@ -1235,6 +1235,18 @@ GString				GString::Trim(G::TrimOption op) const
 // CONVERSION
 	
 #if defined (WIN32) | defined (_WIN32) | defined (__WIN32) | defined (WIN64) | defined (__WIN64)
+WCHAR				*GString::ToWChar(void) const
+{
+	WCHAR *str = new WCHAR[this->_size + 1];
+	unsigned int i = 0;
+	while (i < this->_size + 1)
+	{
+		str[i] = this->_str[i];
+		++i;
+	}
+	return (str);
+}
+
 std::wstring		GString::ToWString(void) const
 {
 	unsigned int size = this->_size;

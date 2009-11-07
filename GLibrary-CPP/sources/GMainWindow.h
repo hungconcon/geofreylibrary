@@ -21,8 +21,9 @@ class GMainWindow : public GWidget
 	public:
 		GMainWindow(void);
 		~GMainWindow(void);	
-		
+		void			Destroy(void);
 		void			SetTitle(const GString &);
+
 
 	private:
 		unsigned int	_x;

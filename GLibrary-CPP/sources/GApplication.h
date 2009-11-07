@@ -18,6 +18,7 @@
 #pragma comment(lib, "comctl32.lib")
 #include <windows.h>
 #include <commctrl.h>
+#include <gdiplus.h>
 #elif defined (GUNIX)
 #include <X11/Xlib.h>
 #endif

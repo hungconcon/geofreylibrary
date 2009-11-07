@@ -21,12 +21,14 @@ class	GEXPORTED GMusic
 {
 public:
 	GMusic(void);
-	~GMusic(void);
 	GMusic(const GMusic &Music);
 	GMusic(const GString &MusicPath);
+	~GMusic(void);
+	void	SetMusic(const GString &MusicPath);
 	bool	Play(void);
 	bool	Pause(void);
 	bool	Stop(void);
+	bool	IsPlayed(void) const;
 
 private:
 	GString			_file;

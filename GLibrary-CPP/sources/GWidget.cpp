@@ -234,7 +234,10 @@ GWidget			*GWidget::GetWidgetByHandle(GWidgetHandle Handle)
 
 void	GWidget::SetBackgroundImage(const GString &Path)
 {
+	PAINTSTRUCT paintst;
+	BeginPaint(this->_widget, &paintst);
 	Gdiplus::Graphics graphics(this->_widget);
-	Gdiplus::Image image(Path.ToWChar());
+	Gdiplus::Image image(L"C:\\fond.jpg");
 	graphics.DrawImage(&image, 0, 0, image.GetWidth(), image.GetHeight());
+	EndPaint(this->_widget, &paintst);
 }

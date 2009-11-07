@@ -86,3 +86,14 @@ bool	GMusic::Stop(void)
 #endif
 	return (false);
 }
+
+void	GMusic::SetMusic(const GString &MusicPath)
+{
+	if (!this->_playing)
+		this->_file = MusicPath; 
+}
+
+bool	GMusic::IsPlayed(void) const
+{
+	return (this->_playing);
+}

@@ -30,9 +30,15 @@ LRESULT CALLBACK MainProc(HWND hWnd, UINT mes, WPARAM wParam, LPARAM lParam)
 	switch (mes)
 	{
 	case WM_PAINT:
+		{
 		hDC=BeginPaint(hWnd,&paintst);
+			Gdiplus::Graphics graphics(hWnd);
+	Gdiplus::Image image(L"C:\\fond.jpg");
+	graphics.DrawImage(&image, 0, 0, image.GetWidth(), image.GetHeight());
+
 		EndPaint(hWnd,&paintst);
 		return (0);
+		}
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return (0);

@@ -12,7 +12,6 @@
 #if defined(GWIN)
 #	include "windows.h"
 #	include <gdiplus.h>
-#	define STRICT
 #pragma comment(lib, "gdiplus.lib")
 typedef HWND GWidgetHandle;
 #elif defined(GUNIX)

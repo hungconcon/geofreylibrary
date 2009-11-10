@@ -34,7 +34,7 @@ private:
 	GString			_file;
 	bool			_playing;
 #if defined (GWIN)
-	MCI_OPEN_PARMS	OpenParam;
+	MCI_OPEN_PARMS	_openParam;
 #endif
 };
 

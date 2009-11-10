@@ -19,12 +19,8 @@ void			GExecutionTime::Start(void)
 
 GPrecisionTime	GExecutionTime::Now(void)
 {
-	if (this->_started)
-	{
-		GPrecisionTime	now;
-		return (this->_begin - now);
-	}
-	return (GPrecisionTime::Null());
+	GPrecisionTime	now;
+	return (this->_begin - now);
 }
 
 GPrecisionTime	GExecutionTime::Stop(void)

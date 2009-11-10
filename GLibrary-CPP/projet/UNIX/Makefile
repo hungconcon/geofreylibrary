@@ -1,10 +1,11 @@
 
-PATH_SRC		=	../../../GLibrary/GLibrary-CPP/sources/
-PATH_OBJ	=	OBJ/
+PATH_SRC	=	../../sources/
+PATH_OBJ	=	../../objects/
 FLAGS		=	-W -Wall
-LIB_NAME	=	g
+PATH_INCLUDE	=	/usr/include/G/
+PATH_LIB	=	/usr/lib/
+LIB_NAME	=	GLibrary
 
-##@rm -R $(PATH_OBJ)
 
 all:	
 	@rm -R $(PATH_OBJ)
@@ -142,17 +143,17 @@ all:
 	@echo "# GPushButton..................... OK #"
 	@g++ $(FLAGS) -o $(PATH_OBJ)GPushButton.o	-c $(PATH_SRC)GPushButton.cpp
 	@echo "#######################################"
-	@ar r libGLib.a OBJ/*.o
-	@ranlib libGLib.a
-	@echo "# Creation de libGlib.a........... OK #"
-	@rm -R /usr/include/G
-	@mkdir /usr/include/G
-	@cp $(PATH_SRC)*.h /usr/include/G/
-	@echo "# Copie .h dans /usr/include/G.... OK #"
-	@cp $(PATH_SRC)*.hpp /usr/include/G/
-	@echo "# Copie .hpp dans /usr/include/G.. OK #"
-	@cp libGLib.a /usr/lib/
-	@echo "# Copie libGLib.a /usr/lib........ OK #"
+	@ar r lib$(LIB_NAME).a $(PATH_OBJ)/*.o
+	@ranlib lib$(LIB_NAME).a
+	@echo "# Creation de $(LIB_NAME).a.......... OK #"
+	@rm -Rf $(PATH_INCLUDE)
+	@mkdir $(PATH_INCLUDE)
+	@cp $(PATH_SRC)*.h $(PATH_INCLUDE)
+	@echo "# Copie .h   dans $(PATH_INCLUDE). OK #"
+	@cp $(PATH_SRC)*.hpp $(PATH_INCLUDE)
+	@echo "# Copie .hpp dans $(PATH_INCLUDE). OK #"
+	@cp $(LIB_NAME).a $(PATH_LIB)
+	@echo "# Copie $(LIB_NAME).a $(PATH_LIB)...... OK #"
 	@echo "#######################################"
 
 re: clean all

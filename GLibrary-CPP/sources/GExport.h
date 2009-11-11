@@ -14,3 +14,6 @@
 	#define GUNIX
 	#define GEXPORTED
 #endif
+#if defined (UNICODE) | defined (_UNICODE)
+	#define GUNICODE
+#endif

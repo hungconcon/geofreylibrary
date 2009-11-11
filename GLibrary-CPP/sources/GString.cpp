@@ -19,7 +19,7 @@ GString::GString(void)
 {
 	this->_size = 0;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	this->_str[0] = 0;
 }
 
@@ -30,7 +30,7 @@ GString::GString(const char *str)
 		GWarning::Warning("GString", "GString(const char *)", "Pointer is Null");
 		this->_size = 0;
 		this->_allocate = this->_size + SIZE;
-		this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+		this->_str = new char[this->_allocate + 1];
 		this->_str[0] = 0;
 		return ;
 	}
@@ -47,7 +47,7 @@ GString::GString(const GString &s)
 {
 	this->_size = s._size;
 	this->_allocate = this->_size + SIZE;
-	unsigned int alloc = ((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1;
+	unsigned int alloc = (this->_allocate + 1;
 	this->_str = new char[alloc];
 	for (unsigned int i = 0; i < this->_size + 1; ++i)
 		this->_str[i] = s._str[i];
@@ -57,7 +57,7 @@ GString::GString(const GString *s)
 {
 	this->_allocate = s->_allocate;
 	this->_size = s->_size;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	for (unsigned int i = 0; i < this->_size + 1; ++i)
 		this->_str[i] = s->_str[i];
 }
@@ -68,7 +68,7 @@ GString::GString(bool test)
 	{
 		this->_size = 4;
 		this->_allocate = this->_size + SIZE;
-		this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+		this->_str = new char[this->_allocate + 1];
 		
 		for (unsigned int i = 0; i < this->_size; i++)
 			this->_str[i] = TRUEGSTR[i];
@@ -78,7 +78,7 @@ GString::GString(bool test)
 	{
 		this->_size = 5;
 		this->_allocate = this->_size + SIZE;
-		this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+		this->_str = new char[this->_allocate + 1];
 		for (unsigned int i = 0; i < this->_size; i++)
 			this->_str[i] = TRUEGSTR[i];
 		this->_str[this->_size] = 0;
@@ -94,7 +94,7 @@ GString::GString(const std::string &s)
 		if (GChar(s[i]).IsPrintable())
 			this->_size++;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	for (i = 0; i < size && s[i] != 0; ++i)
 		if (GChar(s[i]).IsPrintable())
 			this->_str[i] = s[i];
@@ -113,7 +113,7 @@ GString::GString(const GChar *c)
 {
 	this->_size = 1;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	this->_str[0] = c->GetChar();
 	this->_str[1] = 0;
 }
@@ -122,7 +122,7 @@ GString::GString(char c)
 {
 	this->_size = 1;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	this->_str[0] = c;
 	this->_str[1] = 0;
 }
@@ -131,18 +131,18 @@ GString::GString(unsigned char c)
 {
 	this->_size = 1;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	this->_str = new char[2];
 	this->_str[0] = c;
 	this->_str[1] = 0;
 }
 
-#if defined (WIN32) | defined (_WIN32) |  defined (__WIN32) | defined (WIN) | defined (WIN64) | defined (__WIN64)
+#if defined (GWIN)
 GString::GString(const std::wstring &wstr)
 {
 	this->_size = wstr.size();
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	unsigned int i = 0;
 	for (; i < this->_size + 1; ++i)
 		this->_str[i] = (char)wstr[i];
@@ -156,7 +156,7 @@ GString::GString(const wchar_t *str)
 		i++;
 	this->_size = i;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	for (unsigned int i = 0; i < this->_size + 1; ++i)
 		this->_str[i] = (char)str[i];
 }
@@ -167,7 +167,7 @@ GString::GString(const CString &s)
 	char	*tmp = (char*)LPCTSTR(s);
 	this->_size = s.GetLength();
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	unsigned int i = 0;
 	for (; i < this->_size; i++)
 		this->_str[i] = tmp[i];
@@ -194,7 +194,7 @@ GString::GString(float nbr, unsigned int precision)
 	save = nbr;
 	this->_size = i + precision + 1;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	i = 0;
 	for (; (int)save > 0; ++i)
 	{
@@ -225,7 +225,7 @@ GString::GString(double nbr, unsigned int precision)
 	save = nbr;
 	this->_size = i + precision + 1;
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	i = 0;
 	for (; (int)save > 0; ++i)
 	{
@@ -315,7 +315,7 @@ GString::GString(int nbr)
 		this->_size++;
 	}
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	if (isNeg == true)
 		this->_str[0] = '-';
 	for (unsigned int i = 0; i < this->_size && saveNbr > 0; ++i)
@@ -344,7 +344,7 @@ GString::GString(unsigned int nbr)
 		this->_size++;
 	}
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	for (unsigned int i = 0; i < this->_size && saveNbr > 0; ++i)
 	{
 		this->_str[this->_size - i - 1] = (saveNbr % 10) + '0';
@@ -371,7 +371,7 @@ GString::GString(short nbr)
 		this->_size++;
 	}
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	if (isNeg == true)
 		this->_str[0] = '-';
 	for (unsigned int i = 0; i < this->_size && saveNbr > 0; ++i)
@@ -392,7 +392,7 @@ GString::GString(unsigned short nbr)
 		this->_size++;
 	}
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	for (unsigned int i = 0; i < this->_size && saveNbr > 0; ++i)
 	{
 		this->_str[this->_size - i - 1] = (saveNbr % 10) + '0';
@@ -419,7 +419,7 @@ GString::GString(long nbr)
 		this->_size++;
 	}
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	if (isNeg == true)
 		this->_str[0] = '-';
 	for (unsigned int i = 0; i < this->_size && saveNbr > 0; ++i)
@@ -440,7 +440,7 @@ GString::GString(unsigned long nbr)
 		this->_size++;
 	}
 	this->_allocate = this->_size + SIZE;
-	this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	this->_str = new char[this->_allocate + 1];
 	for (unsigned int i = 0; i < this->_size && saveNbr > 0; ++i)
 	{
 		this->_str[this->_size - i - 1] = (saveNbr % 10) + '0';
@@ -455,7 +455,6 @@ GString				GString::GetBuffer(const char *str, unsigned int size)
 	delete[] s._str;
 	s._size = size;
 	s._allocate = s._size + SIZE;
-	//unsigned int alloc = ((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1;
 	s._str = new char[s._allocate + 1];
 	unsigned int i = 0;
 	for (; i < size; ++i)
@@ -539,7 +538,7 @@ GString				GString::Printable(void) const
 	GString s;
 	delete[] s._str;
 	s._allocate = this->_size + SIZE;
-	s._str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+	s._str = new char[this->_allocate + 1];
 	unsigned int j = 0;
 	for (unsigned int i = 0; s < this->_size; ++i)
 	{
@@ -729,7 +728,7 @@ void				GString::Clear(void)
 		delete[] this->_str;
 		this->_size = 0;
 		this->_allocate = this->_size + SIZE;
-		this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+		this->_str = new char[this->_allocate + 1];
 	}
 	this->_size = 0;
 	this->_str[0] = 0;
@@ -859,7 +858,7 @@ GString				GString::Fill(char c) const
 	delete[]		to._str;
 	to._size = this->_size;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = 0; i < to._size; ++i)
 		to._str[i] = c;
 	to._str[to._size] = 0;
@@ -872,7 +871,7 @@ GString				GString::Fill(char c, unsigned int n) const
 	delete[]		to._str;
 	to._size = this->_size;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = 0; i < to._size; ++i)
 	{
 		if (i < n)
@@ -890,7 +889,7 @@ GString				GString::ToUpper(void) const
 	delete[]		to._str;
 	to._size = this->_size;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = 0; i < to._size; ++i)
 	{
 		if (this->_str[i] >= 'a' && this->_str[i] <= 'z')
@@ -908,7 +907,7 @@ GString				GString::ToLower(void) const
 	delete[]		to._str;
 	to._size = this->_size;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = 0; i < to._size; ++i)
 	{
 		if (this->_str[i] >= 'A' && this->_str[i] <= 'Z')
@@ -930,7 +929,7 @@ GString				GString::Substr(unsigned int d, unsigned int f) const
 	delete[]		to._str;
 	to._size = f - d;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = d, j = 0; i < f; ++i)
 		to._str[j++] = this->_str[i];
 	to._str[f - d] = 0;
@@ -945,7 +944,7 @@ GString				GString::Substr(unsigned int d) const
 	delete[]		to._str;
 	to._size = this->_size - d;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = d, j = 0; i < this->_size; ++i)
 		to._str[j++] = this->_str[i];
 	to._str[this->_size - d] = 0;
@@ -996,7 +995,7 @@ GString				GString::Remove(unsigned int pos, unsigned int nb) const
 	delete[]		to._str;
 	to._size = this->_size - nb;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = 0, j = 0; i < this->_size; ++i)
 		if (i < pos || i >= pos + nb)
 			to._str[j++] = this->_str[i];
@@ -1020,7 +1019,7 @@ GString				GString::RightJustified(unsigned int nbr, char c) const
 	delete[]		to._str;
 	to._size = nbr;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = 0, j = 0; i < nbr; ++i)
 	{
 		if (i < nbr - this->_size)
@@ -1040,7 +1039,7 @@ GString				GString::LeftJustified(unsigned int nbr, char c) const
 	delete[]		to._str;
 	to._size = nbr;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = 0; i < nbr; ++i)
 	{
 		if (i < this->_size)
@@ -1060,7 +1059,7 @@ GString				GString::Insert(unsigned int pos, const GString &c) const
 	delete[]		to._str;
 	to._size = this->_size + c.Size();
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	for (unsigned int i = 0, j = 0; i < this->_size + 1; ++i)
 	{
 		if (pos == i)
@@ -1123,7 +1122,7 @@ GString				GString::Reverse(void) const
 	delete[]		to._str;
 	to._size = this->_size;
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	unsigned int i = 0;
 	for (; i < this->_size; ++i)
 		to._str[i] = this->_str[this->_size - i - 1];
@@ -1234,7 +1233,7 @@ GString				GString::Trim(G::TrimOption op) const
 }
 // CONVERSION
 	
-#if defined (WIN32) | defined (_WIN32) | defined (__WIN32) | defined (WIN64) | defined (__WIN64)
+#if defined (GWIN)
 WCHAR				*GString::ToWChar(void) const
 {
 	WCHAR *str = new WCHAR[this->_size + 1];
@@ -1421,7 +1420,7 @@ GString				&GString::operator=(const GString &s)
 	{
 		delete[] this->_str;
 		this->_allocate = this->_size + SIZE;
-		this->_str = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+		this->_str = new char[this->_allocate + 1];
 	}
 	for (unsigned int i = 0; i < this->_size + 1; ++i)
 		this->_str[i] = s._str[i];
@@ -1435,7 +1434,7 @@ GString				&GString::operator+=(const GString &s)
 	if (this->_allocate < this->_size + s.Size() || this->_size + s.Size() < this->_allocate - SIZE * 2)
 	{
 		this->_allocate = this->_size + s._size + SIZE;
-		char *newStr = new char[((this->_allocate + 1) % 8 == 0) ? this->_allocate + 2 : this->_allocate + 1];
+		char *newStr = new char[this->_allocate + 1];
 		unsigned int i = 0;
 		for (; i < this->_size; ++i)
 			newStr[i] = this->_str[i];
@@ -1465,7 +1464,7 @@ GString				operator+(const char *str, const GString &g)
 	delete[]		to._str;
 	to._size = g.Size() + s.Size();
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	unsigned int	i = 0;
 	for (; i < s.Size(); ++i)
 		to._str[i] = s._str[i];
@@ -1483,7 +1482,7 @@ GString				operator+(const GString &g, const char *str)
 	delete[]		to._str;
 	to._size = g.Size() + s.Size();
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	unsigned int	i = 0;
 	for (; i < g.Size(); ++i)
 		to._str[i] = g._str[i];
@@ -1500,7 +1499,7 @@ GString				operator+(const GString &g, const GString &s)
 	delete[]		to._str;
 	to._size = g.Size() + s.Size();
 	to._allocate = to._size + SIZE;
-	to._str = new char[((to._allocate + 1) % 8 == 0) ? to._allocate + 2 : to._allocate + 1];
+	to._str = new char[to._allocate + 1];
 	unsigned int	i = 0;
 	for (; i < g.Size(); ++i)
 		to._str[i] = g._str[i];

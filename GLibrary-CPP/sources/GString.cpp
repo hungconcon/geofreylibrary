@@ -47,7 +47,7 @@ GString::GString(const GString &s)
 {
 	this->_size = s._size;
 	this->_allocate = this->_size + SIZE;
-	unsigned int alloc = (this->_allocate + 1;
+	unsigned int alloc = this->_allocate + 1;
 	this->_str = new char[alloc];
 	for (unsigned int i = 0; i < this->_size + 1; ++i)
 		this->_str[i] = s._str[i];

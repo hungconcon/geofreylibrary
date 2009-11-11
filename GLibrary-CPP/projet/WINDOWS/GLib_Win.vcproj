@@ -212,15 +212,15 @@
 			Name="G -- HEADER"
 			>
 			<File
-				RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\G.h"
+				RelativePath="..\..\sources\G.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GExport.h"
+				RelativePath="..\..\sources\GExport.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSystem"
+				RelativePath="..\..\sources\GSystem"
 				>
 			</File>
 		</Filter>
@@ -228,30 +228,30 @@
 			Name="G -- GUI"
 			>
 			<File
-				RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GImageViewer.cpp"
+				RelativePath="..\..\sources\GImageViewer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GImageViewer.h"
+				RelativePath="..\..\sources\GImageViewer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GWebCamViewer.cpp"
+				RelativePath="..\..\sources\GWebCamViewer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GWebCamViewer.h"
+				RelativePath="..\..\sources\GWebCamViewer.h"
 				>
 			</File>
 			<Filter
 				Name="G -- MessageBox"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMessageBox.cpp"
+					RelativePath="..\..\sources\GMessageBox.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMessageBox.h"
+					RelativePath="..\..\sources\GMessageBox.h"
 					>
 				</File>
 			</Filter>
@@ -259,11 +259,11 @@
 				Name="G -- MainWindow"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GmainWindow.cpp"
+					RelativePath="..\..\sources\GmainWindow.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMainWindow.h"
+					RelativePath="..\..\sources\GMainWindow.h"
 					>
 				</File>
 			</Filter>
@@ -271,11 +271,11 @@
 				Name="G -- ExternWindow"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GExternWindow.cpp"
+					RelativePath="..\..\sources\GExternWindow.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GExternWindow.h"
+					RelativePath="..\..\sources\GExternWindow.h"
 					>
 				</File>
 			</Filter>
@@ -283,11 +283,11 @@
 				Name="G -- Size  &amp; Position"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSize.cpp"
+					RelativePath="..\..\sources\GSize.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSize.h"
+					RelativePath="..\..\sources\GSize.h"
 					>
 				</File>
 			</Filter>
@@ -295,11 +295,11 @@
 				Name="G -- Menu"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMenu.cpp"
+					RelativePath="..\..\sources\GMenu.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMenu.h"
+					RelativePath="..\..\sources\GMenu.h"
 					>
 				</File>
 			</Filter>
@@ -307,11 +307,11 @@
 				Name="G -- Widget"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GWidget.cpp"
+					RelativePath="..\..\sources\GWidget.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GWidget.h"
+					RelativePath="..\..\sources\GWidget.h"
 					>
 				</File>
 			</Filter>
@@ -319,11 +319,11 @@
 				Name="G -- Button"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GPushButton.cpp"
+					RelativePath="..\..\sources\GPushButton.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GPushButton.h"
+					RelativePath="..\..\sources\GPushButton.h"
 					>
 				</File>
 			</Filter>
@@ -331,11 +331,11 @@
 				Name="G -- ListBox"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GListBox.cpp"
+					RelativePath="..\..\sources\GListBox.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GListBox.h"
+					RelativePath="..\..\sources\GListBox.h"
 					>
 				</File>
 			</Filter>
@@ -343,11 +343,11 @@
 				Name="G -- GroupBox"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GGroupBox.cpp"
+					RelativePath="..\..\sources\GGroupBox.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GGroupBox.h"
+					RelativePath="..\..\sources\GGroupBox.h"
 					>
 				</File>
 			</Filter>
@@ -355,11 +355,11 @@
 				Name="G -- LineEdit"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GLineEdit.cpp"
+					RelativePath="..\..\sources\GLineEdit.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GLineEdit.h"
+					RelativePath="..\..\sources\GLineEdit.h"
 					>
 				</File>
 			</Filter>
@@ -367,11 +367,11 @@
 				Name="G -- GridLayout"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GGridLayout.cpp"
+					RelativePath="..\..\sources\GGridLayout.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GGridLayout.h"
+					RelativePath="..\..\sources\GGridLayout.h"
 					>
 				</File>
 			</Filter>
@@ -379,11 +379,11 @@
 				Name="G -- Label"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GLabel.cpp"
+					RelativePath="..\..\sources\GLabel.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GLabel.h"
+					RelativePath="..\..\sources\GLabel.h"
 					>
 				</File>
 			</Filter>
@@ -391,11 +391,11 @@
 				Name="G -- ProgressBar"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GProgressBar.cpp"
+					RelativePath="..\..\sources\GProgressBar.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GProgressBar.h"
+					RelativePath="..\..\sources\GProgressBar.h"
 					>
 				</File>
 			</Filter>
@@ -403,11 +403,11 @@
 				Name="G -- TextEdit"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GTextEdit.cpp"
+					RelativePath="..\..\sources\GTextEdit.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GTextEdit.h"
+					RelativePath="..\..\sources\GTextEdit.h"
 					>
 				</File>
 			</Filter>
@@ -415,11 +415,11 @@
 				Name="G -- Font"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFont.cpp"
+					RelativePath="..\..\sources\GFont.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFont.h"
+					RelativePath="..\..\sources\GFont.h"
 					>
 				</File>
 			</Filter>
@@ -427,11 +427,11 @@
 				Name="G -- Application"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GApplication.cpp"
+					RelativePath="..\..\sources\GApplication.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GApplication.h"
+					RelativePath="..\..\sources\GApplication.h"
 					>
 				</File>
 			</Filter>
@@ -439,11 +439,11 @@
 				Name="G -- Slider"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSlider.cpp"
+					RelativePath="..\..\sources\GSlider.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSlider.h"
+					RelativePath="..\..\sources\GSlider.h"
 					>
 				</File>
 			</Filter>
@@ -451,11 +451,11 @@
 				Name="G -- TabWidget"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GTabWidget.cpp"
+					RelativePath="..\..\sources\GTabWidget.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GTabWidget.h"
+					RelativePath="..\..\sources\GTabWidget.h"
 					>
 				</File>
 			</Filter>
@@ -467,67 +467,67 @@
 				Name="G -- Systeme"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDesktop.cpp"
+					RelativePath="..\..\sources\GDesktop.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDesktop.h"
+					RelativePath="..\..\sources\GDesktop.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GKeyLogger.cpp"
+					RelativePath="..\..\sources\GKeyLogger.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GKeyLogger.h"
+					RelativePath="..\..\sources\GKeyLogger.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMouse.cpp"
+					RelativePath="..\..\sources\GMouse.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMouse.h"
+					RelativePath="..\..\sources\GMouse.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GProcessus.cpp"
+					RelativePath="..\..\sources\GProcessus.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GProcessus.h"
+					RelativePath="..\..\sources\GProcessus.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GRandom.cpp"
+					RelativePath="..\..\sources\GRandom.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GRandom.h"
+					RelativePath="..\..\sources\GRandom.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GRegistry.cpp"
+					RelativePath="..\..\sources\GRegistry.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GRegistry.h"
+					RelativePath="..\..\sources\GRegistry.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSystem.cpp"
+					RelativePath="..\..\sources\GSystem.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSystem.h"
+					RelativePath="..\..\sources\GSystem.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GVolumeInformations.cpp"
+					RelativePath="..\..\sources\GVolumeInformations.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GVolumeInformations.h"
+					RelativePath="..\..\sources\GVolumeInformations.h"
 					>
 				</File>
 			</Filter>
@@ -535,51 +535,51 @@
 				Name="G -- Chaines"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GBase.cpp"
+					RelativePath="..\..\sources\GBase.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GBase.h"
+					RelativePath="..\..\sources\GBase.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GChar.cpp"
+					RelativePath="..\..\sources\GChar.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GChar.h"
+					RelativePath="..\..\sources\GChar.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GRegExp.cpp"
+					RelativePath="..\..\sources\GRegExp.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GRegExp.h"
+					RelativePath="..\..\sources\GRegExp.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GRegExpOpt.cpp"
+					RelativePath="..\..\sources\GRegExpOpt.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GRegExpOpt.h"
+					RelativePath="..\..\sources\GRegExpOpt.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GStr.cpp"
+					RelativePath="..\..\sources\GStr.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GStr.h"
+					RelativePath="..\..\sources\GStr.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GString.cpp"
+					RelativePath="..\..\sources\GString.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GString.h"
+					RelativePath="..\..\sources\GString.h"
 					>
 				</File>
 			</Filter>
@@ -587,19 +587,19 @@
 				Name="G -- Connect"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSignal.cpp"
+					RelativePath="..\..\sources\GSignal.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSignal.h"
+					RelativePath="..\..\sources\GSignal.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSlot.cpp"
+					RelativePath="..\..\sources\GSlot.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSlot.h"
+					RelativePath="..\..\sources\GSlot.h"
 					>
 				</File>
 			</Filter>
@@ -607,19 +607,19 @@
 				Name="G -- Conteneurs"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMap.hpp"
+					RelativePath="..\..\sources\GMap.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMultiMap.hpp"
+					RelativePath="..\..\sources\GMultiMap.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GStack.hpp"
+					RelativePath="..\..\sources\GStack.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GVector.hpp"
+					RelativePath="..\..\sources\GVector.hpp"
 					>
 				</File>
 			</Filter>
@@ -627,107 +627,107 @@
 				Name="G -- Date &amp; Time"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\DayInterface.h"
+					RelativePath="..\..\sources\DayInterface.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\EnglishDay.cpp"
+					RelativePath="..\..\sources\EnglishDay.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\EnglishDay.h"
+					RelativePath="..\..\sources\EnglishDay.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\EnglishMonth.cpp"
+					RelativePath="..\..\sources\EnglishMonth.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\EnglishMonth.h"
+					RelativePath="..\..\sources\EnglishMonth.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\FrenchDay.cpp"
+					RelativePath="..\..\sources\FrenchDay.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\FrenchDay.h"
+					RelativePath="..\..\sources\FrenchDay.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\FrenchMonth.cpp"
+					RelativePath="..\..\sources\FrenchMonth.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\FrenchMonth.h"
+					RelativePath="..\..\sources\FrenchMonth.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDate.cpp"
+					RelativePath="..\..\sources\GDate.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDate.h"
+					RelativePath="..\..\sources\GDate.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDateTime.cpp"
+					RelativePath="..\..\sources\GDateTime.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDateTime.h"
+					RelativePath="..\..\sources\GDateTime.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDayInstance.cpp"
+					RelativePath="..\..\sources\GDayInstance.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDayInstance.h"
+					RelativePath="..\..\sources\GDayInstance.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GExecutionTime.cpp"
+					RelativePath="..\..\sources\GExecutionTime.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GExecutionTime.h"
+					RelativePath="..\..\sources\GExecutionTime.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMonthInstance.cpp"
+					RelativePath="..\..\sources\GMonthInstance.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMonthInstance.h"
+					RelativePath="..\..\sources\GMonthInstance.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GPrecisionTime.cpp"
+					RelativePath="..\..\sources\GPrecisionTime.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GPrecisionTime.h"
+					RelativePath="..\..\sources\GPrecisionTime.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GTime.cpp"
+					RelativePath="..\..\sources\GTime.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GTime.h"
+					RelativePath="..\..\sources\GTime.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GTimeOfDay.cpp"
+					RelativePath="..\..\sources\GTimeOfDay.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GTimeOfDay.h"
+					RelativePath="..\..\sources\GTimeOfDay.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\MonthInterface.h"
+					RelativePath="..\..\sources\MonthInterface.h"
 					>
 				</File>
 			</Filter>
@@ -735,27 +735,27 @@
 				Name="G -- Files &amp; Directories"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDirectory.cpp"
+					RelativePath="..\..\sources\GDirectory.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GDirectory.h"
+					RelativePath="..\..\sources\GDirectory.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFile.cpp"
+					RelativePath="..\..\sources\GFile.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFile.h"
+					RelativePath="..\..\sources\GFile.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFileInfos.cpp"
+					RelativePath="..\..\sources\GFileInfos.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFileInfos.h"
+					RelativePath="..\..\sources\GFileInfos.h"
 					>
 				</File>
 			</Filter>
@@ -763,43 +763,43 @@
 				Name="G -- Flux"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GError.cpp"
+					RelativePath="..\..\sources\GError.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GError.h"
+					RelativePath="..\..\sources\GError.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFlux.h"
+					RelativePath="..\..\sources\GFlux.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GIn.cpp"
+					RelativePath="..\..\sources\GIn.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GIn.h"
+					RelativePath="..\..\sources\GIn.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GIStream.h"
+					RelativePath="..\..\sources\GIStream.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GOStream.h"
+					RelativePath="..\..\sources\GOStream.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GOut.cpp"
+					RelativePath="..\..\sources\GOut.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GOut.h"
+					RelativePath="..\..\sources\GOut.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GStream.h"
+					RelativePath="..\..\sources\GStream.h"
 					>
 				</File>
 			</Filter>
@@ -807,47 +807,47 @@
 				Name="G -- Math"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\G2dPoint.cpp"
+					RelativePath="..\..\sources\G2dPoint.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\G2dPoint.h"
+					RelativePath="..\..\sources\G2dPoint.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\G3dPoint.cpp"
+					RelativePath="..\..\sources\G3dPoint.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\G3dPoint.h"
+					RelativePath="..\..\sources\G3dPoint.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GAlgo.cpp"
+					RelativePath="..\..\sources\GAlgo.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GAlgo.h"
+					RelativePath="..\..\sources\GAlgo.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GComplexe.cpp"
+					RelativePath="..\..\sources\GComplexe.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GComplexe.h"
+					RelativePath="..\..\sources\GComplexe.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFraction.cpp"
+					RelativePath="..\..\sources\GFraction.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GFraction.h"
+					RelativePath="..\..\sources\GFraction.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMatrix.hpp"
+					RelativePath="..\..\sources\GMatrix.hpp"
 					>
 				</File>
 			</Filter>
@@ -855,19 +855,19 @@
 				Name="G -- Parser"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GXmlReader.cpp"
+					RelativePath="..\..\sources\GXmlReader.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GXmlReader.h"
+					RelativePath="..\..\sources\GXmlReader.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GXmlWriter.cpp"
+					RelativePath="..\..\sources\GXmlWriter.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GXmlWriter.h"
+					RelativePath="..\..\sources\GXmlWriter.h"
 					>
 				</File>
 			</Filter>
@@ -875,87 +875,87 @@
 				Name="G -- Reseau"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GHttp.cpp"
+					RelativePath="..\..\sources\GHttp.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GHttp.h"
+					RelativePath="..\..\sources\GHttp.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GInternet.cpp"
+					RelativePath="..\..\sources\GInternet.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GInternet.h"
+					RelativePath="..\..\sources\GInternet.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GISocket.cpp"
+					RelativePath="..\..\sources\GISocket.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GISocket.h"
+					RelativePath="..\..\sources\GISocket.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GISocketClient.h"
+					RelativePath="..\..\sources\GISocketClient.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GISocketServer.cpp"
+					RelativePath="..\..\sources\GISocketServer.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GISocketServer.h"
+					RelativePath="..\..\sources\GISocketServer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSmtp.cpp"
+					RelativePath="..\..\sources\GSmtp.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSmtp.h"
+					RelativePath="..\..\sources\GSmtp.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSocketTcpClient.cpp"
+					RelativePath="..\..\sources\GSocketTcpClient.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSocketTcpClient.h"
+					RelativePath="..\..\sources\GSocketTcpClient.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSocketTcpServer.cpp"
+					RelativePath="..\..\sources\GSocketTcpServer.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSocketTcpServer.h"
+					RelativePath="..\..\sources\GSocketTcpServer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSocketUdpClient.cpp"
+					RelativePath="..\..\sources\GSocketUdpClient.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSocketUdpClient.h"
+					RelativePath="..\..\sources\GSocketUdpClient.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSocketUdpServer.cpp"
+					RelativePath="..\..\sources\GSocketUdpServer.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSocketUdpServer.h"
+					RelativePath="..\..\sources\GSocketUdpServer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSqlDatabase.cpp"
+					RelativePath="..\..\sources\GSqlDatabase.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSqlDatabase.h"
+					RelativePath="..\..\sources\GSqlDatabase.h"
 					>
 				</File>
 			</Filter>
@@ -963,35 +963,35 @@
 				Name="G -- Thread, Mutex &amp; Semaphore"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GIPC.cpp"
+					RelativePath="..\..\sources\GIPC.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GIPC.h"
+					RelativePath="..\..\sources\GIPC.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMutex.cpp"
+					RelativePath="..\..\sources\GMutex.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMutex.h"
+					RelativePath="..\..\sources\GMutex.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSleep.cpp"
+					RelativePath="..\..\sources\GSleep.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSleep.h"
+					RelativePath="..\..\sources\GSleep.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GThread.cpp"
+					RelativePath="..\..\sources\GThread.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GThread.h"
+					RelativePath="..\..\sources\GThread.h"
 					>
 				</File>
 			</Filter>
@@ -999,19 +999,19 @@
 				Name="G -- Warning &amp; Exception"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GException.cpp"
+					RelativePath="..\..\sources\GException.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GException.h"
+					RelativePath="..\..\sources\GException.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GWarning.cpp"
+					RelativePath="..\..\sources\GWarning.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GWarning.h"
+					RelativePath="..\..\sources\GWarning.h"
 					>
 				</File>
 			</Filter>
@@ -1019,11 +1019,11 @@
 				Name="G -- DLL"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GLoadLibrary.cpp"
+					RelativePath="..\..\sources\GLoadLibrary.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GLoadLibrary.h"
+					RelativePath="..\..\sources\GLoadLibrary.h"
 					>
 				</File>
 			</Filter>
@@ -1035,19 +1035,19 @@
 				Name="G -- Compression"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GCompression.cpp"
+					RelativePath="..\..\sources\GCompression.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GCompression.h"
+					RelativePath="..\..\sources\GCompression.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GHuffman.cpp"
+					RelativePath="..\..\sources\GHuffman.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GHuffman.h"
+					RelativePath="..\..\sources\GHuffman.h"
 					>
 				</File>
 			</Filter>
@@ -1055,19 +1055,19 @@
 				Name="G -- Image"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GColor.cpp"
+					RelativePath="..\..\sources\GColor.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GColor.h"
+					RelativePath="..\..\sources\GColor.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GImage.cpp"
+					RelativePath="..\..\sources\GImage.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GImage.h"
+					RelativePath="..\..\sources\GImage.h"
 					>
 				</File>
 			</Filter>
@@ -1075,11 +1075,11 @@
 				Name="G -- Music, Sound"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMusic.cpp"
+					RelativePath="..\..\sources\GMusic.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GMusic.h"
+					RelativePath="..\..\sources\GMusic.h"
 					>
 				</File>
 			</Filter>
@@ -1087,7 +1087,7 @@
 				Name="G -- Design Pattern"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSingleton.hpp"
+					RelativePath="..\..\sources\GSingleton.hpp"
 					>
 				</File>
 			</Filter>
@@ -1095,19 +1095,19 @@
 				Name="G -- Cryptography &amp;&amp; Encoding"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GCRC.cpp"
+					RelativePath="..\..\sources\GCRC.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GCRC.h"
+					RelativePath="..\..\sources\GCRC.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GCryptography.cpp"
+					RelativePath="..\..\sources\GCryptography.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GCryptography.h"
+					RelativePath="..\..\sources\GCryptography.h"
 					>
 				</File>
 			</Filter>
@@ -1115,7 +1115,7 @@
 				Name="G - Pointeurs"
 				>
 				<File
-					RelativePath="..\..\..\GLibrary\GLibrary-CPP\sources\GSwap.hpp"
+					RelativePath="..\..\sources\GSwap.hpp"
 					>
 				</File>
 			</Filter>

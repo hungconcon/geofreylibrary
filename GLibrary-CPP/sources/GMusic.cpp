@@ -12,11 +12,10 @@ GMusic::GMusic(const GMusic &m) : _playing(false)
 {
 	this->_file = m._file;
 #if defined (GWIN)
-#if defined (UNICODE)
+#if defined (GUNICODE)
 	this->_openParam.lpstrElementName = this->_file.ToWChar_t();
 #else
-	char	*tmp = this->_file.ToChar();
-    this->_openParam.lpstrElementName = tmp;
+    this->_openParam.lpstrElementName = this->_file.ToChar();
 #endif
 #endif
 }
@@ -24,11 +23,10 @@ GMusic::GMusic(const GMusic &m) : _playing(false)
 GMusic::GMusic(const GString &Name) : _file(Name), _playing(false)
 {
 #if defined (GWIN)
-#if defined (UNICODE)
+#if defined (GUNICODE)
 	this->_openParam.lpstrElementName = this->_file.ToWChar_t();
 #else
-	char	*tmp = this->_file.ToChar();
-    this->_openParam.lpstrElementName = tmp;
+    this->_openParam.lpstrElementName = this->_file.ToChar();
 #endif
 #endif
 }
@@ -109,11 +107,10 @@ void	GMusic::SetMusic(const GString &MusicPath)
 	{
 		this->_file = MusicPath;
 		#if defined (GWIN)
-		#if defined (UNICODE)
+		#if defined (GUNICODE)
 			this->_openParam.lpstrElementName = this->_file.ToWChar_t();
 		#else
-			char	*tmp = this->_file.ToChar();
-			this->_openParam.lpstrElementName = tmp;
+		    this->_openParam.lpstrElementName = this->_file.ToChar();
 		#endif
 		#endif
 	}

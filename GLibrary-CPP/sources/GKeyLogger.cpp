@@ -24,7 +24,6 @@ void	WriteKeyLogger(GString Name)
 {
 	if (!_map[Name].IsEmpty())
 	{
-		std::cout << "test" << std::endl;
 		GFile f(_path + _fileName);
 		f.Open(true);
 		if (!f.IsOpen())

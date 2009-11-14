@@ -1072,7 +1072,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="G -- Music, Sound"
+				Name="G -- Music, Sound &amp; Playlist"
 				>
 				<File
 					RelativePath="..\..\sources\GMusic.cpp"
@@ -1080,6 +1080,14 @@
 				</File>
 				<File
 					RelativePath="..\..\sources\GMusic.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\sources\GPlayList.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\sources\GPlayList.h"
 					>
 				</File>
 			</Filter>

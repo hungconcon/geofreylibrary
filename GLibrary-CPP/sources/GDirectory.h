@@ -37,8 +37,8 @@ class GEXPORTED GDirectory
 		GFileList			Ls(void);
 		GString				Pwd(void);
 		bool				Cd(const GString &);
+		bool				Exist(const GString &);
 		bool				Exist(void);
-		static bool			Exist(const GString &);
 		static GString		GetPathDesktop(void);
 		static GString		GetPathFonts(void);
 		static GString		GetPathMusic(void);
@@ -50,7 +50,8 @@ class GEXPORTED GDirectory
 		static GString		GetPathStartMenu(void);
 		static GString		GetPathProgramsMenu(void);
 		static GString		GetPathFavorites(void);
-		static GString		GetPathRoot(void);
+		static GString		GetRootPath(void);
+		static GString		GetSystemPath(void);
 
 	private:
 		GString			_path;

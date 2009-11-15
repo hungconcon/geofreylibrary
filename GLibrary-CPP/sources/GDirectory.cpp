@@ -27,9 +27,12 @@ bool	GDirectory::Exist(void)
 	return (ok);
 }
 
+#include <G/GMessageBox.h>
+
 bool	GDirectory::Exist(const GString &Path)
 {
-	char	*tmp = Path.ToChar();
+	char	*tmp = GString(this->_path + "\\" + Path).ToChar();
+	GMessageBox::Error("test", GString(tmp));
 	bool	ok(true);
 #if defined (GWIN)
 	if (GetFileAttributes(tmp) == INVALID_FILE_ATTRIBUTES)
@@ -409,7 +412,7 @@ GString		GDirectory::GetPathFavorites(void)
 	return ("");
 #endif
 }
-GString		GDirectory::GetPathRoot(void)
+GString		GDirectory::GetRootPath(void)
 {
 #if defined (GWIN)
 	const unsigned long BUFSIZE = 255;
@@ -418,10 +421,22 @@ GString		GDirectory::GetPathRoot(void)
 	::GetWindowsDirectory(pbuf, dwSize);
 	return (pbuf);
 #else
-	return ("");
+	return ("\\");
 #endif
 }
 
+GString	GDirectory::GetSystemPath(void)
+{
+#if defined (GWIN)
+	const unsigned long BUFSIZE = 255;
+	unsigned long dwSize = BUFSIZE;
+	char pbuf[ BUFSIZE + 1];
+	::GetSystemDirectory(pbuf, dwSize);
+	return (pbuf);
+#else
+	return ("");
+#endif
+}
 
 
 /*

@@ -919,6 +919,14 @@
 					>
 				</File>
 				<File
+					RelativePath="C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include\G\GSocketSelector.cpp"
+					>
+				</File>
+				<File
+					RelativePath="C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include\G\GSocketSelector.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\sources\GSocketTcpClient.cpp"
 					>
 				</File>

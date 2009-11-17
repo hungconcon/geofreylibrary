@@ -2,6 +2,14 @@
 #ifndef __GDEC_H__
 # define __GDEC_H__
 
+#include "GExport.h"
+
+#if defined(GWIN)
+#define NewLine "\r\n"
+#else
+#define NewLine "\n"
+#endif
+
 namespace G
 {
 		enum LanguageOption

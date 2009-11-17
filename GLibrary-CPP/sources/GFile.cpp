@@ -153,6 +153,35 @@ GString	GFile::Read(void)
 	return ("");
 }
 
+GString	GFile::ReadLine(void)
+{
+	GString ret;
+	char c = 0;
+#if defined(GWIN)
+	bool test = false;
+	char t = 0;
+	do 
+	{
+		t = c;
+		c = fgetc (this->_pFile);
+		if (c == '\n' && t == '\r') 
+			return (ret);
+		else
+			ret += c;
+    } while (c != EOF);
+#else
+	do 
+	{
+		c = fgetc (this->_pFile);
+		if (c == '\n') 
+			return (ret);
+		else
+			ret += c;
+    } while (c != EOF);
+#endif
+	return (ret);
+}
+
 GString	GFile::Read(unsigned int Size)
 {
 	if (this->_open && this->_pFile)

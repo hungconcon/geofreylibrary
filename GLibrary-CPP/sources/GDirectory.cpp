@@ -31,18 +31,18 @@ bool	GDirectory::Exist(void)
 
 bool	GDirectory::Exist(const GString &Path)
 {
-	char	*tmp = GString(this->_path + "\\" + Path).ToChar();
-	GMessageBox::Error("test", GString(tmp));
 	bool	ok(true);
 #if defined (GWIN)
-	if (GetFileAttributes(tmp) == INVALID_FILE_ATTRIBUTES)
+	GString tmp(this->_path + "\\" + Path);
+	if (GetFileAttributes(tmp.ToLPCSTR()) == INVALID_FILE_ATTRIBUTES)
 		ok = (false);
 #else
+	char	*tmp = GString(this->_path + "\\" + Path).ToChar();
 	struct stat s;
 	if (lstat(tmp, &s) == -1)
 		ok = (false);
-#endif
 	delete[] tmp;
+#endif
 	return (ok);
 }
 

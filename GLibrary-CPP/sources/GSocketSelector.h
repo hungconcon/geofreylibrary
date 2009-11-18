@@ -22,6 +22,8 @@ class GEXPORTED GSocketSelector
 		void		AddRead(GVector<GISocket *>);
 		void		AddWrite(GISocket *);
 		void		AddWrite(GVector<GISocket *>);
+		bool		IsSetRead(GISocket *);
+		bool		IsSetWrite(GISocket *);
 
 	private:
 		GSocketList		_rw;

@@ -42,25 +42,26 @@ void		GSocketSelector::AddRead(GISocket *Socket)
 	if (!this->_rw.Contain(Socket))
 	{
 		this->_rw.PushBack(Socket);
-		FD_SET(Socket->GetSocket(), &(this->_fdRead));
 		if (this->_max < Socket->GetSocket())
 			this->_max = Socket->GetSocket();
 	}
+	FD_SET(Socket->GetSocket(), &(this->_fdRead));
 }
+
 void		GSocketSelector::AddRead(GVector<GISocket*> SocketVector)
 {
 	unsigned int i = 0;
-	unsigned int size = this->_read.Size();
+	unsigned int size = this->_rw.Size();
 	while (i < size)
 	{
 		if (!this->_rw.Contain(SocketVector[i]))
 		{
 			this->_rw.PushBack(SocketVector[i]);
-			FD_SET(SocketVector[i]->GetSocket(), &(this->_fdRead));
 			if (this->_max < SocketVector[i]->GetSocket())
 				this->_max = SocketVector[i]->GetSocket();
 			++i;
 		}
+		FD_SET(SocketVector[i]->GetSocket(), &(this->_fdRead));
 	}
 }
 
@@ -69,24 +70,25 @@ void		GSocketSelector::AddWrite(GISocket *Socket)
 	if (!this->_rw.Contain(Socket))
 	{
 		this->_rw.PushBack(Socket);
-			FD_SET(Socket->GetSocket(), &(this->_fdWrite));
 		if (this->_max < Socket->GetSocket())
 			this->_max = Socket->GetSocket();
 	}
+	FD_SET(Socket->GetSocket(), &(this->_fdWrite));
 }
+
 void		GSocketSelector::AddWrite(GVector<GISocket*> SocketVector)
 {
 	unsigned int i = 0;
-	unsigned int size = this->_read.Size();
+	unsigned int size = this->_rw.Size();
 	while (i < size)
 	{
 		if (!this->_rw.Contain(SocketVector[i]))
 		{
 			this->_rw.PushBack(SocketVector[i]);
-			FD_SET(SocketVector[i]->GetSocket(), &(this->_fdWrite));
 			if (this->_max < SocketVector[i]->GetSocket())
 				this->_max = SocketVector[i]->GetSocket();
 		}
+		FD_SET(SocketVector[i]->GetSocket(), &(this->_fdWrite));
 		++i;
 	}
 }
@@ -121,4 +123,16 @@ void		GSocketSelector::Select(void)
 	this->_max = 0;
 }
 
+bool	GSocketSelector::IsSetRead(GISocket *Socket)
+{
+	if (this->_read.Contain(Socket))
+		return (true);
+	return (false);
+}
 
+bool	GSocketSelector::IsSetWrite(GISocket *Socket)
+{
+	if (this->_write.Contain(Socket))
+		return (true);
+	return (false);
+}

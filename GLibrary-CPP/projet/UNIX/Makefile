@@ -8,7 +8,7 @@ LIB_NAME	=	GLibrary
 
 
 all:	
-	@rm -R $(PATH_OBJ)
+	@rm -Rf $(PATH_OBJ)
 	@mkdir $(PATH_OBJ)
 	@echo "#######################################"
 	@echo "#                                     #"
@@ -152,7 +152,7 @@ all:
 	@echo "# Copie .h   dans $(PATH_INCLUDE). OK #"
 	@cp $(PATH_SRC)*.hpp $(PATH_INCLUDE)
 	@echo "# Copie .hpp dans $(PATH_INCLUDE). OK #"
-	@cp $(LIB_NAME).a $(PATH_LIB)
+	@cp lib$(LIB_NAME).a $(PATH_LIB)
 	@echo "# Copie $(LIB_NAME).a $(PATH_LIB)...... OK #"
 	@echo "#######################################"
 

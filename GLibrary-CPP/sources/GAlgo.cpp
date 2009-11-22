@@ -131,3 +131,10 @@ int		GAlgo::GStringToInt(const GString &s)
 	}
 	return (l.PopBack().ToInt());
 }
+
+unsigned int	GAlgo::Pow(unsigned int Nbr, unsigned int Power)
+{
+	if (Pow == 0)
+		return (1);
+	return (Nbr * GAlgo::Pow(Nbr, Power - 1));
+}

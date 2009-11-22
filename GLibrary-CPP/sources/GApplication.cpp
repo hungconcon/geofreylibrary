@@ -1,7 +1,7 @@
 
 #include "GApplication.h"
 
-#if defined(GUNIX)
+#if defined(GUNIX) & defined(X11)
 Display *GApplication::_display = NULL;
 #endif
 
@@ -21,7 +21,7 @@ void	GApplication::Initialize(void)
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR  gdiplusToken;
 	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-#elif defined(GUNIX)
+#elif defined(GUNIX) & defined(X11)
 	_display = XOpenDisplay(NULL);
     if (_display == NULL)
 		throw GException("GApplication", "Cannot connect to Xserver !");
@@ -37,12 +37,12 @@ void	GApplication::Execute(void)
         TranslateMessage(&Msg);
         DispatchMessage(&Msg);
     }
-#elif defined(GUNIX)
+#elif defined(GUNIX) & defined(X11)
 	XCloseDisplay(_display);
 #endif
 }
 
-#if defined(GUNIX)
+#if defined(GUNIX) & defined(X11)
 
 Display	*GApplication::GetDisplay(void)
 {

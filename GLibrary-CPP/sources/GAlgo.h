@@ -11,6 +11,7 @@ class GAlgo
 		static	GStringList		GStringToNPI(const GString &);
 		static	GStringList		GStringToArray(const GString &);
 		static	int				GStringToInt(const GString &);
+		static	unsigned int	Pow(unsigned int Nbr, unsigned int Pow);
 	private:
 
 };

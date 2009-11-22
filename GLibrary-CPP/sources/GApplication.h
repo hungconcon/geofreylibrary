@@ -20,7 +20,9 @@
 #include <commctrl.h>
 #include <gdiplus.h>
 #elif defined (GUNIX)
+#if defined(X11)
 #include <X11/Xlib.h>
+#endif
 #endif
 
 class GEXPORTED GApplication
@@ -30,7 +32,7 @@ class GEXPORTED GApplication
 		static void Initialize(void);
 		static void	Execute();
 
-#if defined(GUNIX)
+#if defined(GUNIX) & defined(X11)
 		static Display	*GetDisplay(void);
 	private:
 		static Display *_display;

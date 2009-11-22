@@ -7,14 +7,14 @@
 #include "GString.h"
 #include "GVector.hpp"
 #include "MYSQL/mysql.h"
+#include "GISqlDatabase.h"
 
 #if defined (GWIN)
 #pragma comment(lib, "libmysql.lib")
 #endif
 
 
-
-class GEXPORTED GSqlDatabase
+class GEXPORTED GSqlDatabase : public GISqlDatabase
 {
 	public:
 		GSqlDatabase(void);

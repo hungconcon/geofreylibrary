@@ -27,8 +27,6 @@ bool	GDirectory::Exist(void)
 	return (ok);
 }
 
-#include <G/GMessageBox.h>
-
 bool	GDirectory::Exist(const GString &Path)
 {
 	bool	ok(true);

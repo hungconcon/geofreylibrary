@@ -12,7 +12,7 @@
 
 #if defined (GWIN)
 #		include "windows.h"
-#elif defined(GUNIX)
+#elif defined(GUNIX) & defined(X11)
 #		include <X11/Xlib.h>
 #endif
 

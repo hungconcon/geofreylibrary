@@ -911,6 +911,18 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\sources\GISqlDatabase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\sources\GMysqlDatabase.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\sources\GMysqlDatabase.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\sources\GSmtp.cpp"
 					>
 				</File>

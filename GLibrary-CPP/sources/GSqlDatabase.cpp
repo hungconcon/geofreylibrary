@@ -115,6 +115,6 @@ unsigned long	GSqlDatabase::InsertId(void)
 unsigned int	GSqlDatabase::NumRows(void)
 {
 	if (this->_result)
-		return ((unsigned int)mysql_num_rows(&(this->_result)));
+		return (1);//return ((unsigned int)mysql_num_rows(&(this->_result)));
 	return (0);
 }

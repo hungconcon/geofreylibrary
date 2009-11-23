@@ -250,3 +250,12 @@ GSocket		GSocketTcpClient::GetSocket(void) const
 	return (0);
 }
 
+void		GSocketTcpClient::Close(void)
+{
+	if (this->_init)
+#if defined(GWIN)
+		closesocket(this->_socket);
+#else
+		close(this->_socket);
+#endif
+}

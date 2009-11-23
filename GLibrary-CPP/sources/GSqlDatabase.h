@@ -6,21 +6,21 @@
 #include "GSocketTcpClient.h"
 #include "GString.h"
 #include "GVector.hpp"
-#include "MYSQL/mysql.h"
-#include "GISqlDatabase.h"
+#include "mysql.h"
 
 #if defined (GWIN)
 #pragma comment(lib, "libmysql.lib")
 #endif
 
+typedef GVector<GStringMap> GArray;
 
-class GEXPORTED GSqlDatabase : public GISqlDatabase
+class GEXPORTED GSqlDatabase
 {
 	public:
 		GSqlDatabase(void);
 		~GSqlDatabase(void);
 
-		GStringList		FetchArray(void);
+		GArray			FetchArray(void);
 
 		GString			GetClientInformation(void);
 		GString			GetServeurInformation(void);
@@ -40,13 +40,9 @@ class GEXPORTED GSqlDatabase : public GISqlDatabase
 		bool			SelectDatabase(const GString &DatabaseName);
 		bool			DropDatabase(const GString &Database);
 
-		
-
 	private:
 		MYSQL		_mysql;
 		MYSQL_RES	*_result;
-		MYSQL_ROW	*_row;
-
 };
 
 #endif

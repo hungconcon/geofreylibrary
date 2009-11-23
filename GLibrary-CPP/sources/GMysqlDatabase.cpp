@@ -82,7 +82,7 @@ bool		GMysqlDatabase::Connect(const GString &Host, const GString &Login, const G
 	}
 	catch (GException g)
 	{
-		std::cout << g.what() << std::endl;		
+		std::cout << g.what() << std::endl;
 	}
 	return (false);
 }

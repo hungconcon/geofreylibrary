@@ -5,6 +5,8 @@
 #include "GExport.h"
 #include "GISqlDatabase.h"
 #include "GAlgo.h"
+#include "GMap.hpp"
+#include "GVector.hpp"
 
 class GEXPORTED GMysqlDatabase //: public GISqlDatabase
 {

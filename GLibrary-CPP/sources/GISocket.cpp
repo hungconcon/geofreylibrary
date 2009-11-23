@@ -28,3 +28,8 @@ void		GISocket::Receive(GISocket *Socket, void *Data, unsigned int Size)
 		Socket->Receive(Data, Size);
 }
 
+void		GISocket::Close(GISocket *Socket)
+{
+	if (Socket)
+		Socket->Close();
+}

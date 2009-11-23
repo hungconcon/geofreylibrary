@@ -38,6 +38,8 @@ class	GEXPORTED GISocket
 		static	void				Receive(GISocket *Socket, void *Data, unsigned int Size);
 
 		virtual GSocket				GetSocket(void) const = 0;
+		virtual void				Close(void) = 0;
+		static void					Close(GISocket *Socket);
 
 };
 

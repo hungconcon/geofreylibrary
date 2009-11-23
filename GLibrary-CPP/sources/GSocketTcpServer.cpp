@@ -246,3 +246,11 @@ void		GSocketTcpServer::ClearDisconnectedSocket(void)
 			this->_map.EraseKey(i);
 	}
 }
+void		GSocketTcpServer::Close(void)
+{
+#if defined(GWIN)
+	closesocket(this->_socket);
+#else
+	close(this->_socket);
+#endif
+}

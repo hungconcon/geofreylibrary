@@ -63,14 +63,14 @@ GMap<T, U>::GMap(void)
 template<typename T, typename U>
 GMap<T, U>::~GMap(void)
 {
-	GListMap<T, U> *l, *lnext;
+	/*GListMap<T, U> *l, *lnext;
 	l = this->_begin;
 	while (l)
 	{
 		lnext = l;
 		l = l->_next;
 		delete lnext;
-	}
+	}*/
 }
 
 template<typename T, typename U>

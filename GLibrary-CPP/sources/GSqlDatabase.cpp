@@ -118,3 +118,34 @@ unsigned int	GSqlDatabase::NumRows(void)
 		return (1);//return ((unsigned int)mysql_num_rows(&(this->_result)));
 	return (0);
 }
+GArray			GSqlDatabase::FetchArray(void)
+{
+	GArray tab;
+	this->_result = mysql_use_result(&(this->_mysql));
+	MYSQL_ROW row = NULL;
+	MYSQL_FIELD *field;
+	unsigned int num = mysql_num_fields(this->_result);
+	field = mysql_fetch_field(this->_result);
+	unsigned int i = 0;
+	unsigned int j = 0;
+	while ((row = mysql_fetch_row(this->_result)))
+	{
+		unsigned long *length = mysql_fetch_lengths(this->_result);
+		length = mysql_fetch_lengths(this->_result);
+        i = 0;
+		GStringMap map;
+		while (i < num)
+        {
+			if (row[i])
+			{
+				GString sub = GString::GetBuffer(row[i], (int)length[i]);
+				map[field[i].name] = sub;
+			}
+			++i;
+        }
+		++j;
+		tab.PushBack(map);
+	}
+    mysql_free_result(this->_result);
+	return (tab);
+}

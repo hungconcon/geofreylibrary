@@ -28,6 +28,7 @@ class	GEXPORTED GSocketTcpClient : public GISocketClient, public GStream
 		void			Init(const GString &Ip, unsigned int Port);
 		void			Connect(void);
 		int				GetLastError(void) const;
+		void			Close(void);
 
 	private:
 		bool			_init;

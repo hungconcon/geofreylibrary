@@ -26,7 +26,7 @@ class	GEXPORTED GSocketTcpServer : public GISocketServer, public GStream
 
 		GSocket				GetSocket(void) const;
 		GISocket			*Accept(void);
-
+		void				Close(void);
 		GString				GetLastIp(void) const;
 		GString				GetIp(const GSocket &);
 		int					GetLastError(void) const;

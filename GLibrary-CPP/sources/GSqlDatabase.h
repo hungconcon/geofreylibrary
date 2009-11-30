@@ -6,7 +6,7 @@
 #include "GSocketTcpClient.h"
 #include "GString.h"
 #include "GVector.hpp"
-#include "mysql.h"
+#include "mysql/mysql.h"
 
 #if defined (GWIN)
 #pragma comment(lib, "libmysql.lib")

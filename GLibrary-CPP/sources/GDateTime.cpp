@@ -5,7 +5,7 @@ GDateTime::GDateTime(void)
 {
 	time_t tt;
 	time (&tt);
-#if defined (WIN32) | defined (_WIN32) |  defined (__WIN32) | defined (WIN64) | defined (_WIN64) | defined (__WIN64)
+#if defined (GWIN)
 	this->_tm = new tm;
 	localtime_s(this->_tm, &tt);
 #else
@@ -82,7 +82,9 @@ GDateTime::GDateTime(int y, int M, int d, int h, int m, int s)
 
 GDateTime::~GDateTime(void)
 {
+#if defined(GWIN)
 	delete this->_tm;
+#endif
 }
 
 int			GDateTime::Hour(void) const
@@ -243,8 +245,6 @@ GString		GDateTime::GetDateTime(const GString &format, G::LanguageOption op)
 	test = this->_tm->tm_sec;
 	g = g.Replace("%ss", test.RightJustified(2, '0'));
 	g = g.Replace("%s", test);
-	delete d;
-	delete m;
 	return (g);
 }
 bool		GDateTime::operator!=(const GDateTime &d) const

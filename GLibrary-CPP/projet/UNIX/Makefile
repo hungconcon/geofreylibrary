@@ -74,8 +74,14 @@ all:
 	@g++ $(FLAGS) -o $(PATH_OBJ)GImage.o 		-c $(PATH_SRC)GImage.cpp
 	@echo "#                                     #"
 	@echo "# =====> G - Network                  #"
+	@echo "# GSqlDatabase.................... OK #"
+	@g++ $(FLAGS) -o $(PATH_OBJ)GSqlDatabase.o 	-c $(PATH_SRC)GSqlDatabase.cpp
+	@echo "# GSocketSelector................. OK #"
+	@g++ $(FLAGS) -o $(PATH_OBJ)GSocketSelector.o 	-c $(PATH_SRC)GSocketSelector.cpp
 	@echo "# GSocketTcpClient................ OK #"
 	@g++ $(FLAGS) -o $(PATH_OBJ)GSocketTcpClient.o 	-c $(PATH_SRC)GSocketTcpClient.cpp
+	@echo "# GISocket........................ OK #"
+	@g++ $(FLAGS) -o $(PATH_OBJ)GISocket.o 		-c $(PATH_SRC)GISocket.cpp
 	@echo "# GSocketTcpServer................ OK #"
 	@g++ $(FLAGS) -o $(PATH_OBJ)GSocketTcpServer.o 	-c $(PATH_SRC)GSocketTcpServer.cpp
 	@echo "# GHttp........................... OK #"
